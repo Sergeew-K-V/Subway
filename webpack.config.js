@@ -1,9 +1,10 @@
-const path = requier('path')
+const path = require('path')
 
 module.exports = {
-  entry: '/src/Components/index.js',
+  mode: 'development',
+  entry: '/src/scripts/index.js',
   output: {
-    file: 'bundle.js',
+    filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
 }
