@@ -1,14 +1,19 @@
-// export default function render(component, position = document.getElementById('root')) {
-//   position.insertAdjacentHTML('beforeend', component)
-// }
 export default function render(
   component,
   position = document.getElementById('root'),
-  content = null
+  tags = 'div'
 ) {
-  if (content != null) {
-    const tagBlock = position.insertAdjacentHTML('beforeend', component)
-  } else {
-    position.insertAdjacentHTML('beforeend', component)
-  }
+  position.insertAdjacentHTML('beforeend', `<${tags}>${component}</${tags}>`)
 }
+// export default function render(
+//   component,
+//   position = document.getElementById('root'),
+//   content = null
+// ) {
+//   if (content != null) {
+//     const tagBlock = position.insertAdjacentHTML('beforeend', component)
+
+//   } else {
+//     position.insertAdjacentHTML('beforeend', component)
+//   }
+// }

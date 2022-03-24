@@ -1,10 +1,7 @@
 import Component from './Component'
 
 export default class Header extends Component {
-  constructor(tag, content) {
-    super(tag)
-    this.tag = '<header></header>'
-    this.content = content
+  constructor(content, tags) {
+    super(content, tags)
   }
 }
-console.log(Header)

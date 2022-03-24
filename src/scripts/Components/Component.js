@@ -4,9 +4,8 @@ import render from '../render'
 //   element.classList.add(props)
 // }
 export default class Component {
-  constructor(tag) {
-    this.tag = tag
-    this.render = render
-    render(tag)
+  constructor(content, tags) {
+    this.tags = tags
+    render(content, undefined, tags)
   }
 }
