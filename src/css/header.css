@@ -1,0 +1,10 @@
+.header__block {
+  margin-top: 40px;
+}
+
+.header__title {
+  text-transform: uppercase;
+  font-weight: 900;
+  font-size: 30px;
+  text-align: center;
+}

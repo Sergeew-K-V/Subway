@@ -1,11 +1,5 @@
 @import 'nullstyles.scss';
-.header {
-  &__block {
-  }
-
-  &__title {
-  }
-}
+@import 'header.scss';
 .main {
   &__block {
   }
@@ -140,4 +134,5 @@
 .container-content {
 }
 .container-midle {
+  margin: 0 215px;
 }

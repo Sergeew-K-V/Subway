@@ -89,4 +89,20 @@ h6 {
 
 body {
   background-image: url("../img/background-subway-shop.jpg");
+  font-size: 18px;
+}
+
+.header__block {
+  margin-top: 40px;
+}
+
+.header__title {
+  text-transform: uppercase;
+  font-weight: 900;
+  font-size: 30px;
+  text-align: center;
+}
+
+.container-midle {
+  margin: 0 215px;
 }
