@@ -9,3 +9,4 @@ export default class Component {
     render(content, undefined, tags)
   }
 }
+// класс должен получать проп data={} и в компоненте сделать метод, который будет возвращать шаблон с html куда будут подставляться пропсы с даты

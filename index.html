@@ -3,12 +3,105 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <script src="https://kit.fontawesome.com/58bea674d6.js" crossorigin="anonymous"></script>
+    <!-- https://docs.google.com/document/d/1A1i86MkhugHviSI-u36feEWggAFaR2UxdliMi8kUKQA/edit -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/src/css/index.css" rel="stylesheet" />
     <title>Subway shop</title>
   </head>
   <body>
-    <!-- https://docs.google.com/document/d/1A1i86MkhugHviSI-u36feEWggAFaR2UxdliMi8kUKQA/edit -->
-    <div id="root"></div>
+    <header class="header">
+      <div class="container-midle">
+        <div class="header__block">
+          <div class="header__title">
+            <h1>Сделайте заказ напрямую из ресторана</h1>
+          </div>
+        </div>
+      </div>
+    </header>
+    <main class="main">
+      <div class="container-big">
+        <div class="main__block">
+          <div class="main__navbar__block">
+            <div class="navbar__top">
+              <div class="navbar__menu-block">
+                <ul class="navbar__menu">
+                  <li class="menu__item">Блины</li>
+                  <li class="menu__item">Шаурма</li>
+                  <li class="menu__item">Сендвичи</li>
+                  <li class="menu__item">Бургеры</li>
+                  <li class="menu__item">Курица & Картофель</li>
+                  <li class="menu__item">Тортилья & Салаты</li>
+                  <li class="menu__item">Напитки & Десерты</li>
+                </ul>
+              </div>
+            </div>
+            <div class="navbar__bottom">
+              <div class="navbar__basket-block">
+                <!-- Макет будет набросан здесь, но в будущем его надо сделать в отдельный класс, чтобы следить за состоянием и подумать как организовать либо прокрутку(если много товаров) или она будет бесконечно вниз идти -->
+                <div class="basket__flex">
+                  <div class="basket__header">
+                    <div class="basket__icon">
+                      <i class="fa-solid fa-basket-shopping"></i>
+                    </div>
+                    <div class="basket__title">Корзина</div>
+                  </div>
+                  <div class="basket__body">
+                    <div class="body__top">
+                      <div class="body__name">Название</div>
+                      <div class="body__quantity">Количество</div>
+                    </div>
+                    <div class="body__bottom">
+                      <!-- Тут будут появляться добавленнные товары -->Я товар, я товар
+                    </div>
+                  </div>
+                  <div class="basket__footer">
+                    <div class="basket__total">Итого:0 руб.</div>
+                  </div>
+                  <div class="basket__btn">
+                    <button>Оформить заказ</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="main__content">
+            <div class="container-content">
+              <div id="root" class="main__flex">
+                <div class="subway__block">
+                  <div class="subway__flex">
+                    <div class="flex__top">
+                      <div class="subway__logo"></div>
+                      <div class="subway__img-logo"></div>
+                      <div class="subway__title">Овощной</div>
+                    </div>
+                    <div class="flex__middle">
+                      <div class="subway__link">
+                        <a href="#">Соус и овощи на выбор</a>
+                      </div>
+                    </div>
+                    <div class="flex__bottom">
+                      <div class="subway__price">Цена: 110руб.</div>
+                      <div class="subway__btn-block">
+                        <div class="btn-block__text">Количество</div>
+                        <div class="btn-block__btns-list">
+                          <button class="btns-list__btn">-</button>
+                          <button class="btns-list__btn">1</button>
+                          <button class="btns-list__btn">+</button>
+                        </div>
+                      </div>
+                      <div class="subway__btn-to-basket">
+                        <button class="btn-to-basket__btn">В корзину</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
     <script src="/dist/bundle.js"></script>
   </body>
 </html>
