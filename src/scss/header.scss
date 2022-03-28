@@ -1,12 +1,13 @@
 .header {
   &__block {
-    margin-top: 40px;
+    margin-top: 30px;
   }
 
   &__title {
     text-transform: uppercase;
     font-weight: 900;
-    font-size: 30px;
+    font-size: 40px;
     text-align: center;
+    line-height: 40px;
   }
 }

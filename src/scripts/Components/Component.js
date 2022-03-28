@@ -4,9 +4,9 @@ import render from '../render'
 //   element.classList.add(props)
 // }
 export default class Component {
-  constructor(content, tags) {
-    this.tags = tags
-    render(content, undefined, tags)
+  constructor(content) {
+    this.content = content
+    render(content, undefined)
   }
 }
 // класс должен получать проп data={} и в компоненте сделать метод, который будет возвращать шаблон с html куда будут подставляться пропсы с даты

@@ -2,6 +2,7 @@
 @import 'header.scss';
 .main {
   &__block {
+    display: flex;
   }
 
   &__navbar {
@@ -130,6 +131,7 @@
 }
 
 .container-big {
+  margin: 0 auto;
 }
 .container-content {
 }

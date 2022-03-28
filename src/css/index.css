@@ -93,14 +93,25 @@ body {
 }
 
 .header__block {
-  margin-top: 40px;
+  margin-top: 30px;
 }
 
 .header__title {
   text-transform: uppercase;
   font-weight: 900;
-  font-size: 30px;
+  font-size: 40px;
   text-align: center;
+  line-height: 40px;
+}
+
+.main__block {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.container-big {
+  margin: 0 auto;
 }
 
 .container-midle {
