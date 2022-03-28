@@ -1,1 +1,191 @@
-/* No CSS */
+.navbar__block {
+  padding-right: 30px;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 25%;
+          flex: 1 1 25%;
+}
+
+.navbar__top {
+  text-align: center;
+  border: 2px solid grey;
+  border-radius: 2%;
+  background-color: white;
+}
+
+.navbar__bottom {
+  margin-top: 40px;
+}
+
+.navbar__basket-block {
+  border: 2px solid grey;
+  border-radius: 10px;
+}
+
+.menu__item {
+  padding: 10px 20px;
+  -webkit-transition: background-color 0.4s ease;
+  transition: background-color 0.4s ease;
+  cursor: pointer;
+}
+
+.menu__item a {
+  text-decoration: none;
+  color: black;
+  -webkit-transition: color 0.4s ease;
+  transition: color 0.4s ease;
+}
+
+.menu__item:hover {
+  background-color: orange;
+}
+
+.menu__item:hover.menu__item a {
+  color: white;
+}
+
+.basket__flex {
+  font-family: initial;
+  font-family: initial;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.basket__header {
+  padding: 15px 10px;
+  color: white;
+  font-size: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 100%;
+  background-color: orange;
+  border-bottom: 1px solid grey;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.basket__icon {
+  padding-left: 10px;
+  position: relative;
+}
+
+.basket__title {
+  padding: 5px 10px 0 0;
+}
+
+.basket__body {
+  position: relative;
+  background-color: #ebda7a;
+}
+
+.basket__footer {
+  padding: 10px;
+  text-align: center;
+  font-weight: 600;
+  background-color: #ebda7a;
+}
+
+.basket__btn {
+  padding: 10px 10px;
+  width: 100%;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  background-color: #ebda7a;
+}
+
+.basket__btn button {
+  position: relative;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  padding: 15px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0px 5px 0 black;
+          box-shadow: 0px 5px 0 black;
+  background-color: gray;
+  text-transform: uppercase;
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.basket__btn button:active {
+  top: 3px;
+  -webkit-box-shadow: 0px 1px 0 black;
+          box-shadow: 0px 1px 0 black;
+}
+
+.fa-solid {
+  position: relative;
+}
+
+.icon-shadow {
+  position: absolute;
+  content: '';
+  width: 15px;
+  height: 15px;
+  top: 5px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.2);
+  -webkit-transform: rotate(-35deg);
+          transform: rotate(-35deg);
+}
+
+.icon-shadow::after {
+  position: absolute;
+  content: '';
+  top: 15px;
+  left: -11px;
+  width: 35px;
+  height: 50px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.body__top {
+  padding: 5px 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  position: relative;
+  font-weight: 600;
+}
+
+.body__top::after {
+  position: absolute;
+  content: '';
+  width: 90%;
+  height: 2px;
+  bottom: 0;
+  background-color: orange;
+}
+
+.body__bottom {
+  text-align: center;
+  padding: 15px 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}

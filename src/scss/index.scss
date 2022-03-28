@@ -3,13 +3,6 @@
 @import 'nullstyles.scss';
 @import 'header.scss';
 @import 'navbar.scss';
-$bg-basket: rgb(235, 218, 122);
-$border-color: grey;
-$bg-color-orange: orange;
-$basket-index: 5;
-$basket-shadow-color: rgba(0, 0, 0, 0.2);
-$basket-bg-border-radius: 10px;
-$text-white: white;
 
 body {
   background-image: url('../img/background-subway-shop.jpg');
@@ -26,6 +19,7 @@ body {
   }
 
   &__content {
+    flex: 1 1 75%;
   }
 
   &__flex {
@@ -33,170 +27,10 @@ body {
     flex-wrap: wrap;
   }
 }
-.navbar {
-  &__block {
-    padding-right: 30px;
-  }
-  &__top {
-    text-align: center;
-    border: 2px solid $border-color;
-    border-radius: 2%;
-    background-color: white;
-  }
 
-  &__menu-block {
-  }
-
-  &__menu {
-  }
-
-  &__bottom {
-    margin-top: 40px;
-  }
-
-  &__basket-block {
-    border: 2px solid $border-color;
-    border-radius: $basket-bg-border-radius;
-  }
-}
-.menu {
-  &__item {
-    padding: 10px 20px;
-    transition: color 0.4s ease;
-    transition: background-color 0.4s ease;
-    cursor: pointer;
-  }
-  &__item:hover {
-    background-color: $bg-color-orange;
-    color: $text-white;
-  }
-}
-.basket {
-  &__flex {
-    font-family: initial;
-    font-family: initial;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  &__header {
-    padding: 15px 10px;
-    color: $text-white;
-    font-size: 30px;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    background-color: $bg-color-orange;
-    border-bottom: 1px solid $border-color;
-    border-top-left-radius: $basket-bg-border-radius;
-    border-top-right-radius: $basket-bg-border-radius;
-  }
-
-  &__icon {
-    padding-left: 10px;
-    position: relative;
-  }
-
-  &__title {
-    padding: 5px 10px 0 0;
-  }
-
-  &__body {
-    position: relative;
-    background-color: $bg-basket;
-  }
-
-  &__footer {
-    padding: 10px;
-    text-align: center;
-    font-weight: 600;
-    background-color: $bg-basket;
-  }
-
-  &__total {
-  }
-
-  &__btn {
-    padding: 10px 10px 20px;
-    margin: 0 auto;
-    border-bottom-left-radius: $basket-bg-border-radius;
-    border-bottom-right-radius: $basket-bg-border-radius;
-    background-color: $bg-basket;
-  }
-  &__btn button {
-    position: relative;
-    padding: 15px;
-    width: 100%;
-    border-radius: 4px;
-    box-shadow: 0px 5px 0 black;
-    background-color: rgb(128, 128, 128);
-    text-transform: uppercase;
-    color: $text-white;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  &__btn button:active {
-    top: 3px;
-    box-shadow: 0px 1px 0 black;
-  }
-}
-.fa-solid {
-  position: relative;
-}
-.icon-shadow {
-  position: absolute;
-  content: '';
-  width: 15px;
-  height: 15px;
-  top: 5px;
-  right: 10px;
-  background-color: $basket-shadow-color;
-  transform: rotate(-35deg);
-}
-.icon-shadow::after {
-  position: absolute;
-  content: '';
-  top: 15px;
-  left: -11px;
-  width: 35px;
-  height: 50px;
-  background-color: $basket-shadow-color;
-}
-.body {
-  &__top {
-    padding: 5px 10px;
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-    font-weight: 600;
-  }
-  &__top::after {
-    position: absolute;
-    content: '';
-    width: 90%;
-    height: 2px;
-    bottom: 0;
-    background-color: $bg-color-orange;
-  }
-
-  &__name {
-  }
-
-  &__quantity {
-  }
-
-  &__bottom {
-    padding: 15px 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-}
 .subway {
   &__block {
+    flex: 1 1 33.333%;
   }
 
   &__flex {
@@ -252,7 +86,7 @@ body {
 .container-big {
   margin: 0 auto;
   padding: 0 20px;
-  max-width: 1400px;
+  max-width: 1200px;
 }
 .container-content {
 }
