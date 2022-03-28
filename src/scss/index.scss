@@ -1,7 +1,16 @@
 @import 'nullstyles.scss';
 @import 'header.scss';
+@import 'navbar.scss';
+$bg-basket: rgb(235, 218, 122);
+$border-color: grey;
+$bg-color-orange: orange;
+$basket-index: 5;
+$basket-shadow-color: rgba(0, 0, 0, 0.2);
+$basket-bg-border-radius: 2%;
+
 .main {
   &__block {
+    margin-top: 20px;
     display: flex;
   }
 
@@ -12,10 +21,19 @@
   }
 
   &__flex {
+    display: flex;
+    flex-wrap: wrap;
   }
 }
 .navbar {
+  &__block {
+    padding-right: 30px;
+  }
   &__top {
+    text-align: center;
+    border: 2px solid $border-color;
+    border-radius: 2%;
+    background-color: white;
   }
 
   &__menu-block {
@@ -25,46 +43,113 @@
   }
 
   &__bottom {
+    margin-top: 40px;
   }
 
   &__basket-block {
+    border: 2px solid $border-color;
+    border-radius: $basket-bg-border-radius;
   }
 }
 .menu {
   &__item {
+    padding: 10px 20px;
+    transition: color 0.4s ease;
+    transition: background-color 0.4s ease;
+    cursor: pointer;
+  }
+  &__item:hover {
+    background-color: $bg-color-orange;
+    color: white;
   }
 }
 .basket {
   &__flex {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   &__header {
+    font-family: initial;
+    font-family: initial;
+    color: white;
+    font-size: 30px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 15px 10px;
+    background-color: $bg-color-orange;
+    border-bottom: 1px solid $border-color;
+    border-top-left-radius: $basket-bg-border-radius;
+    border-top-right-radius: $basket-bg-border-radius;
   }
 
   &__icon {
+    padding-left: 10px;
+    position: relative;
   }
 
   &__title {
+    padding: 5px 10px 0 0;
   }
 
   &__body {
+    position: relative;
+    background-color: $bg-basket;
   }
 
   &__footer {
+    background-color: $bg-basket;
   }
 
   &__total {
   }
 
   &__btn {
+    background-color: $bg-basket;
+    border-bottom-left-radius: $basket-bg-border-radius;
+    border-bottom-right-radius: $basket-bg-border-radius;
   }
 }
 .fa-solid {
+  position: relative;
 }
-.fa-basket-shopping {
+.icon-shadow {
+  position: absolute;
+  content: '';
+  width: 15px;
+  height: 15px;
+  top: 5px;
+  right: 10px;
+  background-color: $basket-shadow-color;
+  transform: rotate(-35deg);
+}
+.icon-shadow::after {
+  position: absolute;
+  content: '';
+  top: 15px;
+  left: -11px;
+  width: 35px;
+  height: 50px;
+  background-color: $basket-shadow-color;
 }
 .body {
   &__top {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    position: relative;
+  }
+  &__top::after {
+    position: absolute;
+    content: '';
+    width: 90%;
+    height: 2px;
+    bottom: 0;
+
+    background-color: $bg-color-orange;
   }
 
   &__name {

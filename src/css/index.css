@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
 * {
   padding: 0;
   margin: 0;
@@ -90,7 +91,9 @@ h6 {
 body {
   background-image: url("../img/background-subway-shop.jpg");
   font-size: 18px;
-  overflow: hidden;
+  min-height: 1vh;
+  font-family: 'Inter', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .header__block {
@@ -106,9 +109,155 @@ body {
 }
 
 .main__block {
+  margin-top: 20px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+}
+
+.main__flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.navbar__block {
+  padding-right: 30px;
+}
+
+.navbar__top {
+  text-align: center;
+  border: 2px solid grey;
+  border-radius: 2%;
+  background-color: white;
+}
+
+.navbar__bottom {
+  margin-top: 40px;
+}
+
+.navbar__basket-block {
+  border: 2px solid grey;
+  border-radius: 2%;
+}
+
+.menu__item {
+  padding: 10px 20px;
+  -webkit-transition: color 0.4s ease;
+  transition: color 0.4s ease;
+  -webkit-transition: background-color 0.4s ease;
+  transition: background-color 0.4s ease;
+  cursor: pointer;
+}
+
+.menu__item:hover {
+  background-color: orange;
+  color: white;
+}
+
+.basket__flex {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.basket__header {
+  font-family: initial;
+  font-family: initial;
+  color: white;
+  font-size: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 100%;
+  padding: 15px 10px;
+  background-color: orange;
+  border-bottom: 1px solid grey;
+  border-top-left-radius: 2%;
+  border-top-right-radius: 2%;
+}
+
+.basket__icon {
+  padding-left: 10px;
+  position: relative;
+}
+
+.basket__title {
+  padding: 5px 10px 0 0;
+}
+
+.basket__body {
+  position: relative;
+  background-color: #ebda7a;
+}
+
+.basket__footer {
+  background-color: #ebda7a;
+}
+
+.basket__btn {
+  background-color: #ebda7a;
+  border-bottom-left-radius: 2%;
+  border-bottom-right-radius: 2%;
+}
+
+.fa-solid {
+  position: relative;
+}
+
+.icon-shadow {
+  position: absolute;
+  content: '';
+  width: 15px;
+  height: 15px;
+  top: 5px;
+  right: 10px;
+  background-color: rgba(0, 0, 0, 0.2);
+  -webkit-transform: rotate(-35deg);
+          transform: rotate(-35deg);
+}
+
+.icon-shadow::after {
+  position: absolute;
+  content: '';
+  top: 15px;
+  left: -11px;
+  width: 35px;
+  height: 50px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.body__top {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 5px 10px;
+  position: relative;
+}
+
+.body__top::after {
+  position: absolute;
+  content: '';
+  width: 90%;
+  height: 2px;
+  bottom: 0;
+  background-color: orange;
 }
 
 .container-big {
