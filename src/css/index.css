@@ -90,6 +90,7 @@ h6 {
 body {
   background-image: url("../img/background-subway-shop.jpg");
   font-size: 18px;
+  overflow: hidden;
 }
 
 .header__block {
@@ -101,7 +102,7 @@ body {
   font-weight: 900;
   font-size: 40px;
   text-align: center;
-  line-height: 40px;
+  line-height: 44px;
 }
 
 .main__block {
@@ -112,8 +113,11 @@ body {
 
 .container-big {
   margin: 0 auto;
+  padding: 0 20px;
+  max-width: 1400px;
 }
 
-.container-midle {
-  margin: 0 215px;
+.container-middle {
+  margin: 0 auto;
+  max-width: 900px;
 }
