@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
 @import 'nullstyles.scss';
 @import 'header.scss';
 @import 'navbar.scss';
@@ -6,15 +8,21 @@ $border-color: grey;
 $bg-color-orange: orange;
 $basket-index: 5;
 $basket-shadow-color: rgba(0, 0, 0, 0.2);
-$basket-bg-border-radius: 2%;
+$basket-bg-border-radius: 10px;
+$text-white: white;
+
+body {
+  background-image: url('../img/background-subway-shop.jpg');
+  font-size: 18px;
+  min-height: 1vh;
+  font-family: 'Inter', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+}
 
 .main {
   &__block {
     margin-top: 20px;
     display: flex;
-  }
-
-  &__navbar {
   }
 
   &__content {
@@ -60,11 +68,13 @@ $basket-bg-border-radius: 2%;
   }
   &__item:hover {
     background-color: $bg-color-orange;
-    color: white;
+    color: $text-white;
   }
 }
 .basket {
   &__flex {
+    font-family: initial;
+    font-family: initial;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -72,14 +82,12 @@ $basket-bg-border-radius: 2%;
   }
 
   &__header {
-    font-family: initial;
-    font-family: initial;
-    color: white;
+    padding: 15px 10px;
+    color: $text-white;
     font-size: 30px;
     display: flex;
     justify-content: space-between;
     width: 100%;
-    padding: 15px 10px;
     background-color: $bg-color-orange;
     border-bottom: 1px solid $border-color;
     border-top-left-radius: $basket-bg-border-radius;
@@ -101,6 +109,9 @@ $basket-bg-border-radius: 2%;
   }
 
   &__footer {
+    padding: 10px;
+    text-align: center;
+    font-weight: 600;
     background-color: $bg-basket;
   }
 
@@ -108,9 +119,28 @@ $basket-bg-border-radius: 2%;
   }
 
   &__btn {
-    background-color: $bg-basket;
+    padding: 10px 10px 20px;
+    margin: 0 auto;
     border-bottom-left-radius: $basket-bg-border-radius;
     border-bottom-right-radius: $basket-bg-border-radius;
+    background-color: $bg-basket;
+  }
+  &__btn button {
+    position: relative;
+    padding: 15px;
+    width: 100%;
+    border-radius: 4px;
+    box-shadow: 0px 5px 0 black;
+    background-color: rgb(128, 128, 128);
+    text-transform: uppercase;
+    color: $text-white;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  &__btn button:active {
+    top: 3px;
+    box-shadow: 0px 1px 0 black;
   }
 }
 .fa-solid {
@@ -137,10 +167,11 @@ $basket-bg-border-radius: 2%;
 }
 .body {
   &__top {
+    padding: 5px 10px;
     display: flex;
     justify-content: space-between;
-    padding: 5px 10px;
     position: relative;
+    font-weight: 600;
   }
   &__top::after {
     position: absolute;
@@ -148,7 +179,6 @@ $basket-bg-border-radius: 2%;
     width: 90%;
     height: 2px;
     bottom: 0;
-
     background-color: $bg-color-orange;
   }
 
@@ -159,6 +189,10 @@ $basket-bg-border-radius: 2%;
   }
 
   &__bottom {
+    padding: 15px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }
 .subway {
