@@ -449,26 +449,8 @@ body {
   padding: 10px 0;
   position: relative;
   width: 100%;
-}
-
-.flex__middle::after {
-  position: absolute;
-  content: '';
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: black;
-}
-
-.flex__middle::before {
-  position: absolute;
-  content: '';
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: black;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
 }
 
 .btn-block__text {
