@@ -336,35 +336,6 @@ h6 {
           align-items: center;
 }
 
-body {
-  background-image: url("../img/layout/background-subway-shop.jpg");
-  font-size: 18px;
-  min-height: 1vh;
-  font-family: 'Inter', sans-serif;
-  font-family: 'Open Sans', sans-serif;
-}
-
-.main__block {
-  margin-top: 20px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.main__content {
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 75%;
-          flex: 1 1 75%;
-}
-
-.main__flex {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-}
-
 .subway__block {
   text-align: center;
   min-height: 380px;
@@ -468,18 +439,47 @@ body {
 
 .btns-list__btn {
   padding: 10px;
-  margin: 0 15px;
+  margin: 0 5px;
   border-radius: 50%;
   border: 1px solid grey;
   font-size: 20px;
 }
 
 .btns-list__btn:nth-child(2) {
-  padding: 5px 30px;
-  margin: 0;
+  text-align: center;
+  width: 40%;
   border-radius: 10px;
   font-weight: 600;
   font-size: 20px;
+}
+
+body {
+  background-image: url("../img/layout/background-subway-shop.jpg");
+  font-size: 18px;
+  min-height: 1vh;
+  font-family: 'Inter', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.main__block {
+  margin-top: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.main__content {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 75%;
+          flex: 1 1 75%;
+}
+
+.main__flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
 .container-big {
