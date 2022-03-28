@@ -368,9 +368,11 @@ body {
 .subway__block {
   text-align: center;
   min-height: 380px;
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 33.333%;
-          flex: 1 1 33.333%;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 33.333%;
+          flex: 0 1 33.333%;
+  padding: 0 15px;
+  margin-bottom: 30px;
 }
 
 .subway__flex {
@@ -445,8 +447,28 @@ body {
 
 .flex__middle {
   padding: 10px 0;
-  border-top: 2px solid black;
-  border-bottom: 2px solid black;
+  position: relative;
+  width: 100%;
+}
+
+.flex__middle::after {
+  position: absolute;
+  content: '';
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: black;
+}
+
+.flex__middle::before {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: black;
 }
 
 .btn-block__text {

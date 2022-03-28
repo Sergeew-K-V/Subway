@@ -31,7 +31,9 @@ body {
   &__block {
     text-align: center;
     min-height: 380px;
-    flex: 1 1 33.333%;
+    flex: 0 1 33.333%;
+    padding: 0 15px;
+    margin-bottom: 30px;
   }
 
   &__flex {
@@ -102,8 +104,28 @@ body {
 
   &__middle {
     padding: 10px 0;
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
+    position: relative;
+    width: 100%;
+    // border-top: 2px solid black;
+    // border-bottom: 2px solid black;
+  }
+  &__middle::after {
+    position: absolute;
+    content: '';
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: black;
+  }
+  &__middle::before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: black;
   }
 
   &__bottom {
