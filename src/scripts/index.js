@@ -34,7 +34,7 @@ const subContent = `
     </div>
   </div>
 </div>`
-
+// в чем идея, при инициализации компонент, давать ему уникальный индетификатор, на который мы будет ссылаться при рендере и уже отрисовывать элемент заново, в нужно блоке с этим id
 const sub = new SubwayComponent(subContent)
 const sub2 = new SubwayComponent(subContent)
 const sub3 = new SubwayComponent(subContent)
