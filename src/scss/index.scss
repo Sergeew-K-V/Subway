@@ -10,6 +10,41 @@ body {
   font-family: 'Inter', sans-serif;
   font-family: 'Open Sans', sans-serif;
 }
+.modal {
+  &__header {
+    background-color: yellow;
+  }
+
+  &__body {
+    background-color: grey;
+  }
+
+  &__btn-list {
+  }
+
+  &__btn {
+  }
+
+  &__content {
+  }
+
+  &__footer {
+    background-color: white;
+  }
+}
+.container-modal {
+}
+.body {
+  &__navbar {
+  }
+
+  &__navbar-section {
+  }
+}
+.navbar {
+  &__item {
+  }
+}
 
 .main {
   &__block {

@@ -470,6 +470,18 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
+.modal__header {
+  background-color: yellow;
+}
+
+.modal__body {
+  background-color: grey;
+}
+
+.modal__footer {
+  background-color: white;
+}
+
 .main__block {
   margin-top: 20px;
   display: -webkit-box;

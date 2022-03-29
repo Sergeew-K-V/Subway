@@ -41,7 +41,7 @@
                 </ul>
               </div>
             </div>
-            <div class="navbar__middle">
+            <div id="btn-custom" class="navbar__middle">
               <div class="navbar__btn-custom">
                 <button><span>Собрать свой</span></button>
               </div>
@@ -79,7 +79,35 @@
           </div>
           <div class="main__content">
             <div class="container-content">
-              <div id="root" class="main__flex"></div>
+              <div id="root" class="main__flex">
+                <div class="modal">
+                  <div class="container-modal">
+                    <div class="modal__header">
+                      <span>Выберите размер сендвича</span>
+                    </div>
+                    <div class="modal__body">
+                      <div class="body__navbar">
+                        <ul class="body__navbar-section">
+                          <li class="navbar__item">Размер</li>
+                          <li class="navbar__item">Хлеб</li>
+                          <li class="navbar__item">Овощи</li>
+                          <li class="navbar__item">Соусы</li>
+                          <li class="navbar__item">Начинка</li>
+                          <li class="navbar__item">Готово!</li>
+                        </ul>
+                      </div>
+                      <div class="modal__btn-list">
+                        <button class="modal__btn">Назад</button>
+                        <button class="modal__btn">Вперед</button>
+                      </div>
+                      <div class="modal__content" id="root-modal"></div>
+                    </div>
+                  </div>
+                  <div class="modal__footer">
+                    <span>Итого: 110руб.</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
