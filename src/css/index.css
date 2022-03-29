@@ -94,7 +94,7 @@ h6 {
 
 .header__title {
   text-transform: uppercase;
-  font-weight: 900;
+  font-weight: 800;
   font-size: 40px;
   text-align: center;
   line-height: 44px;
@@ -437,17 +437,26 @@ h6 {
           justify-content: space-evenly;
 }
 
+.fa-plus {
+  color: grey;
+}
+
+.fa-minus {
+  color: grey;
+}
+
 .btns-list__btn {
   padding: 10px;
   margin: 0 5px;
   border-radius: 50%;
   border: 1px solid grey;
   font-size: 20px;
+  background-color: white;
 }
 
 .btns-list__btn:nth-child(2) {
   text-align: center;
-  width: 40%;
+  width: 30%;
   border-radius: 10px;
   font-weight: 600;
   font-size: 20px;

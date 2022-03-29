@@ -112,6 +112,12 @@
     justify-content: space-evenly;
   }
 }
+.fa-plus {
+  color: grey;
+}
+.fa-minus {
+  color: grey;
+}
 .btns-list {
   &__btn {
     padding: 10px;
@@ -119,10 +125,11 @@
     border-radius: 50%;
     border: 1px solid grey;
     font-size: 20px;
+    background-color: white;
   }
   &__btn:nth-child(2) {
     text-align: center;
-    width: 40%;
+    width: 30%;
     border-radius: 10px;
     font-weight: 600;
     font-size: 20px;
