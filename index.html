@@ -84,29 +84,38 @@
                 <div class="modal">
                   <div class="modal__overlay">
                     <div class="container-modal">
-                      <div class="modal__header">
-                        <span>Выберите размер сендвича</span>
-                      </div>
-                      <div class="modal__body">
-                        <div class="body__navbar">
-                          <ul class="body__navbar-section">
-                            <li class="navbar__item">Размер</li>
-                            <li class="navbar__item">Хлеб</li>
-                            <li class="navbar__item">Овощи</li>
-                            <li class="navbar__item">Соусы</li>
-                            <li class="navbar__item">Начинка</li>
-                            <li class="navbar__item">Готово!</li>
-                          </ul>
+                      <div class="modal__block">
+                        <div class="modal__header">
+                          <span>Выберите размер сендвича</span>
+                          <div class="modal__close">
+                            <span></span>
+                          </div>
                         </div>
-                        <div class="modal__btn-list">
-                          <button class="modal__btn">Назад</button>
-                          <button class="modal__btn">Вперед</button>
+                        <div class="modal__body">
+                          <div class="body__navbar">
+                            <ul class="body__navbar-section">
+                              <li class="navbar__item">Размер</li>
+                              <li class="navbar__item">Хлеб</li>
+                              <li class="navbar__item">Овощи</li>
+                              <li class="navbar__item">Соусы</li>
+                              <li class="navbar__item">Начинка</li>
+                              <li class="navbar__item">Готово!</li>
+                            </ul>
+                          </div>
+                          <div class="modal__btn-list">
+                            <button class="modal__btn">
+                              <i class="fa-solid fa-chevron-left"></i><span>Назад</span>
+                            </button>
+                            <button class="modal__btn">
+                              <span>Вперед</span><i class="fa-solid fa-angle-right"></i>
+                            </button>
+                          </div>
+                          <div class="modal__content" id="root-modal"></div>
                         </div>
-                        <div class="modal__content" id="root-modal"></div>
+                        <div class="modal__footer">
+                          <span>Итого: 110 руб.</span>
+                        </div>
                       </div>
-                    </div>
-                    <div class="modal__footer">
-                      <span>Итого: 110руб.</span>
                     </div>
                   </div>
                 </div>

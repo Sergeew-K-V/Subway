@@ -3,47 +3,13 @@
 @import 'header.scss';
 @import 'navbar.scss';
 @import 'subway.scss';
+@import 'modal.scss';
 body {
   background-image: url('../img/layout/background-subway-shop.jpg');
   font-size: 18px;
   min-height: 1vh;
   font-family: 'Inter', sans-serif;
   font-family: 'Open Sans', sans-serif;
-}
-.modal {
-  &__header {
-    background-color: orange;
-  }
-
-  &__body {
-    background-color: grey;
-  }
-
-  &__btn-list {
-  }
-
-  &__btn {
-  }
-
-  &__content {
-  }
-
-  &__footer {
-    background-color: white;
-  }
-}
-.container-modal {
-}
-.body {
-  &__navbar {
-  }
-
-  &__navbar-section {
-  }
-}
-.navbar {
-  &__item {
-  }
 }
 
 .main {
@@ -62,6 +28,10 @@ body {
   }
 }
 
+.container-modal {
+  margin: 0 auto;
+  max-width: 800px;
+}
 .container-big {
   margin: 0 auto;
   padding: 0 20px;
