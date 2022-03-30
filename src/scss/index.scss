@@ -11,6 +11,125 @@ body {
   font-family: 'Inter', sans-serif;
   font-family: 'Open Sans', sans-serif;
 }
+$border-radius-modal: 7px;
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba($color: #000000, $alpha: 0.5);
+}
+.modal {
+  position: absolute;
+  font-family: initial;
+  font-family: initial;
+  text-align: center;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  &__block {
+    display: flex;
+    flex-direction: column;
+  }
+  &__header {
+    padding: 20px 20px;
+    font-size: 22px;
+    color: white;
+    background-color: orange;
+    border-top-left-radius: $border-radius-modal;
+    border-top-right-radius: $border-radius-modal;
+    position: relative;
+  }
+  &__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
+  &__close:hover span {
+    transform: rotate(-135deg);
+  }
+  &__close span {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    right: 0;
+    background-color: #9ca9b3;
+    transition: all 0.7s ease;
+    top: 0;
+    transform: rotate(45deg);
+    margin-top: 11px;
+  }
+  &__close span::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    right: 0;
+    background-color: #9ca9b3;
+    transition: all 0.7s ease;
+    top: 0;
+    transform: rotate(90deg);
+  }
+  &__body {
+    padding: 0 20px;
+    background-color: rgb(165, 164, 164);
+  }
+
+  &__btn-list {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    background-color: tomato;
+    text-transform: uppercase;
+  }
+  &__btn span {
+    margin: 0 5px;
+  }
+
+  &__content {
+    margin-top: 10px;
+  }
+
+  &__footer {
+    padding: 20px;
+    color: tomato;
+    font-size: 20px;
+    font-weight: 700;
+    background-color: white;
+    border-bottom-right-radius: $border-radius-modal;
+    border-bottom-left-radius: $border-radius-modal;
+  }
+}
+.body {
+  &__navbar {
+    margin: 20px 0;
+    background-color: white;
+    border-radius: 5px;
+  }
+
+  &__navbar-section {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+.navbar {
+  &__item {
+    margin: 0 10px;
+    padding: 10px 15px;
+  }
+}
 
 .main {
   &__block {

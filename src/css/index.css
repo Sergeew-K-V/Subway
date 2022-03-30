@@ -462,10 +462,33 @@ h6 {
   font-size: 20px;
 }
 
+body {
+  background-image: url("../img/layout/background-subway-shop.jpg");
+  font-size: 18px;
+  min-height: 1vh;
+  font-family: 'Inter', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
 .modal {
+  position: absolute;
   font-family: initial;
   font-family: initial;
   text-align: center;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 
 .modal__block {
@@ -589,14 +612,6 @@ h6 {
 .navbar__item {
   margin: 0 10px;
   padding: 10px 15px;
-}
-
-body {
-  background-image: url("../img/layout/background-subway-shop.jpg");
-  font-size: 18px;
-  min-height: 1vh;
-  font-family: 'Inter', sans-serif;
-  font-family: 'Open Sans', sans-serif;
 }
 
 .main__block {
