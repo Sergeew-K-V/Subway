@@ -7,7 +7,7 @@
 body {
   background-image: url('../img/layout/background-subway-shop.jpg');
   font-size: 18px;
-  min-height: 1vh;
+  min-height: 100%;
   font-family: 'Inter', sans-serif;
   font-family: 'Open Sans', sans-serif;
 }
@@ -17,25 +17,25 @@ $border-radius-modal: 7px;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  overflow: hidden;
+  height: 200%;
   background-color: rgba($color: #000000, $alpha: 0.5);
 }
 .modal {
   position: absolute;
+  padding: 40px 0 40px;
   font-family: initial;
   font-family: initial;
   text-align: center;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  // top: 50%;
+  transform: translate(-50%, 0);
 
   &__block {
     display: flex;
     flex-direction: column;
   }
   &__header {
-    padding: 20px 20px;
+    padding: 20px;
     font-size: 22px;
     color: white;
     background-color: orange;
@@ -98,10 +98,6 @@ $border-radius-modal: 7px;
     margin: 0 5px;
   }
 
-  &__content {
-    margin-top: 10px;
-  }
-
   &__footer {
     padding: 20px;
     color: tomato;
@@ -110,6 +106,13 @@ $border-radius-modal: 7px;
     background-color: white;
     border-bottom-right-radius: $border-radius-modal;
     border-bottom-left-radius: $border-radius-modal;
+  }
+
+  &__content {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
 .body {
@@ -128,6 +131,54 @@ $border-radius-modal: 7px;
   &__item {
     margin: 0 10px;
     padding: 10px 15px;
+  }
+}
+.modal {
+  &__content-card {
+    flex: 0 1 33.333%;
+    padding: 10px 15px 20px;
+    transition: background-color 0.4s ease;
+    border-radius: 5px;
+  }
+  &__content-card:hover {
+    background-color: orange;
+  }
+}
+.content-card {
+  &__block {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  &__img {
+    border: 10px solid orange;
+    padding: 40px 15px;
+    position: relative;
+    border-radius: 50%;
+    background-color: white;
+    // min-height: 200px;
+  }
+  &__img img {
+    border-radius: 50%;
+    // position: absolute;
+    // top: 50%;
+    // left: 50%;
+    // transform: translate(-50%, -50%);
+    // margin: 20% auto;
+  }
+
+  &__text {
+    margin: 10px auto;
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  &__price {
+    padding-top: 10px;
+    border-top: 1px solid black;
+    color: tomato;
+    font-weight: 600;
   }
 }
 
