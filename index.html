@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <script src="https://kit.fontawesome.com/58bea674d6.js" crossorigin="anonymous"></script>
     <!-- https://docs.google.com/document/d/1A1i86MkhugHviSI-u36feEWggAFaR2UxdliMi8kUKQA/edit -->
+    <!-- https://drive.google.com/drive/folders/1C3p0Gya_9t4XF573fICgbBs9IXl2jzHD -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Local -->
@@ -81,30 +82,32 @@
             <div class="container-content">
               <div id="root" class="main__flex">
                 <div class="modal">
-                  <div class="container-modal">
-                    <div class="modal__header">
-                      <span>Выберите размер сендвича</span>
-                    </div>
-                    <div class="modal__body">
-                      <div class="body__navbar">
-                        <ul class="body__navbar-section">
-                          <li class="navbar__item">Размер</li>
-                          <li class="navbar__item">Хлеб</li>
-                          <li class="navbar__item">Овощи</li>
-                          <li class="navbar__item">Соусы</li>
-                          <li class="navbar__item">Начинка</li>
-                          <li class="navbar__item">Готово!</li>
-                        </ul>
+                  <div class="modal__overlay">
+                    <div class="container-modal">
+                      <div class="modal__header">
+                        <span>Выберите размер сендвича</span>
                       </div>
-                      <div class="modal__btn-list">
-                        <button class="modal__btn">Назад</button>
-                        <button class="modal__btn">Вперед</button>
+                      <div class="modal__body">
+                        <div class="body__navbar">
+                          <ul class="body__navbar-section">
+                            <li class="navbar__item">Размер</li>
+                            <li class="navbar__item">Хлеб</li>
+                            <li class="navbar__item">Овощи</li>
+                            <li class="navbar__item">Соусы</li>
+                            <li class="navbar__item">Начинка</li>
+                            <li class="navbar__item">Готово!</li>
+                          </ul>
+                        </div>
+                        <div class="modal__btn-list">
+                          <button class="modal__btn">Назад</button>
+                          <button class="modal__btn">Вперед</button>
+                        </div>
+                        <div class="modal__content" id="root-modal"></div>
                       </div>
-                      <div class="modal__content" id="root-modal"></div>
                     </div>
-                  </div>
-                  <div class="modal__footer">
-                    <span>Итого: 110руб.</span>
+                    <div class="modal__footer">
+                      <span>Итого: 110руб.</span>
+                    </div>
                   </div>
                 </div>
               </div>
