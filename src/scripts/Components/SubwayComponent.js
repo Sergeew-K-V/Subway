@@ -33,8 +33,8 @@ const template = `<div class="subway__block">
 </div>`
 
 export default class SubwayComponent extends Component {
-  #title
-  #content
+  // #title
+  // #content
 
   constructor(content, renderCompFunc) {
     super(content, renderCompFunc)
