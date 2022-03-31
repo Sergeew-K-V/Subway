@@ -4,16 +4,15 @@ import render from '../render'
 //   element.classList.add(props)
 // }
 export default class Component {
-  constructor(props) {
+  constructor(props, content = null) {
+    // render(undefined, undefined)
     this.content = content
-    if (content != null) {
-      render(content, undefined)
+    if (this.content != null) {
+      render(this.content)
     }
-    this.renderCompFunc = render
   }
-  destroy() {
-    this.content = null
-    render(content, undefined)
+  renderComp() {
+    render(this.content)
   }
 }
 // класс должен получать проп data={} и в компоненте сделать метод, который будет возвращать шаблон с html куда будут подставляться пропсы с даты

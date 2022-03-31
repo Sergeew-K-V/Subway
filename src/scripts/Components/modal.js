@@ -78,6 +78,11 @@ const template = `<div class="modal-overlay">
 
 export default class Modal extends Component {
   constructor(content, renderCompFunc) {
-    super(content, renderCompFunc)
+    super(content)
+    this.content = template
+  }
+  destroy() {
+    const point = document.querySelector('.modal-overlay')
+    point.remove()
   }
 }
