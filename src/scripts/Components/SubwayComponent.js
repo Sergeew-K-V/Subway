@@ -1,5 +1,5 @@
 import Component from './Component'
-const template = `<div class="subway__block">
+const template = `<div class="subway__block" id="1">
 <div class="subway__flex">
   <div class="flex__top">
     <div class="subway__logo">
@@ -38,5 +38,6 @@ export default class SubwayComponent extends Component {
   constructor(content) {
     super(content)
     this.content = template
+    this.renderComp()
   }
 }

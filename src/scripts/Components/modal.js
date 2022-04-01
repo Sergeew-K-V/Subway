@@ -13,7 +13,7 @@ const template = `<div class="modal-overlay">
       <div class="modal__body">
         <div class="body__navbar">
           <ul class="body__navbar-section">
-            <li class="navbar__item">Размер</li>
+            <li class="navbar__item selected">Размер</li>
             <li class="navbar__item">Хлеб</li>
             <li class="navbar__item">Овощи</li>
             <li class="navbar__item">Соусы</li>
@@ -30,7 +30,7 @@ const template = `<div class="modal-overlay">
           </button>
         </div>
         <div class="modal__content" id="root-modal">
-          <div class="modal__content-card">
+          <div class="modal__content-card" id="content-card">
             <div class="content-card__block">
               <div class="content-card__img">
                 <img src="/src/img/icons/sizes/1x.jpg" alt="size-15cm" />
@@ -80,6 +80,7 @@ export default class Modal extends Component {
   constructor(content) {
     super(content)
     this.content = template
+    this.renderComp()
   }
   destroy() {
     const point = document.querySelector('.modal-overlay')
