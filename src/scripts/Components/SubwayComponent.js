@@ -38,7 +38,7 @@ export default class SubwayComponent extends Component {
   // #content
   constructor(content, props) {
     super(content)
-    this.content = `<div class="subway__block" id="${props.id}">
+    this.content = `<div class="subway__block" id="subway-${props.id}">
     <div class="subway__flex">
       <div class="flex__top">
         <div class="subway__logo">
