@@ -4,9 +4,8 @@ import render from '../render'
 //   element.classList.add(props)
 // }
 export default class Component {
-  constructor(props, content = null) {
-    // render(undefined, undefined)
-    this.content = content
+  constructor(props) {
+    this.content = null
     if (this.content != null) {
       render(this.content)
     }
