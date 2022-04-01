@@ -23,6 +23,8 @@ subwayBtnGroup.addEventListener('click', (e) => {
   if (e.target === document.querySelector('.fa-minus') || document.querySelector('.fa-plus')) {
     console.log(e.target)
     const currId = e.target.closest('.subway__block').id //тут получил id, а что сделать хотел, забыл
+
     console.log('e', currId)
   }
 })
+//получаем id, находим инпут его, меняем стате - добавить стате в компонент
