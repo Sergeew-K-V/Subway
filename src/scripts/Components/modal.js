@@ -80,7 +80,7 @@ export default class Modal extends Component {
   constructor(content) {
     super(content)
     this.content = template
-    this.renderComp(this.content, modalRoot)
+    this.renderComp(this.content, modalRoot) //modalRoot - место рендеринга модального окна
   }
   destroy() {
     const point = document.querySelector('.modal-overlay')

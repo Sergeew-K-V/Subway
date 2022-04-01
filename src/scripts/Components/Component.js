@@ -10,6 +10,7 @@ export default class Component {
       renderComp(this.content)
     }
   }
+  //content - контент, который будет рендериться, root - корень, где будет отрисован элемент
   renderComp(content, root) {
     render(content, root)
   }
