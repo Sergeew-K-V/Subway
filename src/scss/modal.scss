@@ -1,13 +1,13 @@
 $border-radius-modal: 7px;
 .modal-overlay {
   position: absolute;
-  top: 0;
+  top: 0px;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba($color: #000000, $alpha: 0.5);
-  transform: translateY(0);
-  transition: transform 0.4 ease;
+  // transform: translateY(0);
+  // transition: transform 0.4 ease;
 }
 // .modal-overlay.active {
 //   // transform: translateY(-100%);
@@ -26,7 +26,7 @@ $border-radius-modal: 7px;
   left: 50%;
   // top: 50%;
   transform: translate(-50%, 0);
-  transition: transform 0.4 ease;
+  // transition: transform 0.4 ease;
 
   &__block {
     display: flex;

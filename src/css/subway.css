@@ -81,6 +81,7 @@
 .flex__middle {
   padding: 10px 0;
   position: relative;
+  min-height: 85px;
   width: 100%;
   border-top: 2px solid black;
   border-bottom: 2px solid black;

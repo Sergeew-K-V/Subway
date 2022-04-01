@@ -1,5 +1,5 @@
 import Component from './Component'
-
+const modalRoot = document.getElementById('modal-root')
 const template = `<div class="modal-overlay">
 <div class="modal">
   <div class="container-modal">
@@ -29,7 +29,7 @@ const template = `<div class="modal-overlay">
             <span>Вперед</span><i class="fa-solid fa-angle-right"></i>
           </button>
         </div>
-        <div class="modal__content" id="root-modal">
+        <div class="modal__content" id="content-card-root">
           <div class="modal__content-card" id="content-card">
             <div class="content-card__block">
               <div class="content-card__img">
@@ -80,7 +80,7 @@ export default class Modal extends Component {
   constructor(content) {
     super(content)
     this.content = template
-    this.renderComp()
+    this.renderComp(this.content, modalRoot)
   }
   destroy() {
     const point = document.querySelector('.modal-overlay')

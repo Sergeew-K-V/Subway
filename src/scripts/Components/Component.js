@@ -7,11 +7,11 @@ export default class Component {
   constructor(props) {
     this.content = null
     if (this.content != null) {
-      render(this.content)
+      renderComp(this.content)
     }
   }
-  renderComp() {
-    render(this.content)
+  renderComp(content, root) {
+    render(content, root)
   }
 }
 // класс должен получать проп data={} и в компоненте сделать метод, который будет возвращать шаблон с html куда будут подставляться пропсы с даты
