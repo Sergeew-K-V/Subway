@@ -36,8 +36,11 @@ import Component from './Component'
 export default class SubwayComponent extends Component {
   // #title
   // #content
-  constructor(content, props) {
+
+  constructor(content, props, quantity = 0) {
     super(content)
+    this.quantity = quantity
+
     this.content = `<div class="subway__block" id="subway-${props.id}">
     <div class="subway__flex">
       <div class="flex__top">
@@ -60,7 +63,7 @@ export default class SubwayComponent extends Component {
           <div class="btn-block__text">Количество</div>
           <div class="btn-block__btns-list">
             <button class="btns-list__btn"><i class="fa-solid fa-minus"></i></button>
-            <input type="text" class="btns-list__btn subway-input" value="0" />
+            <input type="number" class="btns-list__btn subway-input" value="${quantity}" />
             <button class="btns-list__btn"><i class="fa-solid fa-plus"></i></button>
           </div>
         </div>
