@@ -43,9 +43,9 @@ export default class SubwayComponent extends Component {
           <div class="subway__btn-block">
             <div class="btn-block__text">Количество</div>
             <div class="btn-block__btns-list">
-              <button class="btns-list__btn icon"><i class="fa-solid fa-minus"></i></button>
+              <button class="btns-list__btn"><i class="fa-solid fa-minus"></i></button>
               <input type="number" class="btns-list__btn subway-input" value="${this.quantityValue}" />
-              <button class="btns-list__btn icon"><i class="fa-solid fa-plus"></i></button>
+              <button class="btns-list__btn"><i class="fa-solid fa-plus"></i></button>
             </div>
           </div>
           <div class="subway__btn-to-basket">

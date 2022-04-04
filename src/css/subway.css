@@ -101,15 +101,16 @@
 }
 
 .fa-plus {
+  padding: 10px;
   color: grey;
 }
 
 .fa-minus {
+  padding: 10px;
   color: grey;
 }
 
 .btns-list__btn {
-  padding: 10px;
   margin: 0 5px;
   border-radius: 50%;
   border: 1px solid grey;

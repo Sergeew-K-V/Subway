@@ -27,10 +27,10 @@ subwayBtnGroup.addEventListener('click', (e) => {
   if (
     e.target === subwayBtnGroup.querySelector('.fa-minus') ||
     subwayBtnGroup.querySelector('.fa-plus') ||
-    subwayBtnGroup.querySelector('.btns-list__btn icon')
+    subwayBtnGroup.querySelector('.btns-list__btn ')
   ) {
     const currId = e.target.closest('.subway__block').id //тут получил id, а что сделать хотел, забыл
-
+    // console.log('e.target', e.target)
     const selectedSubwayBlock = document.getElementById(currId)
 
     let currElement // Сюда помещаем экземпляр класса, который соответствует id блока по которому мы кликнули
