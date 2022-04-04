@@ -21,7 +21,6 @@ btnCustom.addEventListener('click', () => {
   })
 })
 
-// console.log('subwayArray', subwayArray)
 //Изменение кол-ва subways
 const subwayBtnGroup = document.getElementById('root')
 subwayBtnGroup.addEventListener('click', (e) => {
@@ -33,7 +32,6 @@ subwayBtnGroup.addEventListener('click', (e) => {
     const currId = e.target.closest('.subway__block').id //тут получил id, а что сделать хотел, забыл
 
     const selectedSubwayBlock = document.getElementById(currId)
-    // const selectedSubwayInput = selectedSubwayBlock.querySelector('.subway-input')
 
     let currElement // Сюда помещаем экземпляр класса, который соответствует id блока по которому мы кликнули
 
@@ -42,7 +40,6 @@ subwayBtnGroup.addEventListener('click', (e) => {
         currElement = element
       }
     })
-    //потому что у меня много элементов с таким классом и мб в этом ошибка, что он возвращает первый такой ?
     if (e.target === selectedSubwayBlock.querySelector('.fa-minus')) {
       if (currElement.quantityValue === 0) {
       } else {
@@ -56,23 +53,6 @@ subwayBtnGroup.addEventListener('click', (e) => {
     }
 
     console.log('currElement', currElement)
-
-    // const element = subwayArray.map((el) => el.Id === currId)
-    // console.log('element', element)
-    // const selectedSubwayInput = selectedSubwayBlock.querySelector('.subway-input')
-
-    // // ////Почему то работает только на 1 инпут, - почему?
-    // if (e.target === document.querySelector('.fa-minus')) {
-    //   if (selectedSubwayInput.value == 0) {
-    //   } else {
-    //     selectedSubwayInput.value -= 1
-    //   }
-    // }
-    // if (e.target === document.querySelector('.fa-plus')) {
-    //   selectedSubwayInput.value = selectedSubwayInput.value * 1 + 1
-    // }
-
-    // console.log(selectedSubwayInput)
   }
 })
 //получаем id, находим инпут его, меняем стате - добавить стате в компонент
