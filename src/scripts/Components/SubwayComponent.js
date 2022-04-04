@@ -37,11 +37,14 @@ export default class SubwayComponent extends Component {
   // #title
   // #content
 
-  constructor(content, props, quantity = 0) {
-    super(content)
-    this.quantity = quantity
-
-    this.content = `<div class="subway__block" id="subway-${props.id}">
+  constructor(content, props, id) {
+    super()
+    this.id = `subway-${props.id}`
+    this.headerBlock = `<div class="subway__block" id="subway-${props.id}">
+    </div>`
+    this.renderComp(this.headerBlock)
+    this.quantity = 0
+    this.content = `
     <div class="subway__flex">
       <div class="flex__top">
         <div class="subway__logo">
@@ -62,17 +65,29 @@ export default class SubwayComponent extends Component {
         <div class="subway__btn-block">
           <div class="btn-block__text">Количество</div>
           <div class="btn-block__btns-list">
-            <button class="btns-list__btn"><i class="fa-solid fa-minus"></i></button>
-            <input type="number" class="btns-list__btn subway-input" value="${quantity}" />
-            <button class="btns-list__btn"><i class="fa-solid fa-plus"></i></button>
+            <button class="btns-list__btn icon"><i class="fa-solid fa-minus"></i></button>
+            <input type="number" class="btns-list__btn subway-input" value="${this.quantityValue}" />
+            <button class="btns-list__btn icon"><i class="fa-solid fa-plus"></i></button>
           </div>
         </div>
         <div class="subway__btn-to-basket">
           <button class="btn-to-basket__btn">В корзину</button>
         </div>
       </div>
-    </div>
     </div>`
-    this.renderComp(this.content)
+    this.renderComp(this.content, document.getElementById(`subway-${props.id}`))
+    //в конструкторе нельзя использовать уже определенные в нем свойства? в рендер пробовал записать во второй параметр this.id вместо props.id
   }
+  get quantityValue() {
+    return this.quantity
+  }
+  set quantityValue(value) {
+    console.log('quantity', this.quantity)
+    this.quantity + value
+    this.renderComp()
+  }
+  // set minusQuantityValue(value) {
+  //   this.quantity - value
+  //   this.renderComp(this.content, document.getElementById(`subway-${props.id}`))
+  // }
 }
