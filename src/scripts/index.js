@@ -1,6 +1,9 @@
 import SubwayComponent from './Components/SubwayComponent'
 import data from '../../data.json'
 import Modal from './Components/Modal'
+import Basket from './Components/Basket'
+//Инициализации корзины? Чисто шаблон
+const basket = new Basket()
 ////Первая часть - инициализация элементов
 // в чем идея, при инициализации компонент, давать ему уникальный индетификатор, на который мы будет ссылаться при рендере и уже отрисовывать элемент заново, в нужно блоке с этим id
 const sandwiches = data.menu.filter((el) => el.category === 'sandwiches')
