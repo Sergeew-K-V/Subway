@@ -32,7 +32,7 @@ import Component from './Component'
 //   </div>
 // </div>
 // </div>`
-
+let count = 0
 export default class SubwayComponent extends Component {
   // #title
   // #content
@@ -40,12 +40,12 @@ export default class SubwayComponent extends Component {
   constructor(content, props, id) {
     super()
     this.id = `subway-${props.id}`
-    this.headerBlock = `<div class="subway__block" id="subway-${props.id}">
+    this.headerBlock = `<div class="subway__block" id="${this.id}">
     </div>`
     this.renderComp(this.headerBlock)
-    this.quantity = 0
+    this.quantity = count
     this.content = `
-    <div class="subway__flex">
+    <div class="subway__flex" id='content-${this.id}'>
       <div class="flex__top">
         <div class="subway__logo">
           <img src="/src/img/icons/markets/subway_logo.png" alt="" />
@@ -75,19 +75,19 @@ export default class SubwayComponent extends Component {
         </div>
       </div>
     </div>`
-    this.renderComp(this.content, document.getElementById(`subway-${props.id}`))
-    //в конструкторе нельзя использовать уже определенные в нем свойства? в рендер пробовал записать во второй параметр this.id вместо props.id
+    this.renderComp(this.content, document.getElementById(this.id))
   }
   get quantityValue() {
     return this.quantity
   }
   set quantityValue(value) {
+    this.quantity += value
+    this.renderComp(this.content, document.getElementById(this.id))
     console.log('quantity', this.quantity)
-    this.quantity + value
-    this.renderComp()
   }
-  // set minusQuantityValue(value) {
-  //   this.quantity - value
-  //   this.renderComp(this.content, document.getElementById(`subway-${props.id}`))
-  // }
+  destroy() {
+    const destroyPoint = document.getElementById('content-' + this.id)
+    console.log('re-render by destroy')
+    destroyPoint.remove()
+  }
 }

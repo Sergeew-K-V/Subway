@@ -21,8 +21,8 @@ btnCustom.addEventListener('click', () => {
   })
 })
 
-console.log('subwayArray', subwayArray)
-
+// console.log('subwayArray', subwayArray)
+//Изменение кол-ва subways
 const subwayBtnGroup = document.getElementById('root')
 subwayBtnGroup.addEventListener('click', (e) => {
   if (
@@ -30,12 +30,10 @@ subwayBtnGroup.addEventListener('click', (e) => {
     subwayBtnGroup.querySelector('.fa-plus') ||
     subwayBtnGroup.querySelector('.btns-list__btn icon')
   ) {
-    console.log(e.target)
     const currId = e.target.closest('.subway__block').id //тут получил id, а что сделать хотел, забыл
 
-    console.log('id', currId)
     const selectedSubwayBlock = document.getElementById(currId)
-    const selectedSubwayInput = selectedSubwayBlock.querySelector('.subway-input')
+    // const selectedSubwayInput = selectedSubwayBlock.querySelector('.subway-input')
 
     let currElement // Сюда помещаем экземпляр класса, который соответствует id блока по которому мы кликнули
 
@@ -45,17 +43,20 @@ subwayBtnGroup.addEventListener('click', (e) => {
       }
     })
     //потому что у меня много элементов с таким классом и мб в этом ошибка, что он возвращает первый такой ?
-    if (e.target === document.querySelector('.fa-minus')) {
-      currElement.quantityValue = -1
-      // if (selectedSubwayInput.value == 0) {
-      // } else {
-      // }
+    if (e.target === selectedSubwayBlock.querySelector('.fa-minus')) {
+      if (currElement.quantityValue === 0) {
+      } else {
+        currElement.destroy()
+        currElement.quantityValue = -1
+      }
     }
-    if (e.target === document.querySelector('.fa-plus')) {
+    if (e.target === selectedSubwayBlock.querySelector('.fa-plus')) {
+      currElement.destroy()
       currElement.quantityValue = 1
     }
 
     console.log('currElement', currElement)
+
     // const element = subwayArray.map((el) => el.Id === currId)
     // console.log('element', element)
     // const selectedSubwayInput = selectedSubwayBlock.querySelector('.subway-input')
