@@ -3,7 +3,7 @@ import data from '../../data.json'
 import Modal from './Components/Modal'
 import Basket from './Components/Basket'
 //Инициализации корзины? Чисто шаблон
-const basket = new Basket()
+const basket = new Basket({})
 ////Первая часть - инициализация элементов
 // в чем идея, при инициализации компонент, давать ему уникальный индетификатор, на который мы будет ссылаться при рендере и уже отрисовывать элемент заново, в нужно блоке с этим id
 const sandwiches = data.menu.filter((el) => el.category === 'sandwiches')
@@ -21,25 +21,27 @@ btnCustom.addEventListener('click', () => {
   })
 })
 
-//Изменение кол-ва subways
 const subwayBtnGroup = document.getElementById('root')
 subwayBtnGroup.addEventListener('click', (e) => {
+  let currElement // Сюда помещаем экземпляр класса, который соответствует id блока по которому мы кликнули
+
+  //тут получил id of block
+  const currId = e.target.closest('.subway__block').id
+  const selectedSubwayBlock = document.getElementById(currId)
+
+  //получили нужный объект к этому блоку
+  subwayArray.forEach((element) => {
+    if (element.id === currId) {
+      currElement = element
+    }
+  })
+
+  //Изменение кол-ва бутербродов
   if (
-    e.target === subwayBtnGroup.querySelector('.fa-minus') ||
-    subwayBtnGroup.querySelector('.fa-plus') ||
-    subwayBtnGroup.querySelector('.btns-list__btn ')
+    e.target === selectedSubwayBlock.querySelector('.fa-minus') ||
+    selectedSubwayBlock.querySelector('.fa-plus') ||
+    selectedSubwayBlock.querySelector('.btns-list__btn')
   ) {
-    const currId = e.target.closest('.subway__block').id //тут получил id, а что сделать хотел, забыл
-    // console.log('e.target', e.target)
-    const selectedSubwayBlock = document.getElementById(currId)
-
-    let currElement // Сюда помещаем экземпляр класса, который соответствует id блока по которому мы кликнули
-
-    subwayArray.forEach((element) => {
-      if (element.id === currId) {
-        currElement = element
-      }
-    })
     if (e.target === selectedSubwayBlock.querySelector('.fa-minus')) {
       if (currElement.quantityValue === 0) {
       } else {
@@ -51,8 +53,17 @@ subwayBtnGroup.addEventListener('click', (e) => {
       currElement.destroy()
       currElement.quantityValue = 1
     }
-
-    console.log('currElement', currElement)
+  }
+  if (e.target === selectedSubwayBlock.querySelector('.btn-to-basket__btn')) {
+    if (currElement.quantityValue != 0) {
+      console.log('basket btn')
+      const objForBasket = currElement.sendToBasket()
+      console.log('objForBasket', objForBasket)
+      basket.destroy()
+      basket.quantityValue = objForBasket.quantityValue
+      basket.priceValue = objForBasket.price
+      basket.nameValue = objForBasket.name
+      basket.add()
+    }
   }
 })
-//получаем id, находим инпут его, меняем стате - добавить стате в компонент

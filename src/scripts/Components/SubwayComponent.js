@@ -21,7 +21,6 @@ export default class SubwayComponent extends Component {
   }
 
   get getContent() {
-    console.log('getting content')
     return (this.content = `
       <div class="subway__flex" id='content-${this.id}'>
         <div class="flex__top">
@@ -56,20 +55,22 @@ export default class SubwayComponent extends Component {
   }
 
   get quantityValue() {
-    console.log('here we getting quantity')
     return this.quantity
   }
   set quantityValue(value) {
     this.quantity += value
     this.getContent
     this.renderComp(this.content, document.getElementById(this.id))
-
-    console.log('quantity', this.quantity)
-    console.log('content', this.content)
   }
   destroy() {
     const destroyPoint = document.getElementById('content-' + this.id)
-    console.log('re-render by destroy')
     destroyPoint.remove()
+  }
+  sendToBasket() {
+    return {
+      name: this.name,
+      quantityValue: this.quantityValue,
+      price: this.price,
+    }
   }
 }
