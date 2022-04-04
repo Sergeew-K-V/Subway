@@ -70,6 +70,12 @@
   font-weight: 600;
   font-size: 18px;
   cursor: pointer;
+  -webkit-transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
+}
+
+.subway__btn-to-basket button:hover {
+  background-color: #422c02;
 }
 
 .subway__btn-to-basket button:active {
