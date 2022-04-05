@@ -59,7 +59,7 @@ subwayBtnGroup.addEventListener('click', (e) => {
       console.log('basket btn')
       const objForBasket = currElement.sendToBasket()
       console.log('objForBasket', objForBasket)
-      basket.destroy()
+      // basket.destroy()
       basket.quantityValue = objForBasket.quantityValue
       basket.priceValue = objForBasket.price
       basket.nameValue = objForBasket.name

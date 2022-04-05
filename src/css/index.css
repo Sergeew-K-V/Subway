@@ -302,7 +302,7 @@ h6 {
 }
 
 .body__item {
-  padding: 0 10px;
+  padding: 5px 10px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
