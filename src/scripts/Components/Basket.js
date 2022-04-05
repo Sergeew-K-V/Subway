@@ -1,5 +1,19 @@
 import Component from './Component'
 
+// У корзины должен быть массив, где лежат объекты - название и кол-во,
+// если мы кликнули на плюс и в массиве корзины есть такой тип,
+// то мы добавляем выбранное кол-во товара в эту значению и вызываем перередер всей корзины и нужно,
+//чтобы цена адаптировалась
+// если мы нажали на минус, то находит в массиве элемент
+
+//можно давать айди по типу, если в массиве есть такой айдишник,
+//то я вызываю перерендер по этому айди с новым кол-вом товара,
+//если выбрано 0 и нажата кнопка то нужно проверить если ли выбранный элемент,
+//чтобы удалить его из корзины обычным дестроем
+
+// Proxy
+const arrayOfGoods = []
+
 export default class Basket extends Component {
   constructor(props) {
     super()
@@ -24,7 +38,8 @@ export default class Basket extends Component {
           </div>
           <div class="body__bottom" id='place-for-body-item'>
             <!-- Тут будут появляться добавленнные товары -->
-            
+            <div class="body__item" id="array__wrapper">
+            </div>
           </div>
         </div>
         <div class="basket__footer" id="place-price">
@@ -37,16 +52,33 @@ export default class Basket extends Component {
     </div>`
     this.renderComp(this.content, document.getElementById(this.id))
     this.id = 'place-for-body-item'
-    this.getContent
-    this.renderComp(this.content, document.getElementById(this.id))
+    this.basketRender()
+
+    // this.getContent
+    // this.renderComp(this.content, document.getElementById(this.id))
   }
 
-  get getContent() {
-    return (this.content = `<div class="body__item">
-    <span>${this.nameValue}</span>
-    <span>${this.quantityValue}</span>
-  </div>`)
+  basketRender() {
+    this.content = `<div id="array__wrapper">
+    </div>`
+    this.renderComp(this.content, document.getElementById(this.id))
+    arrayOfGoods.map((el) => {
+      this.content = `
+      <div class="body__item">
+        <span>${el.name}</span>
+        <span>${el.quantity}</span>
+      </div>
+      `
+      this.renderComp(this.content, document.getElementById('array__wrapper'))
+    })
   }
+
+  // get getContent() {
+  //   return (this.content = `<div class="body__item" id="${this.nameValue}">
+  //   <span>${this.nameValue}</span>
+  //   <span>${this.quantityValue}</span>
+  // </div>`)
+  // }
 
   reRenderPrice() {
     this.content = `
@@ -78,11 +110,34 @@ export default class Basket extends Component {
     this.quantity = value
     this.getContent
   }
-  destroy() {
-    const destroyPoint = document.getElementById(this.id)
+  destroy(id = this.id) {
+    const destroyPoint = document.getElementById(id)
+    console.log('destroy hehe')
     destroyPoint.remove()
   }
   add() {
-    this.renderComp(this.content, document.getElementById(this.id))
+    getArrayOfBasket(arrayOfGoods, this.nameValue, this.quantityValue)
+    this.destroy('array__wrapper')
+    this.basketRender()
+    console.log('arrayOfGoods', arrayOfGoods)
+    // this.renderComp(this.content, document.getElementById(this.id))
+  }
+}
+
+function getArrayOfBasket(array, name, quantity) {
+  if (array.length === 0) {
+    array.push({ name: name, quantity: quantity })
+  } else {
+    let finded = false
+    // Array.find
+    array.forEach((element) => {
+      if (element.name === name) {
+        element.quantity = quantity
+        finded = true
+      }
+    })
+    if (!finded) {
+      array.push({ name: name, quantity: quantity })
+    }
   }
 }
