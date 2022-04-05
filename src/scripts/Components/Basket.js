@@ -27,10 +27,10 @@ export default class Basket extends Component {
             
           </div>
         </div>
-        <div class="basket__footer">
+        <div class="basket__footer" id="place-price">
           <div class="basket__total"><span>Итого: ${this.priceValue} руб.</span></div>
         </div>
-        <div class="basket__btn">
+        <div class="basket__btn" >
           <button><span>Оформить заказ</span></button>
         </div>
       </div>
@@ -48,14 +48,20 @@ export default class Basket extends Component {
   </div>`)
   }
 
+  reRenderPrice() {
+    this.content = `
+    <div class="basket__total"><span>Итого: ${this.priceValue} руб.</span></div>
+    `
+    document.querySelector('.basket__total').remove()
+    this.renderComp(this.content, document.getElementById('place-price'))
+  }
+
   get priceValue() {
     return this.price
   }
-  // priceCounter(price, quantity) {
-  //   return (this.price = thi * quantity)
-  // }
   set priceValue(value) {
-    this.price += value
+    this.price += value * this.quantityValue
+    this.reRenderPrice()
     this.getContent
   }
   get nameValue() {

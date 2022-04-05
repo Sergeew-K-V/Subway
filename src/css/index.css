@@ -459,11 +459,13 @@ h6 {
 .fa-plus {
   padding: 10px;
   color: grey;
+  cursor: pointer;
 }
 
 .fa-minus {
   padding: 10px;
   color: grey;
+  cursor: pointer;
 }
 
 .btns-list__btn {
