@@ -6,7 +6,7 @@ export default class SubwayComponent extends Component {
 
   constructor(content, props) {
     super()
-    this.id = `subway-${props.id}`
+    this.id = `${props.id}`
     this.image = props.image
     this.description = props.description
     this.name = props.name
@@ -68,6 +68,7 @@ export default class SubwayComponent extends Component {
   }
   sendToBasket() {
     return {
+      id: this.id,
       name: this.name,
       quantityValue: this.quantityValue,
       price: this.price,

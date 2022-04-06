@@ -27,7 +27,7 @@ subwayBtnGroup.addEventListener('click', (e) => {
   //тут получил id of block
   const currId = e.target.closest('.subway__block').id
   const selectedSubwayBlock = document.getElementById(currId)
-
+  console.log('currId', currId)
   //получили нужный объект к этому блоку
   subwayArray.forEach((element) => {
     if (element.id === currId) {
@@ -62,7 +62,7 @@ subwayBtnGroup.addEventListener('click', (e) => {
       basket.quantityValue = objForBasket.quantityValue
       basket.priceValue = objForBasket.price
       basket.nameValue = objForBasket.name
-      basket.add()
+      basket.add(objForBasket.id)
     }
   }
 })
