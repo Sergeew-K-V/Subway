@@ -10,15 +10,6 @@ const subwayArray = sandwiches.map((el) => {
   const subTemp = new SubwayComponent(undefined, el)
   return subTemp
 })
-////Модальное окно, появление и уничтожение(доработка потом)
-const btnCustom = document.getElementById('btn-custom')
-btnCustom.addEventListener('click', () => {
-  const modal = new Modal()
-  const modalClose = document.querySelector('.modal__close')
-  modalClose.addEventListener('click', () => {
-    modal.destroy()
-  })
-})
 
 const subwayBtnGroup = document.getElementById('root')
 subwayBtnGroup.addEventListener('click', (e) => {
@@ -55,14 +46,30 @@ subwayBtnGroup.addEventListener('click', (e) => {
   }
   if (e.target === selectedSubwayBlock.querySelector('.btn-to-basket__btn')) {
     if (currElement.quantityValue != 0) {
-      console.log('basket btn')
       const objForBasket = currElement.sendToBasket()
-      console.log('objForBasket', objForBasket)
-      // basket.destroy()
       basket.quantityValue = objForBasket.quantityValue
       basket.priceValue = objForBasket.price
       basket.nameValue = objForBasket.name
       basket.add(objForBasket.id)
     }
   }
+})
+
+////Модальное окно, появление и уничтожение(доработка потом)
+const btnCustom = document.getElementById('btn-custom')
+const dataForModal = {
+  sizes: data.sizes,
+  bread: data.breads,
+  vegetables: data.vegetables,
+  sauces: data.sauces,
+  fillings: data.fillings,
+}
+btnCustom.addEventListener('click', () => {
+  const modal = new Modal(dataForModal)
+
+  //Закрытие модального окна
+  const modalClose = document.querySelector('.modal__close')
+  modalClose.addEventListener('click', () => {
+    modal.destroy()
+  })
 })
