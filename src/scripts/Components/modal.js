@@ -35,6 +35,7 @@ export default class Modal extends Component {
               </button>
             </div>
             <div class="modal__content" id="content-card-root">
+            
             </div>
           </div>
           <div class="modal__footer">
