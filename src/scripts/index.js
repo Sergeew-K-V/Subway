@@ -72,4 +72,15 @@ btnCustom.addEventListener('click', () => {
   modalClose.addEventListener('click', () => {
     modal.destroy()
   })
+
+  const modalContent = document.getElementById('content-card-root')
+  modalContent.addEventListener('click', (e) => {
+    if (e.target.closest('.modal__content-card')) {
+      const currId = e.target.closest('.modal__content-card').id
+      const currContentCard = document.getElementById(currId)
+      console.log(currContentCard)
+    }
+    // const currId = e.target.closest('.modal__content-card').id
+    // const currContentCard = document.getElementById(currId)
+  })
 })

@@ -4,6 +4,7 @@ export default class Modal extends Component {
   constructor(props) {
     super()
     this.id = 'modal-root'
+    this.price = 0
     this.content = `<div class="modal-overlay">
     <div class="modal">
       <div class="container-modal">
@@ -37,7 +38,7 @@ export default class Modal extends Component {
             </div>
           </div>
           <div class="modal__footer">
-            <span>Итого: 110 руб.</span>
+            <span>Итого: ${this.priceValue} руб.</span>
           </div>
         </div>
       </div>
@@ -45,6 +46,12 @@ export default class Modal extends Component {
     </div>`
     this.renderComp(this.content, document.getElementById(this.id)) //modalRoot - место рендеринга модального окна
     this.renderSizesContent(props.sizes)
+  }
+  get priceValue() {
+    return this.price
+  }
+  set priceValue(value) {
+    this.price += value
   }
   destroy() {
     const point = document.querySelector('.modal-overlay')
