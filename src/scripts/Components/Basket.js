@@ -36,7 +36,6 @@ export default class Basket extends Component {
             <div class="body__name"><span>Название</span></div>
             <div class="body__quantity"><span>Количество</span></div>
           </div>
-     
             <!-- Тут будут появляться добавленнные товары -->
             
           
@@ -52,16 +51,14 @@ export default class Basket extends Component {
     this.renderComp(this.content, document.getElementById(this.id))
     this.id = 'place-for-body-item'
     this.basketRender()
-
-    // this.getContent
-    // this.renderComp(this.content, document.getElementById(this.id))
   }
 
   basketRender() {
-    this.content = ` <div class="body__bottom" id='array__wrapper'>
-
+    this.content = `<div class="body__bottom" id='array__wrapper'>
     </div>`
+    this.id = 'place-for-body-item'
     this.renderComp(this.content, document.getElementById(this.id))
+
     arrayOfGoods.map((el) => {
       this.content = `
       <div class="body__item" id="body__item">
@@ -69,21 +66,13 @@ export default class Basket extends Component {
         <span>${el.quantity}</span>
       </div>
       `
-      this.renderComp(this.content, document.getElementById('array__wrapper'))
+      this.id = 'array__wrapper'
+      this.renderComp(this.content, document.getElementById(this.id))
     })
   }
 
-  // get getContent() {
-  //   return (this.content = `<div class="body__item" id="${this.nameValue}">
-  //   <span>${this.nameValue}</span>
-  //   <span>${this.quantityValue}</span>
-  // </div>`)
-  // }
-
   reRenderPrice() {
-    this.content = `
-    <div class="basket__total"><span>Итого: ${this.priceValue} руб.</span></div>
-    `
+    this.content = `<div class="basket__total"><span>Итого: ${this.priceValue} руб.</span></div>`
     document.querySelector('.basket__total').remove()
     this.renderComp(this.content, document.getElementById('place-price'))
   }
@@ -92,40 +81,42 @@ export default class Basket extends Component {
     return this.price
   }
   set priceValue(value) {
-    this.price += value * this.quantityValue
+    this.price = value
     this.reRenderPrice()
-    this.getContent
   }
   get nameValue() {
     return this.name
   }
   set nameValue(value) {
     this.name = value
-    this.getContent
   }
   get quantityValue() {
     return this.quantity
   }
   set quantityValue(value) {
     this.quantity = value
-    this.getContent
   }
-  destroy(id = this.id) {
+  destroy(id = 'array__wrapper') {
     const destroyPoint = document.getElementById(id)
     destroyPoint.remove()
   }
   add() {
-    getArrayOfBasket(arrayOfGoods, this.nameValue, this.quantityValue)
-    this.destroy('array__wrapper')
+    getArrayOfBasket(arrayOfGoods, this.nameValue, this.quantityValue, this.priceValue)
+    const totalPrice = getTotalPrice(arrayOfGoods)
+    this.priceValue = totalPrice
+    this.destroy()
     this.basketRender()
-    console.log('arrayOfGoods', arrayOfGoods)
-    // this.renderComp(this.content, document.getElementById(this.id))
   }
 }
-
-function getArrayOfBasket(array, name, quantity) {
+function getTotalPrice(array) {
+  const totalPrice = arrayOfGoods.reduce((total, element) => {
+    return (total += element.price * element.quantity)
+  }, 0)
+  return totalPrice
+}
+function getArrayOfBasket(array, name, quantity, price) {
   if (array.length === 0) {
-    array.push({ name: name, quantity: quantity })
+    array.push({ name: name, quantity: quantity, price: price })
   } else {
     const finded = array.find((el) => {
       if (el.name === name) {
@@ -134,7 +125,7 @@ function getArrayOfBasket(array, name, quantity) {
       }
     })
     if (!finded) {
-      array.push({ name: name, quantity: quantity })
+      array.push({ name: name, quantity: quantity, price: price })
     }
   }
 }
