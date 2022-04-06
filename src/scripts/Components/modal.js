@@ -61,7 +61,7 @@ export default class Modal extends Component {
   }
   renderSizesContent(props) {
     for (const size in props) {
-      this.content = `<div class="modal__content-card" id="${props[size].id}">
+      this.content = `<div class="modal__content-card" id="modal-${props[size].id}">
         <div class="content-card__block">
           <div class="content-card__img">
             <img src="/src/img${props[size].image}" alt="size-15cm" />

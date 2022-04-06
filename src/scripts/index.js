@@ -74,13 +74,34 @@ btnCustom.addEventListener('click', () => {
   })
 
   const modalContent = document.getElementById('content-card-root')
-  modalContent.addEventListener('click', (e) => {
+  let selected = false
+  let lastClickObjId = modalContent.addEventListener('click', (e) => {
     if (e.target.closest('.modal__content-card')) {
       const currId = e.target.closest('.modal__content-card').id
       const currContentCard = document.getElementById(currId)
-      console.log(currContentCard)
+      if (selected) {
+        if (lastClickObjId === e.target.closest('.modal__content-card').id) {
+          currContentCard.classList.toggle('select')
+          selected = false
+          lastClickObjId = e.target.closest('.modal__content-card').id
+        } else {
+          const removeToggleNode = document.getElementById(lastClickObjId)
+          removeToggleNode.classList.toggle('select')
+          currContentCard.classList.toggle('select')
+          lastClickObjId = e.target.closest('.modal__content-card').id
+        }
+      } else {
+        currContentCard.classList.toggle('select')
+        selected = true
+        lastClickObjId = e.target.closest('.modal__content-card').id
+      }
+      console.log('select')
+      console.log('selectedState', selected)
     }
-    // const currId = e.target.closest('.modal__content-card').id
-    // const currContentCard = document.getElementById(currId)
   })
 })
+//клик - есть ли выбранный объект?
+// нет - добавляет класс кликнутому объекту,
+// да - это тот же объект?
+// да, делаю тогл этому классу,
+// нет найти нод с этим классом и убрать, и добавить класс текущему
