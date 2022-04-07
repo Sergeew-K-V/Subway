@@ -104,7 +104,7 @@ export default class Modal extends Component {
         break
     }
   }
-  addListener() {
+  addListenerOneTarget() {
     //Добавление анимации выбора
     const modalContent = document.getElementById('content-card-root')
     let selected = false

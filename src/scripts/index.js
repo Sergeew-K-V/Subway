@@ -103,7 +103,7 @@ btnCustom.addEventListener('click', () => {
       selectedNextNavbar.classList.add('selected')
       modal.renderCurrentPage(dataForModal)
     }
-    modal.addListener()
+    modal.addListenerOneTarget()
     console.log('btn-next: crrPage:', modal.currentPageValue)
   })
 })
