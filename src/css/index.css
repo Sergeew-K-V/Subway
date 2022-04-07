@@ -564,6 +564,7 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  min-width: 800px;
 }
 
 .modal__header {
@@ -669,6 +670,8 @@ body {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  max-height: 500px;
+  overflow: scroll;
 }
 
 .body__navbar {
@@ -709,18 +712,22 @@ body {
       -ms-flex: 0 1 33.333%;
           flex: 0 1 33.333%;
   padding: 10px 15px 20px;
+  margin: 10px 5px;
   -webkit-transition: background-color 0.4s ease;
   transition: background-color 0.4s ease;
   border-radius: 5px;
+  max-width: 240px;
 }
 
 .modal__content-card:hover {
-  border: 1px solid yellow;
+  -webkit-box-shadow: 1px 1px yellow, -1px -1px yellow;
+          box-shadow: 1px 1px yellow, -1px -1px yellow;
   background-color: orange;
 }
 
 .modal__content-card.select {
-  border: 1px solid yellow;
+  -webkit-box-shadow: 1px 1px yellow, -1px -1px yellow;
+          box-shadow: 1px 1px yellow, -1px -1px yellow;
   background-color: orange;
   -webkit-transition: border 0.4s ease;
   transition: border 0.4s ease;
@@ -747,6 +754,7 @@ body {
 
 .content-card__img img {
   border-radius: 50%;
+  max-width: 150px;
 }
 
 .content-card__text {

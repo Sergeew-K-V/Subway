@@ -1533,35 +1533,35 @@
     "white-italian": {
       "name": "Белый итальянский",
       "description": "",
-      "price": 0,
+      "price": 10,
       "image": "/icons/bread/white-italian.png",
       "id": 3
     },
     "white-sesame": {
       "name": "Белый с кунжутом",
       "description": "",
-      "price": 0,
+      "price": 20,
       "image": "/icons/bread/white-sesame.png",
       "id": 4
     },
     "oregano-parmesan": {
       "name": "Орегано-пармезан",
       "description": "",
-      "price": 0,
+      "price": 20,
       "image": "/icons/bread/oregano-parmesan.png",
       "id": 5
     },
     "grey": {
       "name": "Серый",
       "description": "",
-      "price": 0,
+      "price": 10,
       "image": "/icons/bread/unknown_1.png",
       "id": 6
     },
     "grey-with-cereal": {
       "name": "Серый с овсяными хлопьями",
       "description": "",
-      "price": 0,
+      "price": 10,
       "image": "/icons/bread/grey-with-cereal.png",
       "id": 7
     }

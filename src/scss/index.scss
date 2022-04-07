@@ -79,6 +79,7 @@ $border-radius-modal: 7px;
   &__block {
     display: flex;
     flex-direction: column;
+    min-width: 800px;
   }
   &__header {
     padding: 20px;
@@ -159,6 +160,8 @@ $border-radius-modal: 7px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    max-height: 500px;
+    overflow: scroll;
   }
 }
 .body {
@@ -193,15 +196,19 @@ $border-radius-modal: 7px;
   &__content-card {
     flex: 0 1 33.333%;
     padding: 10px 15px 20px;
+    margin: 10px 5px;
     transition: background-color 0.4s ease;
     border-radius: 5px;
+    max-width: 240px;
   }
   &__content-card:hover {
-    border: 1px solid yellow;
+    box-shadow: 1px 1px yellow, -1px -1px yellow;
+    // border: 1px solid yellow;
     background-color: orange;
   }
   &__content-card.select {
-    border: 1px solid yellow;
+    box-shadow: 1px 1px yellow, -1px -1px yellow;
+    // border: 1px solid yellow;
     background-color: orange;
     transition: border 0.4s ease;
   }
@@ -223,6 +230,7 @@ $border-radius-modal: 7px;
   }
   &__img img {
     border-radius: 50%;
+    max-width: 150px;
     // position: absolute;
     // top: 50%;
     // left: 50%;

@@ -62,7 +62,7 @@ subwayBtnGroup.addEventListener('click', (e) => {
 const btnCustom = document.getElementById('btn-custom')
 const dataForModal = {
   sizes: data.sizes,
-  bread: data.breads,
+  breads: data.breads,
   vegetables: data.vegetables,
   sauces: data.sauces,
   fillings: data.fillings,
@@ -75,7 +75,36 @@ btnCustom.addEventListener('click', () => {
   modalClose.addEventListener('click', () => {
     modal.destroy()
   })
-
+  //Переключение страниц
+  const btnBack = document.getElementById('btn-back')
+  btnBack.addEventListener('click', () => {
+    if (modal.currentPageValue === 0) {
+      modal.destroy()
+    } else {
+      const selectedNavbar = document.getElementById(`navbar-item-${modal.currentPageValue}`)
+      selectedNavbar.classList.remove('selected')
+      modal.currentPageValue = modal.currentPageValue - 1
+      const selectedNextNavbar = document.getElementById(`navbar-item-${modal.currentPageValue}`)
+      selectedNextNavbar.classList.add('selected')
+      modal.renderCurrentPage(dataForModal)
+    }
+    console.log('btn-back : crrPage:', modal.currentPageValue)
+  })
+  const btnNext = document.getElementById('btn-next')
+  btnNext.addEventListener('click', () => {
+    if (modal.currentPageValue >= 5) {
+      alert('last page')
+    } else {
+      const selectedNavbar = document.getElementById(`navbar-item-${modal.currentPageValue}`)
+      selectedNavbar.classList.remove('selected')
+      modal.currentPageValue = modal.currentPageValue + 1
+      const selectedNextNavbar = document.getElementById(`navbar-item-${modal.currentPageValue}`)
+      selectedNextNavbar.classList.add('selected')
+      modal.renderCurrentPage(dataForModal)
+    }
+    console.log('btn-next: crrPage:', modal.currentPageValue)
+  })
+  //Добавление анимации выбора
   const modalContent = document.getElementById('content-card-root')
   let selected = false
   let lastClickObjId = modalContent.addEventListener('click', (e) => {
@@ -102,4 +131,5 @@ btnCustom.addEventListener('click', () => {
       console.log('selectedState', selected)
     }
   })
+  //Анимация вернего nabvar item
 })

@@ -5,48 +5,57 @@ export default class Modal extends Component {
     super()
     this.id = 'modal-root'
     this.price = 0
-    this.content = `<div class="modal-overlay">
-    <div class="modal">
-      <div class="container-modal">
-        <div class="modal__block">
-          <div class="modal__header">
-            <span>Выберите размер сендвича</span>
-            <div class="modal__close">
-              <span></span>
+    this.currentPage = 0
+    this.content = `
+    <div class="modal-overlay">
+      <div class="modal">
+        <div class="container-modal">
+          <div class="modal__block">
+            <div class="modal__header">
+              <span>Выберите размер сендвича</span>
+              <div class="modal__close">
+                <span></span>
+              </div>
             </div>
-          </div>
-          <div class="modal__body">
-            <div class="body__navbar">
-              <ul class="body__navbar-section">
-                <li class="navbar__item selected">Размер</li>
-                <li class="navbar__item">Хлеб</li>
-                <li class="navbar__item">Овощи</li>
-                <li class="navbar__item">Соусы</li>
-                <li class="navbar__item">Начинка</li>
-                <li class="navbar__item">Готово!</li>
-              </ul>
+            <div class="modal__body" id="place-for-modal-content">
+              <div class="body__navbar">
+                <ul class="body__navbar-section">
+                  <li class="navbar__item sizes selected" id="navbar-item-0">Размер</li>
+                  <li class="navbar__item breads"id="navbar-item-1">Хлеб</li>
+                  <li class="navbar__item vegetables"id="navbar-item-2">Овощи</li>
+                  <li class="navbar__item sauces"id="navbar-item-3">Соусы</li>
+                  <li class="navbar__item fillings"id="navbar-item-4">Начинка</li>
+                  <li class="navbar__item total"id="navbar-item-5">Готово!</li>
+                </ul>
+              </div>
+              <div class="modal__btn-list">
+                <button class="modal__btn"id="btn-back">
+                  <i class="fa-solid fa-chevron-left" ></i><span>Назад</span>
+                </button>
+                <button class="modal__btn"id="btn-next">
+                  <span>Вперед</span><i class="fa-solid fa-angle-right"></i>
+                </button>
+              </div>
+              <div class="modal__content" id="content-card-root">
+                <!-- Сюда рендерится новый контент -->
+              
+              </div>
             </div>
-            <div class="modal__btn-list">
-              <button class="modal__btn">
-                <i class="fa-solid fa-chevron-left"></i><span>Назад</span>
-              </button>
-              <button class="modal__btn">
-                <span>Вперед</span><i class="fa-solid fa-angle-right"></i>
-              </button>
+            <div class="modal__footer">
+              <span>Итого: ${this.priceValue} руб.</span>
             </div>
-            <div class="modal__content" id="content-card-root">
-            
-            </div>
-          </div>
-          <div class="modal__footer">
-            <span>Итого: ${this.priceValue} руб.</span>
           </div>
         </div>
       </div>
-    </div>
     </div>`
     this.renderComp(this.content, document.getElementById(this.id)) //modalRoot - место рендеринга модального окна
-    this.renderSizesContent(props.sizes)
+    this.renderCurrentPage(props)
+  }
+  get currentPageValue() {
+    return this.currentPage
+  }
+  set currentPageValue(value) {
+    this.currentPage = value
   }
   get priceValue() {
     return this.price
@@ -59,19 +68,79 @@ export default class Modal extends Component {
     console.log('close modal')
     point.remove()
   }
-  renderSizesContent(props) {
-    for (const size in props) {
-      this.content = `<div class="modal__content-card" id="modal-${props[size].id}">
+  destroyPage(id) {
+    const point = document.getElementById(id)
+    console.log('delete place for content card')
+    point.remove()
+  }
+  renderCurrentPage(props) {
+    this.id = 'content-card-root'
+    switch (this.currentPageValue) {
+      case 0:
+        this.destroyPage(this.id)
+        this.renderPageContent(props.sizes)
+        break
+      case 1:
+        this.destroyPage(this.id)
+        this.renderPageContent(props.breads)
+        break
+      case 2:
+        this.destroyPage(this.id)
+        this.renderPageContent(props.vegetables)
+        break
+      case 3:
+        this.destroyPage(this.id)
+        this.renderPageContent(props.sauces)
+        break
+      case 4:
+        this.destroyPage(this.id)
+        this.renderPageContent(props.fillings)
+        break
+      case 5:
+        this.destroyPage(this.id)
+        this.renderSummaryContent()
+        break
+      default:
+        break
+    }
+  }
+  renderPageContent(props) {
+    this.content = `<div class="modal__content" id="content-card-root">
+      <!-- Сюда рендерится новый контент -->
+    </div>`
+    this.id = 'place-for-modal-content'
+    this.renderComp(this.content, document.getElementById(this.id))
+    for (const el in props) {
+      this.content = `<div class="modal__content-card" id="modal-${props[el].id}">
         <div class="content-card__block">
           <div class="content-card__img">
-            <img src="/src/img${props[size].image}" alt="size-15cm" />
+            <img src="/src/img${props[el].image}" alt="el-15cm" />
           </div>
-          <div class="content-card__text">${props[size].name}</div>
-          <div class="content-card__price">Цена: ${props[size].price} руб.</div>
+          <div class="content-card__text">${props[el].name}</div>
+          <div class="content-card__price">Цена: ${props[el].price} руб.</div>
         </div>
       </div>`
       this.id = 'content-card-root'
       this.renderComp(this.content, document.getElementById(this.id))
     }
+  }
+  renderSummaryContent() {
+    this.content = `<div class="modal__content" id="content-card-root">
+      <!-- Сюда рендерится новый контент -->
+    </div>`
+    this.id = 'place-for-modal-content'
+    this.renderComp(this.content, document.getElementById(this.id))
+
+    this.content = `<div class="modal__content-card" id="modal-${props[el].id}">
+    <div class="content-card__block">
+      <div class="content-card__img">
+        <img src="/src/img${props[el].image}" alt="el-15cm" />
+      </div>
+      <div class="content-card__text">${props[el].name}</div>
+      <div class="content-card__price">Цена: ${props[el].price} руб.</div>
+    </div>
+  </div>`
+    this.id = 'content-card-root'
+    this.renderComp(this.content, document.getElementById(this.id))
   }
 }
