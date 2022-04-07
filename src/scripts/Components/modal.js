@@ -104,6 +104,35 @@ export default class Modal extends Component {
         break
     }
   }
+  addListener() {
+    //Добавление анимации выбора
+    const modalContent = document.getElementById('content-card-root')
+    let selected = false
+    let lastClickObjId = modalContent.addEventListener('click', (e) => {
+      if (e.target.closest('.modal__content-card')) {
+        const currId = e.target.closest('.modal__content-card').id
+        const currContentCard = document.getElementById(currId)
+        if (selected) {
+          if (lastClickObjId === e.target.closest('.modal__content-card').id) {
+            currContentCard.classList.toggle('select')
+            selected = false
+            lastClickObjId = e.target.closest('.modal__content-card').id
+          } else {
+            const removeToggleNode = document.getElementById(lastClickObjId)
+            removeToggleNode.classList.toggle('select')
+            currContentCard.classList.toggle('select')
+            lastClickObjId = e.target.closest('.modal__content-card').id
+          }
+        } else {
+          currContentCard.classList.toggle('select')
+          selected = true
+          lastClickObjId = e.target.closest('.modal__content-card').id
+        }
+        console.log('select')
+        console.log('selectedState', selected)
+      }
+    })
+  }
   renderPageContent(props) {
     this.content = `<div class="modal__content" id="content-card-root">
       <!-- Сюда рендерится новый контент -->

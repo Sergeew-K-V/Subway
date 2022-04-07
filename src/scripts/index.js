@@ -75,7 +75,7 @@ btnCustom.addEventListener('click', () => {
   modalClose.addEventListener('click', () => {
     modal.destroy()
   })
-  //Переключение страниц
+  //Переключение страниц && //Анимация вернего nabvar item
   const btnBack = document.getElementById('btn-back')
   btnBack.addEventListener('click', () => {
     if (modal.currentPageValue === 0) {
@@ -88,6 +88,7 @@ btnCustom.addEventListener('click', () => {
       selectedNextNavbar.classList.add('selected')
       modal.renderCurrentPage(dataForModal)
     }
+    modal.addListener()
     console.log('btn-back : crrPage:', modal.currentPageValue)
   })
   const btnNext = document.getElementById('btn-next')
@@ -102,34 +103,19 @@ btnCustom.addEventListener('click', () => {
       selectedNextNavbar.classList.add('selected')
       modal.renderCurrentPage(dataForModal)
     }
+    modal.addListener()
     console.log('btn-next: crrPage:', modal.currentPageValue)
   })
-  //Добавление анимации выбора
-  const modalContent = document.getElementById('content-card-root')
-  let selected = false
-  let lastClickObjId = modalContent.addEventListener('click', (e) => {
-    if (e.target.closest('.modal__content-card')) {
-      const currId = e.target.closest('.modal__content-card').id
-      const currContentCard = document.getElementById(currId)
-      if (selected) {
-        if (lastClickObjId === e.target.closest('.modal__content-card').id) {
-          currContentCard.classList.toggle('select')
-          selected = false
-          lastClickObjId = e.target.closest('.modal__content-card').id
-        } else {
-          const removeToggleNode = document.getElementById(lastClickObjId)
-          removeToggleNode.classList.toggle('select')
-          currContentCard.classList.toggle('select')
-          lastClickObjId = e.target.closest('.modal__content-card').id
-        }
-      } else {
-        currContentCard.classList.toggle('select')
-        selected = true
-        lastClickObjId = e.target.closest('.modal__content-card').id
-      }
-      console.log('select')
-      console.log('selectedState', selected)
-    }
-  })
-  //Анимация вернего nabvar item
 })
+// На усмотрение
+// переключение по клику в navbar-Item
+
+// Надо сделать
+// сверстать итоговую сборку бутерброда и соответсвенно стилизовать
+// создать в модалке мигрирующий объект, который будет принимать в себя выбранные значения
+// сделать возможным выбор для овощей и ингридеентов - безграничным
+// написать метод, который будет отдавать этот объект
+// при выборе ингредиентов должны сохраняться выборы из нашего мигрированного объекта
+// не забыть про кол-во и цену
+// в корзину должен приниматься этот объект
+// потом после этого мб реализовать через наблюдателя и подписки

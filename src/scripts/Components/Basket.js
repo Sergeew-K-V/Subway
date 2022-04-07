@@ -121,7 +121,7 @@ export default class Basket extends Component {
     this.arrayOfGoods = this.arrayOfGoods.filter((el) => el != removingItem)
     this.destroy()
     this.basketRender()
-    this.priceValue -= removingItem.price
+    this.priceValue -= removingItem.price * removingItem.quantity
     this.reRenderPrice()
     console.log('removing item from basket', removingItem)
   }
