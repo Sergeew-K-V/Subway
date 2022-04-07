@@ -45,12 +45,15 @@ subwayBtnGroup.addEventListener('click', (e) => {
     }
   }
   if (e.target === selectedSubwayBlock.querySelector('.btn-to-basket__btn')) {
+    const objForBasket = currElement.sendToBasket()
     if (currElement.quantityValue != 0) {
-      const objForBasket = currElement.sendToBasket()
       basket.quantityValue = objForBasket.quantityValue
       basket.priceValue = objForBasket.price
       basket.nameValue = objForBasket.name
-      basket.add(objForBasket.id)
+      basket.addItem(objForBasket.id)
+    } else {
+      console.log('id removing', objForBasket.id)
+      basket.removeItem(objForBasket.id)
     }
   }
 })
@@ -100,8 +103,3 @@ btnCustom.addEventListener('click', () => {
     }
   })
 })
-//клик - есть ли выбранный объект?
-// нет - добавляет класс кликнутому объекту,
-// да - это тот же объект?
-// да, делаю тогл этому классу,
-// нет найти нод с этим классом и убрать, и добавить класс текущему

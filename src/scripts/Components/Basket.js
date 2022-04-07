@@ -102,7 +102,7 @@ export default class Basket extends Component {
     destroyPoint.remove()
   }
 
-  add(sendedId) {
+  addItem(sendedId) {
     getArrayOfBasket(
       this.arrayOfGoods,
       this.nameValue,
@@ -114,6 +114,14 @@ export default class Basket extends Component {
     this.destroy()
     this.basketRender()
     console.log('arrayofgoods', this.arrayOfGoods)
+  }
+
+  removeItem(sendedId) {
+    const removingItem = this.arrayOfGoods.find((el) => el.id === sendedId)
+    this.arrayOfGoods = this.arrayOfGoods.filter((el) => el != removingItem)
+    this.destroy()
+    this.basketRender()
+    console.log('removing item from basket', removingItem)
   }
 }
 function getTotalPrice(array, price) {
