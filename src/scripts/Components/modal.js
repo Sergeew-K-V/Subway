@@ -133,6 +133,19 @@ export default class Modal extends Component {
       }
     })
   }
+  addListenerFewTarget() {
+    //Добавление анимации выбора
+    const modalContent = document.getElementById('content-card-root')
+    let selected = false
+    modalContent.addEventListener('click', (e) => {
+      if (e.target.closest('.modal__content-card')) {
+        const currId = e.target.closest('.modal__content-card').id
+        const currContentCard = document.getElementById(currId)
+        currContentCard.classList.toggle('select')
+        console.log('selectFew')
+      }
+    })
+  }
   renderPageContent(props) {
     this.content = `<div class="modal__content" id="content-card-root">
       <!-- Сюда рендерится новый контент -->
@@ -160,13 +173,40 @@ export default class Modal extends Component {
     this.id = 'place-for-modal-content'
     this.renderComp(this.content, document.getElementById(this.id))
 
-    this.content = `<div class="modal__content-card" id="modal-${props[el].id}">
+    this.content = `<div class="modal__content-card" id="modal-">
     <div class="content-card__block">
-      <div class="content-card__img">
-        <img src="/src/img${props[el].image}" alt="el-15cm" />
+      <div class="block__left">
+        <div class="content-card__img">
+          <img src="/src/img" alt="el-15cm" />
+        </div>
       </div>
-      <div class="content-card__text">${props[el].name}</div>
-      <div class="content-card__price">Цена: ${props[el].price} руб.</div>
+      <div class="block__right">
+        <div class="right__top">
+          <h2>Ваш сенвич готов!</h2>
+        </div>
+        <div class="right__middle">
+          <div class="middle__size">
+            <span>Размер: 15 См</span>
+          </div>
+          <div class="middle__bread">
+            <span>Хлеб: Белый итальянский </span>
+          </div>
+          <div class="middle__vegentables">
+            <span>Овощи: нет</span>
+          </div>
+          <div class="middle__sauces">
+            <span>Соусы: Барбекю</span>
+          </div>
+          <div class="middle__fillings">
+            <span>Начинка: нет</span>
+          </div>
+        </div>
+        <div class="right__bottom">
+          <div class="bottom__name">
+            <span>Custom sandwich</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>`
     this.id = 'content-card-root'
