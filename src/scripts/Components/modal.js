@@ -76,7 +76,6 @@ export default class Modal extends Component {
     const btnBack = document.getElementById('btn-back')
     const btnNext = document.getElementById('btn-next')
     const btnList = document.querySelector('.modal__btn-list')
-    this.addListenerModal()
     if (this.currentPageValue === 0) {
       btnBack.classList.add('hidden')
       btnList.classList.add('hiddenBack')
@@ -111,60 +110,145 @@ export default class Modal extends Component {
       case 0:
         this.destroyPage(this.id)
         this.renderPageContent(props.sizes)
+        this.addListenerModal()
         break
       case 1:
         this.destroyPage(this.id)
         this.renderPageContent(props.breads)
+        this.addListenerModal()
         break
       case 2:
         this.destroyPage(this.id)
         this.renderPageContent(props.vegetables)
+        this.addListenerModal(Object.keys(props.vegetables).length)
         break
       case 3:
         this.destroyPage(this.id)
         this.renderPageContent(props.sauces)
+        this.addListenerModal(3)
         break
       case 4:
         this.destroyPage(this.id)
         this.renderPageContent(props.fillings)
+        this.addListenerModal(Object.keys(props.fillings).length)
         break
       case 5:
         this.destroyPage(this.id)
         this.renderSummaryContent()
+        this.addListenerModal()
         break
       default:
         break
     }
   }
-  addListenerModal() {
+  addListenerModal(maxSelectedItem = 1) {
     //Добавление анимации выбора
     const modalContent = document.getElementById('content-card-root')
-    let selected = false
-    let lastClickObjId = modalContent.addEventListener('click', (e) => {
-      if (e.target.closest('.modal__content-card')) {
-        const currId = e.target.closest('.modal__content-card').id
-        const currContentCard = document.getElementById(currId)
-        if (selected) {
-          if (lastClickObjId === e.target.closest('.modal__content-card').id) {
-            currContentCard.classList.toggle('select')
-            selected = false
-            lastClickObjId = e.target.closest('.modal__content-card').id
+    if (maxSelectedItem === 1) {
+      let selected = false
+      let lastClickObjId = modalContent.addEventListener('click', (e) => {
+        if (e.target.closest('.modal__content-card')) {
+          const currId = e.target.closest('.modal__content-card').id
+          const currContentCard = document.getElementById(currId)
+          if (selected) {
+            if (lastClickObjId === e.target.closest('.modal__content-card').id) {
+              currContentCard.classList.toggle('select')
+              selected = false
+              lastClickObjId = e.target.closest('.modal__content-card').id
+            } else {
+              const removeToggleNode = document.getElementById(lastClickObjId)
+              removeToggleNode.classList.toggle('select')
+              currContentCard.classList.toggle('select')
+              lastClickObjId = e.target.closest('.modal__content-card').id
+            }
           } else {
-            const removeToggleNode = document.getElementById(lastClickObjId)
-            removeToggleNode.classList.toggle('select')
             currContentCard.classList.toggle('select')
+            selected = true
             lastClickObjId = e.target.closest('.modal__content-card').id
           }
-        } else {
-          currContentCard.classList.toggle('select')
-          selected = true
-          lastClickObjId = e.target.closest('.modal__content-card').id
+          console.log('select')
+          console.log('selectedState', selected)
         }
-        console.log('select')
-        console.log('selectedState', selected)
-      }
-    })
+      })
+    } else {
+      let currentSelectedItem = 0
+      let selected = []
+      let lastClickObjId = modalContent.addEventListener('click', (e) => {
+        if (e.target.closest('.modal__content-card')) {
+          const currId = e.target.closest('.modal__content-card').id
+          const currContentCard = document.getElementById(currId)
+          if (selected.includes(currId) && currentSelectedItem === maxSelectedItem) {
+            selected = selected.filter((el) => el != currId)
+            --currentSelectedItem
+            currContentCard.classList.toggle('select')
+          } else {
+            if (currentSelectedItem === maxSelectedItem) {
+              alert('You have made maximum choices')
+            } else {
+              if (selected.includes(currId)) {
+                selected = selected.filter((el) => el != currId)
+                --currentSelectedItem
+                currContentCard.classList.toggle('select')
+              } else {
+                currContentCard.classList.toggle('select')
+                selected.push(currId)
+                ++currentSelectedItem
+              }
+              console.log('select')
+              console.log('selectedState', selected)
+            }
+          }
+        }
+      })
+    }
   }
+  // else {
+  //   let currentSelectedItem = 0
+  //   let selected = []
+  //   let lastClickObjId = modalContent.addEventListener('click', (e) => {
+  //     if (e.target.closest('.modal__content-card')) {
+  //       if (currentSelectedItem > maxSelectedItem) {
+  //         alert('You have made maximum choices')
+  //       } else {
+  //         const currId = e.target.closest('.modal__content-card').id
+  //         const currContentCard = document.getElementById(currId)
+
+  //         if (selected.includes(currId)) {
+  //           if (
+  //             selected.find((el) => {
+  //               el === currId
+  //               return el
+  //             }) === e.target.closest('.modal__content-card').id
+  //           ) {
+  //             currContentCard.classList.toggle('select')
+  //             selected.filter((el) => el != currId)
+  //             --currentSelectedItem
+  //             debugger
+  //           } else {
+  //             const removeToggleNode = document.getElementById(
+  //               selected.find((el) => {
+  //                 el === currId
+  //                 return el
+  //               })
+  //             )
+  //             removeToggleNode.classList.toggle('select')
+  //             selected.filter((el) => el != currId)
+  //             currContentCard.classList.toggle('select')
+  //             selected.push(currId)
+  //             debugger
+  //           }
+  //         } else {
+  //           currContentCard.classList.toggle('select')
+  //           selected.push(currId)
+  //           ++currentSelectedItem
+  //           debugger
+  //         }
+  //         console.log('select')
+  //         console.log('selectedState', selected)
+  //       }
+  //     }
+  //   })
+  // }
   // addListenerFewTarget() {
   //   //Добавление анимации выбора
   //   const modalContent = document.getElementById('content-card-root')
@@ -180,99 +264,97 @@ export default class Modal extends Component {
   // }
   renderPageContent(props) {
     this.content = `<div class="modal__content" id="content-card-root">
-      <!-- Сюда рендерится новый контент -->
-    </div>`
+                      <!-- Сюда рендерится новый контент -->
+                    </div>`
     this.id = 'place-for-modal-content'
     this.renderComp(this.content, document.getElementById(this.id))
     for (const el in props) {
       this.content = `<div class="modal__content-card" id="modal-${props[el].id}">
-        <div class="content-card__block">
-          <div class="content-card__img">
-            <img src="/src/img${props[el].image}" alt="el-15cm" />
-          </div>
-          <div class="content-card__text">${props[el].name}</div>
-          <div class="content-card__price">Цена: ${props[el].price} руб.</div>
-        </div>
-      </div>`
+                        <div class="content-card__block">
+                          <div class="content-card__img">
+                            <img src="/src/img${props[el].image}" alt="el-15cm" />
+                          </div>
+                          <div class="content-card__text">${props[el].name}</div>
+                          <div class="content-card__price">Цена: ${props[el].price} руб.</div>
+                        </div>
+                      </div>`
       this.id = 'content-card-root'
       this.renderComp(this.content, document.getElementById(this.id))
     }
-    this.content = `
-          <div class="modal__footer" id="modal-total-bottom-root">
-          </div>`
+    this.content = `<div class="modal__footer" id="modal-total-bottom-root">
+                    </div>`
     this.id = 'modal-block'
     this.renderComp(this.content, document.getElementById(this.id))
     this.content = `<div class="modal__total-price">
-    <span>Итого: ${this.priceValue} руб.</span>
-  </div>`
+                      <span>Итого: ${this.priceValue} руб.</span>
+                    </div>`
     this.id = 'modal-total-bottom-root'
     this.renderComp(this.content, document.getElementById(this.id))
   }
   renderSummaryContent() {
     this.content = `<div class="modal__content" id="content-card-root">
-      <!-- Сюда рендерится новый контент -->
-    </div>`
+                      <!-- Сюда рендерится новый контент -->
+                    </div>`
     this.id = 'place-for-modal-content'
     this.renderComp(this.content, document.getElementById(this.id))
 
     this.content = `<div class="modal__content-total" id="modal-">
-    <div class="content-total__block">
-      <div class="block__left">
-        <div class="content-total__img ">
-          <img src="/src/img/icons/result_sandwich.jpg" alt="el-15cm" />
-        </div>
-      </div>
-      <div class="block__right">
-        <div class="right__top">
-          <h2>Ваш сенвич готов!</h2>
-        </div>
-        <div class="right__middle">
-          <div class="middle__size middle__item">
-            <span>Размер: 15 См</span>
-          </div>
-          <div class="middle__bread middle__item">
-            <span>Хлеб: Белый итальянский </span>
-          </div>
-          <div class="middle__vegentables middle__item">
-            <span>Овощи: нет</span>
-          </div>
-          <div class="middle__sauces middle__item">
-            <span>Соусы: Барбекю</span>
-          </div>
-          <div class="middle__fillings middle__item">
-            <span>Начинка: нет</span>
-          </div>
-        </div>
-        <div class="right__bottom">
-          <div class="bottom__name">
-            <span>Custom sandwich</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>`
+                      <div class="content-total__block">
+                        <div class="block__left">
+                          <div class="content-total__img ">
+                            <img src="/src/img/icons/result_sandwich.jpg" alt="el-15cm" />
+                          </div>
+                        </div>
+                        <div class="block__right">
+                          <div class="right__top">
+                            <h2>Ваш сенвич готов!</h2>
+                          </div>
+                          <div class="right__middle">
+                            <div class="middle__size middle__item">
+                              <span>Размер: 15 См</span>
+                            </div>
+                            <div class="middle__bread middle__item">
+                              <span>Хлеб: Белый итальянский </span>
+                            </div>
+                            <div class="middle__vegentables middle__item">
+                              <span>Овощи: нет</span>
+                            </div>
+                            <div class="middle__sauces middle__item">
+                              <span>Соусы: Барбекю</span>
+                            </div>
+                            <div class="middle__fillings middle__item">
+                              <span>Начинка: нет</span>
+                            </div>
+                          </div>
+                          <div class="right__bottom">
+                            <div class="bottom__name">
+                              <span>Custom sandwich</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>`
     this.id = 'content-card-root'
     this.renderComp(this.content, document.getElementById(this.id))
-    this.content = `
-          <div class="modal__footer" id="modal-total-bottom-root">
-          </div>`
+    this.content = `<div class="modal__footer" id="modal-total-bottom-root">
+                    </div>`
     this.id = 'modal-block'
     this.renderComp(this.content, document.getElementById(this.id))
     this.content = `<div class="modal__btn-block">
-    <div class="modal-block__text">Количество</div>
-       <div class="modal-block__btns-list">
-          <button class="btns-modal__btn"><i class="fa-solid fa-minus"></i></button>
-          <input type="number" class="btns-modal__btn modal-input" value="${this.quantityValue}" />
-          <button class="btns-modal__btn"><i class="fa-solid fa-plus"></i></button>
-        </div>
-      </div>
-      <div class="modal__total-price">
-        <span>Цена: ${this.priceValue} руб.</span>
-        <div class="modal__btn-to-basket">
-          <button class="btn-to-basket__btn">В корзину</button>
-        </div>
-      </div>
-    </div>`
+                      <div class="modal-block__text">Количество</div>
+                        <div class="modal-block__btns-list">
+                            <button class="btns-modal__btn"><i class="fa-solid fa-minus"></i></button>
+                            <input type="number" class="btns-modal__btn modal-input" value="${this.quantityValue}" />
+                            <button class="btns-modal__btn"><i class="fa-solid fa-plus"></i></button>
+                          </div>
+                        </div>
+                        <div class="modal__total-price">
+                          <span>Цена: ${this.priceValue} руб.</span>
+                          <div class="modal__btn-to-basket">
+                            <button class="btn-to-basket__btn">В корзину</button>
+                          </div>
+                        </div>
+                      </div>`
     this.id = 'modal-total-bottom-root'
     this.renderComp(this.content, document.getElementById(this.id))
   }
