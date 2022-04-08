@@ -173,10 +173,10 @@ export default class Modal extends Component {
     this.id = 'place-for-modal-content'
     this.renderComp(this.content, document.getElementById(this.id))
 
-    this.content = `<div class="modal__content-card" id="modal-">
-    <div class="content-card__block">
+    this.content = `<div class="modal__content-total" id="modal-">
+    <div class="content-total__block">
       <div class="block__left">
-        <div class="content-card__img">
+        <div class="content-total__img ">
           <img src="/src/img" alt="el-15cm" />
         </div>
       </div>

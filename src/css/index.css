@@ -564,7 +564,7 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  min-width: 800px;
+  min-width: 900px;
 }
 
 .modal__header {
@@ -671,7 +671,7 @@ body {
       -ms-flex-pack: center;
           justify-content: center;
   max-height: 500px;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .body__navbar {
@@ -768,4 +768,42 @@ body {
   border-top: 1px solid black;
   color: tomato;
   font-weight: 600;
+}
+
+.modal__content-total {
+  width: 100%;
+}
+
+.content-total__block {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.content-total__img {
+  border: 10px solid orange;
+  padding: 40px 15px;
+  position: relative;
+  border-radius: 50%;
+  background-color: white;
+  max-width: 150px;
+}
+
+.content-total__img img {
+  border-radius: 50%;
+}
+
+.block__left {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 50%;
+          flex: 0 1 50%;
+}
+
+.block__right {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 50%;
+          flex: 0 1 50%;
 }
