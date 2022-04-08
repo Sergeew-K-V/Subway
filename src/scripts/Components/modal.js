@@ -5,12 +5,13 @@ export default class Modal extends Component {
     super()
     this.id = 'modal-root'
     this.price = 0
+    this.quantity = 0
     this.currentPage = 0
     this.content = `
     <div class="modal-overlay">
       <div class="modal">
         <div class="container-modal">
-          <div class="modal__block">
+          <div class="modal__block" id="modal-block">
             <div class="modal__header">
               <span>Выберите размер сендвича</span>
               <div class="modal__close">
@@ -41,8 +42,10 @@ export default class Modal extends Component {
               
               </div>
             </div>
-            <div class="modal__footer">
-              <span>Итого: ${this.priceValue} руб.</span>
+            <div class="modal__footer" id="modal-total-bottom-root">
+              <div class="modal__total-price">
+                <span>Итого: ${this.priceValue} руб.</span>
+              </div>
             </div>
           </div>
         </div>
@@ -63,7 +66,32 @@ export default class Modal extends Component {
   set priceValue(value) {
     this.price += value
   }
-  destroy() {
+  get quantityValue() {
+    return this.price
+  }
+  set quantityValue(value) {
+    this.price = value
+  }
+  listenerForBtnBack() {
+    const btnBack = document.getElementById('btn-back')
+    const btnNext = document.getElementById('btn-next')
+    const btnList = document.querySelector('.modal__btn-list')
+    if (this.currentPageValue === 0) {
+      btnBack.classList.add('hidden')
+      btnList.classList.add('hiddenBack')
+    } else {
+      btnBack.classList.remove('hidden')
+      btnList.classList.remove('hiddenBack')
+    }
+    if (this.currentPageValue === 5) {
+      btnNext.classList.add('hidden')
+      btnList.classList.add('hiddenNext')
+    } else {
+      btnNext.classList.remove('hidden')
+      btnList.classList.remove('hiddenNext')
+    }
+  }
+  destroyModal() {
     const point = document.querySelector('.modal-overlay')
     console.log('close modal')
     point.remove()
@@ -72,6 +100,9 @@ export default class Modal extends Component {
     const point = document.getElementById(id)
     console.log('delete place for content card')
     point.remove()
+    const priceId = 'modal-total-bottom-root'
+    const pointPrice = document.getElementById(priceId)
+    pointPrice.remove()
   }
   renderCurrentPage(props) {
     this.id = 'content-card-root'
@@ -165,6 +196,16 @@ export default class Modal extends Component {
       this.id = 'content-card-root'
       this.renderComp(this.content, document.getElementById(this.id))
     }
+    this.content = `
+          <div class="modal__footer" id="modal-total-bottom-root">
+          </div>`
+    this.id = 'modal-block'
+    this.renderComp(this.content, document.getElementById(this.id))
+    this.content = `<div class="modal__total-price">
+    <span>Итого: ${this.priceValue} руб.</span>
+  </div>`
+    this.id = 'modal-total-bottom-root'
+    this.renderComp(this.content, document.getElementById(this.id))
   }
   renderSummaryContent() {
     this.content = `<div class="modal__content" id="content-card-root">
@@ -177,7 +218,7 @@ export default class Modal extends Component {
     <div class="content-total__block">
       <div class="block__left">
         <div class="content-total__img ">
-          <img src="/src/img" alt="el-15cm" />
+          <img src="/src/img/icons/result_sandwich.jpg" alt="el-15cm" />
         </div>
       </div>
       <div class="block__right">
@@ -185,19 +226,19 @@ export default class Modal extends Component {
           <h2>Ваш сенвич готов!</h2>
         </div>
         <div class="right__middle">
-          <div class="middle__size">
+          <div class="middle__size middle__item">
             <span>Размер: 15 См</span>
           </div>
-          <div class="middle__bread">
+          <div class="middle__bread middle__item">
             <span>Хлеб: Белый итальянский </span>
           </div>
-          <div class="middle__vegentables">
+          <div class="middle__vegentables middle__item">
             <span>Овощи: нет</span>
           </div>
-          <div class="middle__sauces">
+          <div class="middle__sauces middle__item">
             <span>Соусы: Барбекю</span>
           </div>
-          <div class="middle__fillings">
+          <div class="middle__fillings middle__item">
             <span>Начинка: нет</span>
           </div>
         </div>
@@ -210,6 +251,28 @@ export default class Modal extends Component {
     </div>
   </div>`
     this.id = 'content-card-root'
+    this.renderComp(this.content, document.getElementById(this.id))
+    this.content = `
+          <div class="modal__footer" id="modal-total-bottom-root">
+          </div>`
+    this.id = 'modal-block'
+    this.renderComp(this.content, document.getElementById(this.id))
+    this.content = `<div class="modal__btn-block">
+    <div class="modal-block__text">Количество</div>
+       <div class="modal-block__btns-list">
+          <button class="btns-modal__btn"><i class="fa-solid fa-minus"></i></button>
+          <input type="number" class="btns-modal__btn modal-input" value="${this.quantityValue}" />
+          <button class="btns-modal__btn"><i class="fa-solid fa-plus"></i></button>
+        </div>
+      </div>
+      <div class="modal__total-price">
+        <span>Цена: ${this.priceValue} руб.</span>
+        <div class="modal__btn-to-basket">
+          <button class="btn-to-basket__btn">В корзину</button>
+        </div>
+      </div>
+    </div>`
+    this.id = 'modal-total-bottom-root'
     this.renderComp(this.content, document.getElementById(this.id))
   }
 }

@@ -69,17 +69,16 @@ const dataForModal = {
 }
 btnCustom.addEventListener('click', () => {
   const modal = new Modal(dataForModal)
-
+  modal.listenerForBtnBack()
   //Закрытие модального окна
   const modalClose = document.querySelector('.modal__close')
   modalClose.addEventListener('click', () => {
-    modal.destroy()
+    modal.destroyModal()
   })
   //Переключение страниц && //Анимация вернего nabvar item
   const btnBack = document.getElementById('btn-back')
   btnBack.addEventListener('click', () => {
     if (modal.currentPageValue === 0) {
-      modal.destroy()
     } else {
       const selectedNavbar = document.getElementById(`navbar-item-${modal.currentPageValue}`)
       selectedNavbar.classList.remove('selected')
@@ -88,6 +87,7 @@ btnCustom.addEventListener('click', () => {
       selectedNextNavbar.classList.add('selected')
       modal.renderCurrentPage(dataForModal)
     }
+    modal.listenerForBtnBack()
     modal.addListenerOneTarget()
     console.log('btn-back : crrPage:', modal.currentPageValue)
   })
@@ -103,6 +103,7 @@ btnCustom.addEventListener('click', () => {
       selectedNextNavbar.classList.add('selected')
       modal.renderCurrentPage(dataForModal)
     }
+    modal.listenerForBtnBack()
     modal.addListenerOneTarget()
     console.log('btn-next: crrPage:', modal.currentPageValue)
   })
