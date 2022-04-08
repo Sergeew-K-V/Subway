@@ -76,6 +76,7 @@ export default class Modal extends Component {
     const btnBack = document.getElementById('btn-back')
     const btnNext = document.getElementById('btn-next')
     const btnList = document.querySelector('.modal__btn-list')
+    this.addListenerModal()
     if (this.currentPageValue === 0) {
       btnBack.classList.add('hidden')
       btnList.classList.add('hiddenBack')
@@ -135,7 +136,7 @@ export default class Modal extends Component {
         break
     }
   }
-  addListenerOneTarget() {
+  addListenerModal() {
     //Добавление анимации выбора
     const modalContent = document.getElementById('content-card-root')
     let selected = false
@@ -164,19 +165,19 @@ export default class Modal extends Component {
       }
     })
   }
-  addListenerFewTarget() {
-    //Добавление анимации выбора
-    const modalContent = document.getElementById('content-card-root')
-    let selected = false
-    modalContent.addEventListener('click', (e) => {
-      if (e.target.closest('.modal__content-card')) {
-        const currId = e.target.closest('.modal__content-card').id
-        const currContentCard = document.getElementById(currId)
-        currContentCard.classList.toggle('select')
-        console.log('selectFew')
-      }
-    })
-  }
+  // addListenerFewTarget() {
+  //   //Добавление анимации выбора
+  //   const modalContent = document.getElementById('content-card-root')
+  //   let selected = false
+  //   modalContent.addEventListener('click', (e) => {
+  //     if (e.target.closest('.modal__content-card')) {
+  //       const currId = e.target.closest('.modal__content-card').id
+  //       const currContentCard = document.getElementById(currId)
+  //       currContentCard.classList.toggle('select')
+  //       console.log('selectFew')
+  //     }
+  //   })
+  // }
   renderPageContent(props) {
     this.content = `<div class="modal__content" id="content-card-root">
       <!-- Сюда рендерится новый контент -->

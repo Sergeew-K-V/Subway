@@ -80,6 +80,7 @@ btnCustom.addEventListener('click', () => {
   btnBack.addEventListener('click', () => {
     if (modal.currentPageValue === 0) {
     } else {
+      //Решил не делать из этих 5 строк метод, тк это будет менее читабельно в классе, чем непосредственно здесь
       const selectedNavbar = document.getElementById(`navbar-item-${modal.currentPageValue}`)
       selectedNavbar.classList.remove('selected')
       modal.currentPageValue = modal.currentPageValue - 1
@@ -88,14 +89,13 @@ btnCustom.addEventListener('click', () => {
       modal.renderCurrentPage(dataForModal)
     }
     modal.listenerForBtnBack()
-    modal.addListenerOneTarget()
     console.log('btn-back : crrPage:', modal.currentPageValue)
   })
   const btnNext = document.getElementById('btn-next')
   btnNext.addEventListener('click', () => {
     if (modal.currentPageValue >= 5) {
-      alert('last page')
     } else {
+      //Решил не делать из этих 5 строк метод, тк это будет менее читабельно в классе, чем непосредственно здесь
       const selectedNavbar = document.getElementById(`navbar-item-${modal.currentPageValue}`)
       selectedNavbar.classList.remove('selected')
       modal.currentPageValue = modal.currentPageValue + 1
@@ -104,7 +104,6 @@ btnCustom.addEventListener('click', () => {
       modal.renderCurrentPage(dataForModal)
     }
     modal.listenerForBtnBack()
-    modal.addListenerOneTarget()
     console.log('btn-next: crrPage:', modal.currentPageValue)
   })
 })
