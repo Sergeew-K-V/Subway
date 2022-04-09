@@ -202,66 +202,6 @@ export default class Modal extends Component {
       })
     }
   }
-  // else {
-  //   let currentSelectedItem = 0
-  //   let selected = []
-  //   let lastClickObjId = modalContent.addEventListener('click', (e) => {
-  //     if (e.target.closest('.modal__content-card')) {
-  //       if (currentSelectedItem > maxSelectedItem) {
-  //         alert('You have made maximum choices')
-  //       } else {
-  //         const currId = e.target.closest('.modal__content-card').id
-  //         const currContentCard = document.getElementById(currId)
-
-  //         if (selected.includes(currId)) {
-  //           if (
-  //             selected.find((el) => {
-  //               el === currId
-  //               return el
-  //             }) === e.target.closest('.modal__content-card').id
-  //           ) {
-  //             currContentCard.classList.toggle('select')
-  //             selected.filter((el) => el != currId)
-  //             --currentSelectedItem
-  //             debugger
-  //           } else {
-  //             const removeToggleNode = document.getElementById(
-  //               selected.find((el) => {
-  //                 el === currId
-  //                 return el
-  //               })
-  //             )
-  //             removeToggleNode.classList.toggle('select')
-  //             selected.filter((el) => el != currId)
-  //             currContentCard.classList.toggle('select')
-  //             selected.push(currId)
-  //             debugger
-  //           }
-  //         } else {
-  //           currContentCard.classList.toggle('select')
-  //           selected.push(currId)
-  //           ++currentSelectedItem
-  //           debugger
-  //         }
-  //         console.log('select')
-  //         console.log('selectedState', selected)
-  //       }
-  //     }
-  //   })
-  // }
-  // addListenerFewTarget() {
-  //   //Добавление анимации выбора
-  //   const modalContent = document.getElementById('content-card-root')
-  //   let selected = false
-  //   modalContent.addEventListener('click', (e) => {
-  //     if (e.target.closest('.modal__content-card')) {
-  //       const currId = e.target.closest('.modal__content-card').id
-  //       const currContentCard = document.getElementById(currId)
-  //       currContentCard.classList.toggle('select')
-  //       console.log('selectFew')
-  //     }
-  //   })
-  // }
   renderPageContent(props) {
     this.content = `<div class="modal__content" id="content-card-root">
                       <!-- Сюда рендерится новый контент -->
