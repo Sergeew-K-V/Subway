@@ -1,8 +1,14 @@
 import Component from './Component'
-//Добавить в спан "Выберите размер сэндвича - айдишники и в зависимости от активного/айди класса показывать нужный спан"
 export default class Modal extends Component {
   constructor(props) {
     super()
+    this.customSubway = {
+      id: 'customSubway-' + `${props.id}`,
+      name: 'custom-Subway-' + `${Date.now()}`,
+      price: this.priceValue,
+      quantity: this.quantityValue,
+    }
+    debugger
     this.id = 'modal-root'
     this.price = 0
     this.quantity = 0
