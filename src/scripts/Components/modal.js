@@ -117,41 +117,36 @@ export default class Modal extends Component {
         this.destroyPage(this.id)
         this.renderPageContent(props.sizes)
         this.addListenerModal()
-        this.addListenerWithSelect()
         break
       case 1:
         this.destroyPage(this.id)
         this.renderPageContent(props.breads)
         this.addListenerModal()
-        this.addListenerWithSelect()
         break
       case 2:
         this.destroyPage(this.id)
         this.renderPageContent(props.vegetables)
         this.addListenerModal(Object.keys(props.vegetables).length)
-        this.addListenerWithSelect()
         break
       case 3:
         this.destroyPage(this.id)
         this.renderPageContent(props.sauces)
         this.addListenerModal(3)
-        this.addListenerWithSelect()
         break
       case 4:
         this.destroyPage(this.id)
         this.renderPageContent(props.fillings)
         this.addListenerModal(Object.keys(props.fillings).length)
-        this.addListenerWithSelect()
         break
       case 5:
         this.destroyPage(this.id)
         this.renderSummaryContent()
         this.addListenerModal()
-        this.addListenerWithSelect()
         break
       default:
         break
     }
+    this.addListenerWithSelect()
   }
   addListenerWithSelect() {
     const modalContent = document.getElementById('content-card-root')
@@ -160,7 +155,8 @@ export default class Modal extends Component {
         const currId = e.target.closest('.modal__content-card').id
         const currContentCard = document.getElementById(currId)
         console.log('currId', currId)
-        console.log('currContentCard', currContentCard)
+        // console.log('currContentCard', currContentCard)
+        return currContentCard
       }
     })
   }
