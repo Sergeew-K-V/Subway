@@ -106,16 +106,6 @@ btnCustom.addEventListener('click', () => {
     modal.listenerForBtnBack()
     // console.log('btn-next: crrPage:', modal.currentPageValue)
   })
-  //Надо навешивать слушатель каждый раз
-  const modalContent = document.getElementById('content-card-root')
-  modalContent.addEventListener('click', (e) => {
-    if (e.target.closest('.modal__content-card')) {
-      const currId = e.target.closest('.modal__content-card').id
-      const currContentCard = document.getElementById(currId)
-      console.log('currId', currId)
-      console.log('currContentCard', currContentCard)
-    }
-  })
 })
 // На усмотрение
 // переключение по клику в navbar-Item

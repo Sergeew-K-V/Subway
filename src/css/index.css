@@ -657,6 +657,7 @@ input::-webkit-inner-spin-button {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  max-width: 100%;
 }
 
 .navbar__item:first-child {
@@ -670,7 +671,7 @@ input::-webkit-inner-spin-button {
 }
 
 .navbar__item {
-  padding: 10px 25px;
+  padding: 10px 45px;
 }
 
 .navbar__item.selected {
