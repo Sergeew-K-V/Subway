@@ -52,7 +52,6 @@ subwayBtnGroup.addEventListener('click', (e) => {
       basket.nameValue = objForBasket.name
       basket.addItem(objForBasket.id)
     } else {
-      console.log('id removing', objForBasket.id)
       basket.removeItem(objForBasket.id)
     }
   }
@@ -89,8 +88,9 @@ btnCustom.addEventListener('click', () => {
       modal.renderCurrentPage(dataForModal)
     }
     modal.listenerForBtnBack()
-    console.log('btn-back : crrPage:', modal.currentPageValue)
+    // console.log('btn-back : crrPage:', modal.currentPageValue)
   })
+  //Переключение страниц && //Анимация вернего nabvar item
   const btnNext = document.getElementById('btn-next')
   btnNext.addEventListener('click', () => {
     if (modal.currentPageValue >= 5) {
@@ -104,7 +104,17 @@ btnCustom.addEventListener('click', () => {
       modal.renderCurrentPage(dataForModal)
     }
     modal.listenerForBtnBack()
-    console.log('btn-next: crrPage:', modal.currentPageValue)
+    // console.log('btn-next: crrPage:', modal.currentPageValue)
+  })
+  //Надо навешивать слушатель каждый раз
+  const modalContent = document.getElementById('content-card-root')
+  modalContent.addEventListener('click', (e) => {
+    if (e.target.closest('.modal__content-card')) {
+      const currId = e.target.closest('.modal__content-card').id
+      const currContentCard = document.getElementById(currId)
+      console.log('currId', currId)
+      console.log('currContentCard', currContentCard)
+    }
   })
 })
 // На усмотрение

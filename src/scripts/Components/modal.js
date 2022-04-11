@@ -8,7 +8,6 @@ export default class Modal extends Component {
       price: this.priceValue,
       quantity: this.quantityValue,
     }
-    debugger
     this.id = 'modal-root'
     this.price = 0
     this.quantity = 0
@@ -99,12 +98,12 @@ export default class Modal extends Component {
   }
   destroyModal() {
     const point = document.querySelector('.modal-overlay')
-    console.log('close modal')
+    // console.log('close modal')
     point.remove()
   }
   destroyPage(id) {
     const point = document.getElementById(id)
-    console.log('delete place for content card')
+    // console.log('delete place for content card')
     point.remove()
     const priceId = 'modal-total-bottom-root'
     const pointPrice = document.getElementById(priceId)
@@ -144,6 +143,9 @@ export default class Modal extends Component {
         this.addListenerModal()
         break
       default:
+        this.destroyPage(this.id)
+        this.renderPageContent(props.sizes)
+        this.addListenerModal()
         break
     }
   }
@@ -172,8 +174,8 @@ export default class Modal extends Component {
             selected = true
             lastClickObjId = e.target.closest('.modal__content-card').id
           }
-          console.log('select')
-          console.log('selectedState', selected)
+          // console.log('select')
+          // console.log('selectedState', selected)
         }
       })
     } else {
@@ -200,8 +202,8 @@ export default class Modal extends Component {
                 selected.push(currId)
                 ++currentSelectedItem
               }
-              console.log('select')
-              console.log('selectedState', selected)
+              // console.log('select')
+              // console.log('selectedState', selected)
             }
           }
         }
