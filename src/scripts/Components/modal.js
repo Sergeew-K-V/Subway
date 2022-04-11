@@ -2,16 +2,16 @@ import Component from './Component'
 export default class Modal extends Component {
   constructor(props) {
     super()
-    this.customSubway = {
-      id: 'customSubway-' + `${props.id}`,
-      name: 'custom-Subway-' + `${Date.now()}`,
-      price: this.priceValue,
-      quantity: this.quantityValue,
-    }
     this.id = 'modal-root'
     this.price = 0
     this.quantity = 0
     this.currentPage = 0
+    this.customSubway = {
+      id: 'customSubway-' + `${Math.random()}}`,
+      name: 'custom-Subway-' + `${Date.now()}`,
+      price: 0 || this.price,
+      quantity: 0 || this.quantity,
+    }
     this.content = `
     <div class="modal-overlay">
       <div class="modal">
@@ -98,13 +98,10 @@ export default class Modal extends Component {
   }
   destroyModal() {
     const point = document.querySelector('.modal-overlay')
-    // console.log('close modal')
     point.remove()
   }
-  getChoice(id) {}
   destroyPage(id) {
     const point = document.getElementById(id)
-    // console.log('delete place for content card')
     point.remove()
     const priceId = 'modal-total-bottom-root'
     const pointPrice = document.getElementById(priceId)
@@ -116,12 +113,12 @@ export default class Modal extends Component {
       case 0:
         this.destroyPage(this.id)
         this.renderPageContent(props.sizes)
-        this.addListenerModal()
+        this.addListenerModal(undefined, props.sizes)
         break
       case 1:
         this.destroyPage(this.id)
         this.renderPageContent(props.breads)
-        this.addListenerModal()
+        this.addListenerModal(undefined, props.breads)
         break
       case 2:
         this.destroyPage(this.id)
@@ -146,20 +143,19 @@ export default class Modal extends Component {
       default:
         break
     }
-    this.addListenerWithSelect()
   }
-  addListenerWithSelect() {
-    const modalContent = document.getElementById('content-card-root')
-    modalContent.addEventListener('click', (e) => {
-      if (e.target.closest('.modal__content-card')) {
-        const currId = e.target.closest('.modal__content-card').id
-        const currContentCard = document.getElementById(currId)
-        console.log('currId', currId)
-        // console.log('currContentCard', currContentCard)
-        return currContentCard
-      }
-    })
-  }
+  // addListenerWithSelect() {
+  //   const modalContent = document.getElementById('content-card-root')
+  //   modalContent.addEventListener('click', (e) => {
+  //     if (e.target.closest('.modal__content-card')) {
+  //       const currId = e.target.closest('.modal__content-card').id
+  //       const currContentCard = document.getElementById(currId)
+  //       console.log('currId', currId)
+  //       console.log('currContentCard', currContentCard)
+  //       return currContentCard
+  //     }
+  //   })
+  // }
   addListenerModal(maxSelectedItem = 1) {
     //Добавление анимации выбора
     const modalContent = document.getElementById('content-card-root')
@@ -169,6 +165,7 @@ export default class Modal extends Component {
         if (e.target.closest('.modal__content-card')) {
           const currId = e.target.closest('.modal__content-card').id
           const currContentCard = document.getElementById(currId)
+
           if (selected) {
             if (lastClickObjId === e.target.closest('.modal__content-card').id) {
               currContentCard.classList.toggle('select')
@@ -185,14 +182,26 @@ export default class Modal extends Component {
             selected = true
             lastClickObjId = e.target.closest('.modal__content-card').id
           }
-          // console.log('select')
-          // console.log('selectedState', selected)
+          console.log('select')
+          console.log('selectedState', selected)
+          // this.customSubway.triggetOne = true
+          // if (this.customSubway.triggetOne) {
+          //   for (const el in props) {
+          //     props[el].id = 'modal-' + props[el].id
+          //   }
+          //   this.customSubway.triggetOne = false
+          // }
+          // for (const el in props) {
+          //   if (currId === props[el].id) {
+          //     this.customSubway.size = props[el].name
+          //   }
+          // }
         }
       })
     } else {
       let currentSelectedItem = 0
       let selected = []
-      let lastClickObjId = modalContent.addEventListener('click', (e) => {
+      modalContent.addEventListener('click', (e) => {
         if (e.target.closest('.modal__content-card')) {
           const currId = e.target.closest('.modal__content-card').id
           const currContentCard = document.getElementById(currId)
@@ -213,8 +222,8 @@ export default class Modal extends Component {
                 selected.push(currId)
                 ++currentSelectedItem
               }
-              // console.log('select')
-              // console.log('selectedState', selected)
+              console.log('select')
+              console.log('selectedState', selected)
             }
           }
         }
@@ -245,7 +254,7 @@ export default class Modal extends Component {
     this.id = 'modal-block'
     this.renderComp(this.content, document.getElementById(this.id))
     this.content = `<div class="modal__total-price">
-                      <span>Итого: ${this.priceValue} руб.</span>
+                      <span>Итого: ${this.customSubway.price} руб.</span>
                     </div>`
     this.id = 'modal-total-bottom-root'
     this.renderComp(this.content, document.getElementById(this.id))
@@ -257,7 +266,7 @@ export default class Modal extends Component {
     this.id = 'place-for-modal-content'
     this.renderComp(this.content, document.getElementById(this.id))
 
-    this.content = `<div class="modal__content-total" id="modal-">
+    this.content = `<div class="modal__content-total" id="modal-summary">
                       <div class="content-total__block">
                         <div class="block__left">
                           <div class="content-total__img ">
@@ -308,7 +317,7 @@ export default class Modal extends Component {
                           </div>
                         </div>
                         <div class="modal__total-price">
-                          <span>Цена: ${this.priceValue} руб.</span>
+                          <span>Цена: ${this.customSubway.price} руб.</span>
                           <div class="modal__btn-to-basket">
                             <button class="btn-to-basket__btn">В корзину</button>
                           </div>
