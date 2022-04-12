@@ -90,6 +90,7 @@ export default class Modal extends Component {
     this.price += value
   }
   get quantityValue() {
+    this.listenerFotQuantityBtn()
     return this.price
   }
   set quantityValue(value) {
@@ -118,6 +119,7 @@ export default class Modal extends Component {
   listenerFotQuantityBtn() {
     const modalFooter = document.getElementById('modal-total-bottom-root')
     modalFooter.addEventListener('click', (e) => {
+      console.log('footer alive')
       //Изменение кол-ва бутербродов
       if (
         e.target === modalFooter.querySelector('.fa-minus') ||
@@ -127,13 +129,13 @@ export default class Modal extends Component {
         if (e.target === modalFooter.querySelector('.fa-minus')) {
           if (this.quantityValue === 0) {
           } else {
-            // currElement.destroy()
             this.quantityValue = this.quantityValue - 1
+            this.renderPrice(true)
           }
         }
         if (e.target === modalFooter.querySelector('.fa-plus')) {
-          // currElement.destroy()
           this.quantityValue = this.quantityValue + 1
+          this.renderPrice(true)
         }
       }
       //Added subway to basket
@@ -154,34 +156,59 @@ export default class Modal extends Component {
     const point = document.querySelector('.modal-overlay')
     point.remove()
   }
-  destroyPage(id) {
-    const point = document.getElementById(id)
-    point.remove()
+  renderPrice(summary = false) {
     const priceId = 'modal-total-bottom-root'
     const pointPrice = document.getElementById(priceId)
     pointPrice.remove()
+    if (summary) {
+      this.content = `<div class="modal__footer" id="modal-total-bottom-root">
+                    </div>`
+      this.id = 'modal-block'
+      this.renderComp(this.content, document.getElementById(this.id))
+      this.content = `<div class="modal__btn-block">
+                      <div class="modal-block__text">Количество</div>
+                        <div class="modal-block__btns-list">
+                            <button class="btns-modal__btn"><i class="fa-solid fa-minus"></i></button>
+                            <input type="number" class="btns-modal__btn modal-input" value="${this.quantityValue}" />
+                            <button class="btns-modal__btn"><i class="fa-solid fa-plus"></i></button>
+                          </div>
+                        </div>
+                        <div class="modal__total-price">
+                          <span>Цена: ${this.customSubway.price} руб.</span>
+                          <div class="modal__btn-to-basket">
+                            <button class="btn-to-basket__btn">В корзину</button>
+                          </div>
+                        </div>
+                      </div>`
+      this.id = 'modal-total-bottom-root'
+      this.renderComp(this.content, document.getElementById(this.id))
+    } else {
+      this.content = `<div class="modal__footer" id="modal-total-bottom-root">
+                      </div>`
+      this.id = 'modal-block'
+      this.renderComp(this.content, document.getElementById(this.id))
+      this.content = `<div class="modal__total-price">
+                        <span>Итого: ${this.customSubway.price} руб.</span>
+                      </div>`
+      this.id = 'modal-total-bottom-root'
+      this.renderComp(this.content, document.getElementById(this.id))
+    }
   }
-  renderPrice() {}
   renderCurrentPage(props) {
     this.joinDataForCustom(props)
+    this.listenerFotQuantityBtn()
     this.id = 'content-card-root'
     switch (this.currentPageValue) {
       case 0:
-        this.destroyPage(this.id)
-        this.renderPageContent(props.sizes)
-        this.listenerFotQuantityBtn()
+        this.renderPageContent(props.sizes, this.id)
         this.addListenerModal(undefined, props.sizes, this.customSubway, 'sizes')
         break
       case 1:
-        this.destroyPage(this.id)
-        this.renderPageContent(props.breads)
-        this.listenerFotQuantityBtn()
+        this.renderPageContent(props.breads, this.id)
         this.addListenerModal(undefined, props.breads, this.customSubway, 'breads')
         break
       case 2:
-        this.destroyPage(this.id)
-        this.renderPageContent(props.vegetables)
-        this.listenerFotQuantityBtn()
+        this.renderPageContent(props.vegetables, this.id)
         this.addListenerModal(
           Object.keys(props.vegetables).length,
           props.vegetables,
@@ -190,15 +217,11 @@ export default class Modal extends Component {
         )
         break
       case 3:
-        this.destroyPage(this.id)
-        this.renderPageContent(props.sauces)
-        this.listenerFotQuantityBtn()
+        this.renderPageContent(props.sauces, this.id)
         this.addListenerModal(3, props.sauces, this.customSubway, 'sauces')
         break
       case 4:
-        this.destroyPage(this.id)
-        this.renderPageContent(props.fillings)
-        this.listenerFotQuantityBtn()
+        this.renderPageContent(props.fillings, this.id)
         this.addListenerModal(
           Object.keys(props.fillings).length,
           props.fillings,
@@ -207,9 +230,7 @@ export default class Modal extends Component {
         )
         break
       case 5:
-        this.destroyPage(this.id)
-        this.renderSummaryContent()
-        this.listenerFotQuantityBtn()
+        this.renderSummaryContent(this.id)
         this.addListenerModal()
         break
       default:
@@ -350,7 +371,9 @@ export default class Modal extends Component {
       })
     }
   }
-  renderPageContent(props) {
+  renderPageContent(props, id) {
+    const point = document.getElementById(id)
+    point.remove()
     this.content = `<div class="modal__content" id="content-card-root">
                       <!-- Сюда рендерится новый контент -->
                     </div>`
@@ -369,17 +392,10 @@ export default class Modal extends Component {
       this.id = 'content-card-root'
       this.renderComp(this.content, document.getElementById(this.id))
     }
-    this.content = `<div class="modal__footer" id="modal-total-bottom-root">
-                    </div>`
-    this.id = 'modal-block'
-    this.renderComp(this.content, document.getElementById(this.id))
-    this.content = `<div class="modal__total-price">
-                      <span>Итого: ${this.customSubway.price} руб.</span>
-                    </div>`
-    this.id = 'modal-total-bottom-root'
-    this.renderComp(this.content, document.getElementById(this.id))
   }
-  renderSummaryContent() {
+  renderSummaryContent(id) {
+    const point = document.getElementById(id)
+    point.remove()
     this.content = `<div class="modal__content" id="content-card-root">
                       <!-- Сюда рендерится новый контент -->
                     </div>`
@@ -424,26 +440,6 @@ export default class Modal extends Component {
                     </div>`
     this.id = 'content-card-root'
     this.renderComp(this.content, document.getElementById(this.id))
-    this.content = `<div class="modal__footer" id="modal-total-bottom-root">
-                    </div>`
-    this.id = 'modal-block'
-    this.renderComp(this.content, document.getElementById(this.id))
-    this.content = `<div class="modal__btn-block">
-                      <div class="modal-block__text">Количество</div>
-                        <div class="modal-block__btns-list">
-                            <button class="btns-modal__btn"><i class="fa-solid fa-minus"></i></button>
-                            <input type="number" class="btns-modal__btn modal-input" value="${this.quantityValue}" />
-                            <button class="btns-modal__btn"><i class="fa-solid fa-plus"></i></button>
-                          </div>
-                        </div>
-                        <div class="modal__total-price">
-                          <span>Цена: ${this.customSubway.price} руб.</span>
-                          <div class="modal__btn-to-basket">
-                            <button class="btn-to-basket__btn">В корзину</button>
-                          </div>
-                        </div>
-                      </div>`
-    this.id = 'modal-total-bottom-root'
-    this.renderComp(this.content, document.getElementById(this.id))
+    this.renderPrice(true)
   }
 }
