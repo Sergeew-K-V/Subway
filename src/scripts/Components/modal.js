@@ -7,13 +7,13 @@ export default class Modal extends Component {
     this.quantity = 0
     this.currentPage = 0
     this.customSubway = {
-      id: 'customSubway-' + `${Math.random()}}`,
-      name: 'custom-Subway-' + `${Date.now()}`,
+      id: 'customSubway-' + `${Math.floor(Math.random())}}`,
+      name: 'Custom-Subway ' + `${Date.now()}`,
       price: 0 || this.price,
       quantity: 0 || this.quantity,
       idChanged: false,
-      size: '',
-      bread: '',
+      size: 'Not selected',
+      bread: 'Not selected',
       vegetables: [],
       sauces: [],
       fillings: [],
@@ -120,14 +120,14 @@ export default class Modal extends Component {
       case 0:
         this.destroyPage(this.id)
         this.renderPageContent(props.sizes)
-        this.addListenerModal()
-        this.getSelectedToCustom(props.sizes, this.customSubway.size)
+        this.addListenerModal(undefined, props.sizes, this.customSubway, 'sizes')
+        // this.getSelectedToCustom()
         break
       case 1:
         this.destroyPage(this.id)
         this.renderPageContent(props.breads)
-        this.addListenerModal()
-        this.getSelectedToCustom(props.breads, this.customSubway.bread)
+        this.addListenerModal(undefined, props.breads, this.customSubway, 'breads')
+        // this.getSelectedToCustom()
         break
       case 2:
         this.destroyPage(this.id)
@@ -154,20 +154,7 @@ export default class Modal extends Component {
         break
     }
   }
-  // addListenerWithSelect() {
-  //   const modalContent = document.getElementById('content-card-root')
-  //   modalContent.addEventListener('click', (e) => {
-  //     if (e.target.closest('.modal__content-card')) {
-  //       const currId = e.target.closest('.modal__content-card').id
-  //       const currContentCard = document.getElementById(currId)
-  //       console.log('currId', currId)
-  //       console.log('currContentCard', currContentCard)
-  //       return currContentCard
-  //     }
-  //   })
-  // }
   joinDataForCustom(props) {
-    //как тогда решить проблему одинаковых айди? можно допустать одинаковые айди у разных структур - и как тогда обойти в моем случае проблему, что берется айдишник сабвейя карты
     const modalContent = document.getElementById('content-card-root')
     if (!this.customSubway.idChanged) {
       for (let key in props) {
@@ -178,39 +165,31 @@ export default class Modal extends Component {
         this.customSubway.idChanged = true
       }
     }
-    modalContent.addEventListener('click', (e) => {
-      if (e.target.closest('.modal__content-card')) {
-        const currId = e.target.closest('.modal__content-card').id
-        const currContentCard = document.getElementById(currId)
-      }
-    })
   }
-  getSelectedToCustom(props, property) {
-    const modalContent = document.getElementById('content-card-root')
-    modalContent.addEventListener('click', (e) => {
-      if (e.target.closest('.modal__content-card')) {
-        const currId = e.target.closest('.modal__content-card').id
-        const currContentCard = document.getElementById(currId)
-        console.log(currId)
-        for (let el in props) {
-          if (currId === props[el].id) {
-            property = props[el].name
-          }
-        }
-        console.log('this.customSubway.property', property)
-      }
-    })
-    // for (let el in props) {
-    //   if (currId === props[el].id) {
-    //     this.customSubway.size = props[el].name
-    //   }
-    // }
-  }
-  addListenerModal(maxSelectedItem = 1) {
+  // getSelectedToCustom(props, property) {
+  //   const modalContent = document.getElementById('content-card-root')
+  //   modalContent.addEventListener('click', (e) => {
+  //     if (e.target.closest('.modal__content-card')) {
+  //       const currId = e.target.closest('.modal__content-card').id
+  //       const currContentCard = document.getElementById(currId)
+  //       console.log(currId)
+  //       for (let el in props) {
+  //         if (currId === props[el].id) {
+  //           property = props[el].name
+  //           return property
+  //         }
+  //       }
+  //       console.log('this.customSubway.property', property)
+  //     }
+  //   })
+  // }
+
+  addListenerModal(maxSelectedItem = 1, props, customSub, typeOfProp) {
     //Добавление анимации выбора
     const modalContent = document.getElementById('content-card-root')
     if (maxSelectedItem === 1) {
       let selected = false
+      let selectedId
       let lastClickObjId = modalContent.addEventListener('click', (e) => {
         if (e.target.closest('.modal__content-card')) {
           const currId = e.target.closest('.modal__content-card').id
@@ -220,18 +199,47 @@ export default class Modal extends Component {
             if (lastClickObjId === e.target.closest('.modal__content-card').id) {
               currContentCard.classList.toggle('select')
               selected = false
+              selectedId = null
               lastClickObjId = e.target.closest('.modal__content-card').id
             } else {
               const removeToggleNode = document.getElementById(lastClickObjId)
               removeToggleNode.classList.toggle('select')
               currContentCard.classList.toggle('select')
+              selectedId = currId
               lastClickObjId = e.target.closest('.modal__content-card').id
             }
           } else {
             currContentCard.classList.toggle('select')
             selected = true
+            selectedId = currId
             lastClickObjId = e.target.closest('.modal__content-card').id
           }
+          switch (typeOfProp) {
+            case 'sizes':
+              if (selectedId !== null) {
+                for (let el in props) {
+                  if (selectedId === props[el].id) {
+                    customSub.size = props[el].name
+                  }
+                }
+              } else {
+                customSub.size = 'Not selected'
+              }
+              break
+            case 'breads':
+              if (selectedId !== null) {
+                for (let el in props) {
+                  if (selectedId === props[el].id) {
+                    customSub.bread = props[el].name
+                  }
+                }
+              } else {
+                customSub.bread = 'Not selected'
+              }
+              break
+          }
+
+          console.log('this.customSubway', customSub.size)
           console.log('select')
           console.log('selectedState', selected)
         }
@@ -317,24 +325,24 @@ export default class Modal extends Component {
                           </div>
                           <div class="right__middle">
                             <div class="middle__size middle__item">
-                              <span>Размер: 15 См</span>
+                              <span>Размер: ${this.customSubway.size}</span>
                             </div>
                             <div class="middle__bread middle__item">
-                              <span>Хлеб: Белый итальянский </span>
+                              <span>Хлеб: ${this.customSubway.bread} </span>
                             </div>
                             <div class="middle__vegentables middle__item">
-                              <span>Овощи: нет</span>
+                              <span>Овощи: ${this.customSubway.vegetables}</span>
                             </div>
                             <div class="middle__sauces middle__item">
-                              <span>Соусы: Барбекю</span>
+                              <span>Соусы: ${this.customSubway.sauces}</span>
                             </div>
                             <div class="middle__fillings middle__item">
-                              <span>Начинка: нет</span>
+                              <span>Начинка: ${this.customSubway.fillings}</span>
                             </div>
                           </div>
                           <div class="right__bottom">
                             <div class="bottom__name">
-                              <span>Custom sandwich</span>
+                              <span>${this.customSubway.name}</span>
                             </div>
                           </div>
                         </div>
