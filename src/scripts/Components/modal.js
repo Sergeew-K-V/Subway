@@ -121,17 +121,19 @@ export default class Modal extends Component {
         this.destroyPage(this.id)
         this.renderPageContent(props.sizes)
         this.addListenerModal()
-        this.getSelectedToCustom(props.sizes)
+        this.getSelectedToCustom(props.sizes, this.customSubway.size)
         break
       case 1:
         this.destroyPage(this.id)
         this.renderPageContent(props.breads)
         this.addListenerModal()
+        this.getSelectedToCustom(props.breads, this.customSubway.bread)
         break
       case 2:
         this.destroyPage(this.id)
         this.renderPageContent(props.vegetables)
         this.addListenerModal(Object.keys(props.vegetables).length)
+        // this.getSelectedToCustom(props.vegetables,this.customSubway.vegetables)
         break
       case 3:
         this.destroyPage(this.id)
@@ -183,7 +185,7 @@ export default class Modal extends Component {
       }
     })
   }
-  getSelectedToCustom(props) {
+  getSelectedToCustom(props, property) {
     const modalContent = document.getElementById('content-card-root')
     modalContent.addEventListener('click', (e) => {
       if (e.target.closest('.modal__content-card')) {
@@ -192,10 +194,10 @@ export default class Modal extends Component {
         console.log(currId)
         for (let el in props) {
           if (currId === props[el].id) {
-            this.customSubway.size = props[el].name
+            property = props[el].name
           }
         }
-        console.log('this.customSubway.size', this.customSubway.size)
+        console.log('this.customSubway.property', property)
       }
     })
     // for (let el in props) {
