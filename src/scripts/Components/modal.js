@@ -94,6 +94,7 @@ export default class Modal extends Component {
   }
   set quantityValue(value) {
     this.price = value
+    console.log('setter quantity')
   }
   listenerForBtnBack() {
     const btnBack = document.getElementById('btn-back')
@@ -114,6 +115,41 @@ export default class Modal extends Component {
       btnList.classList.remove('hiddenNext')
     }
   }
+  listenerFotQuantityBtn() {
+    const modalFooter = document.getElementById('modal-total-bottom-root')
+    modalFooter.addEventListener('click', (e) => {
+      //Изменение кол-ва бутербродов
+      if (
+        e.target === modalFooter.querySelector('.fa-minus') ||
+        modalFooter.querySelector('.fa-plus') ||
+        modalFooter.querySelector('.btns-modal__btn')
+      ) {
+        if (e.target === modalFooter.querySelector('.fa-minus')) {
+          if (this.quantityValue === 0) {
+          } else {
+            // currElement.destroy()
+            this.quantityValue = this.quantityValue - 1
+          }
+        }
+        if (e.target === modalFooter.querySelector('.fa-plus')) {
+          // currElement.destroy()
+          this.quantityValue = this.quantityValue + 1
+        }
+      }
+      //Added subway to basket
+      // if (e.target === selectedSubwayBlock.querySelector('.btn-to-basket__btn')) {
+      //   const objForBasket = currElement.sendToBasket()
+      //   if (currElement.quantityValue != 0) {
+      //     basket.quantityValue = objForBasket.quantityValue
+      //     basket.priceValue = objForBasket.price
+      //     basket.nameValue = objForBasket.name
+      //     basket.addItem(objForBasket.id)
+      //   } else {
+      //     basket.removeItem(objForBasket.id)
+      //   }
+      // }
+    })
+  }
   destroyModal() {
     const point = document.querySelector('.modal-overlay')
     point.remove()
@@ -125,6 +161,7 @@ export default class Modal extends Component {
     const pointPrice = document.getElementById(priceId)
     pointPrice.remove()
   }
+  renderPrice() {}
   renderCurrentPage(props) {
     this.joinDataForCustom(props)
     this.id = 'content-card-root'
@@ -132,16 +169,19 @@ export default class Modal extends Component {
       case 0:
         this.destroyPage(this.id)
         this.renderPageContent(props.sizes)
+        this.listenerFotQuantityBtn()
         this.addListenerModal(undefined, props.sizes, this.customSubway, 'sizes')
         break
       case 1:
         this.destroyPage(this.id)
         this.renderPageContent(props.breads)
+        this.listenerFotQuantityBtn()
         this.addListenerModal(undefined, props.breads, this.customSubway, 'breads')
         break
       case 2:
         this.destroyPage(this.id)
         this.renderPageContent(props.vegetables)
+        this.listenerFotQuantityBtn()
         this.addListenerModal(
           Object.keys(props.vegetables).length,
           props.vegetables,
@@ -152,11 +192,13 @@ export default class Modal extends Component {
       case 3:
         this.destroyPage(this.id)
         this.renderPageContent(props.sauces)
+        this.listenerFotQuantityBtn()
         this.addListenerModal(3, props.sauces, this.customSubway, 'sauces')
         break
       case 4:
         this.destroyPage(this.id)
         this.renderPageContent(props.fillings)
+        this.listenerFotQuantityBtn()
         this.addListenerModal(
           Object.keys(props.fillings).length,
           props.fillings,
@@ -167,29 +209,13 @@ export default class Modal extends Component {
       case 5:
         this.destroyPage(this.id)
         this.renderSummaryContent()
+        this.listenerFotQuantityBtn()
         this.addListenerModal()
         break
       default:
         break
     }
   }
-  // getSelectedToCustom(props, property) {
-  //   const modalContent = document.getElementById('content-card-root')
-  //   modalContent.addEventListener('click', (e) => {
-  //     if (e.target.closest('.modal__content-card')) {
-  //       const currId = e.target.closest('.modal__content-card').id
-  //       const currContentCard = document.getElementById(currId)
-  //       console.log(currId)
-  //       for (let el in props) {
-  //         if (currId === props[el].id) {
-  //           property = props[el].name
-  //           return property
-  //         }
-  //       }
-  //       console.log('this.customSubway.property', property)
-  //     }
-  //   })
-  // }
 
   addListenerModal(maxSelectedItem = 1, props, customSub, typeOfProp) {
     //Добавление анимации выбора

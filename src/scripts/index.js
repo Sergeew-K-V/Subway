@@ -44,6 +44,7 @@ subwayBtnGroup.addEventListener('click', (e) => {
       currElement.quantityValue = 1
     }
   }
+  //Added subway to basket
   if (e.target === selectedSubwayBlock.querySelector('.btn-to-basket__btn')) {
     const objForBasket = currElement.sendToBasket()
     if (currElement.quantityValue != 0) {
@@ -59,14 +60,15 @@ subwayBtnGroup.addEventListener('click', (e) => {
 
 ////Модальное окно, появление и уничтожение(доработка потом)
 const btnCustom = document.getElementById('btn-custom')
-const dataForModal = {
-  sizes: data.sizes,
-  breads: data.breads,
-  vegetables: data.vegetables,
-  sauces: data.sauces,
-  fillings: data.fillings,
-}
+
 btnCustom.addEventListener('click', () => {
+  const dataForModal = {
+    sizes: data.sizes,
+    breads: data.breads,
+    vegetables: data.vegetables,
+    sauces: data.sauces,
+    fillings: data.fillings,
+  }
   const modal = new Modal(dataForModal)
   modal.listenerForBtnBack()
   //Закрытие модального окна
