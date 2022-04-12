@@ -138,9 +138,9 @@ export default class Modal extends Component {
           this.renderPrice(true)
         }
       }
-      //Added subway to basket
-      // if (e.target === selectedSubwayBlock.querySelector('.btn-to-basket__btn')) {
-      //   const objForBasket = currElement.sendToBasket()
+      //Added CustomSubway to basket
+      // if (e.target === modalFooter.querySelector('.btn-to-basket__btn')) {
+      //   const objForBasketCustomSub = this.customSubway.package
       //   if (currElement.quantityValue != 0) {
       //     basket.quantityValue = objForBasket.quantityValue
       //     basket.priceValue = objForBasket.price
