@@ -11,6 +11,12 @@ export default class Modal extends Component {
       name: 'custom-Subway-' + `${Date.now()}`,
       price: 0 || this.price,
       quantity: 0 || this.quantity,
+      idChanged: false,
+      size: '',
+      bread: '',
+      vegetables: [],
+      sauces: [],
+      fillings: [],
     }
     this.content = `
     <div class="modal-overlay">
@@ -108,17 +114,19 @@ export default class Modal extends Component {
     pointPrice.remove()
   }
   renderCurrentPage(props) {
+    this.joinDataForCustom(props)
     this.id = 'content-card-root'
     switch (this.currentPageValue) {
       case 0:
         this.destroyPage(this.id)
         this.renderPageContent(props.sizes)
-        this.addListenerModal(undefined, props.sizes)
+        this.addListenerModal()
+        this.getSelectedToCustom(props.sizes)
         break
       case 1:
         this.destroyPage(this.id)
         this.renderPageContent(props.breads)
-        this.addListenerModal(undefined, props.breads)
+        this.addListenerModal()
         break
       case 2:
         this.destroyPage(this.id)
@@ -156,6 +164,46 @@ export default class Modal extends Component {
   //     }
   //   })
   // }
+  joinDataForCustom(props) {
+    //как тогда решить проблему одинаковых айди? можно допустать одинаковые айди у разных структур - и как тогда обойти в моем случае проблему, что берется айдишник сабвейя карты
+    const modalContent = document.getElementById('content-card-root')
+    if (!this.customSubway.idChanged) {
+      for (let key in props) {
+        for (let secKey in props[key]) {
+          props[key][secKey].id = 'modal-' + props[key][secKey].id
+          console.log(props[key][secKey].id)
+        }
+        this.customSubway.idChanged = true
+      }
+    }
+    modalContent.addEventListener('click', (e) => {
+      if (e.target.closest('.modal__content-card')) {
+        const currId = e.target.closest('.modal__content-card').id
+        const currContentCard = document.getElementById(currId)
+      }
+    })
+  }
+  getSelectedToCustom(props) {
+    const modalContent = document.getElementById('content-card-root')
+    modalContent.addEventListener('click', (e) => {
+      if (e.target.closest('.modal__content-card')) {
+        const currId = e.target.closest('.modal__content-card').id
+        const currContentCard = document.getElementById(currId)
+        console.log(currId)
+        for (let el in props) {
+          if (currId === props[el].id) {
+            this.customSubway.size = props[el].name
+          }
+        }
+        console.log('this.customSubway.size', this.customSubway.size)
+      }
+    })
+    // for (let el in props) {
+    //   if (currId === props[el].id) {
+    //     this.customSubway.size = props[el].name
+    //   }
+    // }
+  }
   addListenerModal(maxSelectedItem = 1) {
     //Добавление анимации выбора
     const modalContent = document.getElementById('content-card-root')
@@ -184,18 +232,6 @@ export default class Modal extends Component {
           }
           console.log('select')
           console.log('selectedState', selected)
-          // this.customSubway.triggetOne = true
-          // if (this.customSubway.triggetOne) {
-          //   for (const el in props) {
-          //     props[el].id = 'modal-' + props[el].id
-          //   }
-          //   this.customSubway.triggetOne = false
-          // }
-          // for (const el in props) {
-          //   if (currId === props[el].id) {
-          //     this.customSubway.size = props[el].name
-          //   }
-          // }
         }
       })
     } else {
@@ -237,7 +273,7 @@ export default class Modal extends Component {
     this.id = 'place-for-modal-content'
     this.renderComp(this.content, document.getElementById(this.id))
     for (const el in props) {
-      this.content = `<div class="modal__content-card" id="modal-${props[el].id}">
+      this.content = `<div class="modal__content-card" id="${props[el].id}">
                         <div class="content-card__block">
                           <div class="content-card__img">
                             <img src="/src/img${props[el].image}" alt="el-15cm" />
