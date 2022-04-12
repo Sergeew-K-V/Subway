@@ -188,15 +188,15 @@ $border-radius-modal: 7px;
     position: relative;
     border-radius: 50%;
     background-color: white;
-    // min-height: 200px;
+    min-height: 250px;
   }
   &__img img {
     border-radius: 50%;
     max-width: 150px;
-    // position: absolute;
-    // top: 50%;
-    // left: 50%;
-    // transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     // margin: 20% auto;
   }
 
@@ -231,13 +231,14 @@ $border-radius-modal: 7px;
     position: relative;
     border-radius: 50%;
     background-color: white;
+    min-width: 300px;
   }
   &__img img {
     border-radius: 50%;
-    // position: absolute;
-    // top: 50%;
-    // left: 50%;
-    // transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     // margin: 20% auto;
   }
 }

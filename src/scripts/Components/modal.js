@@ -284,9 +284,9 @@ export default class Modal extends Component {
           case 'vegetables':
             if (selected.length !== 0) {
               for (let el in props) {
-                if (!customSub.vegetables.includes(props[el].name)) {
+                if (!customSub.vegetables.includes(' ' + props[el].name)) {
                   if (selected.includes(props[el].id)) {
-                    customSub.vegetables.push(props[el].name)
+                    customSub.vegetables.push(' ' + props[el].name)
                   }
                 }
               }
@@ -297,9 +297,9 @@ export default class Modal extends Component {
           case 'sauces':
             if (selected.length !== 0) {
               for (let el in props) {
-                if (!customSub.sauces.includes(props[el].name)) {
+                if (!customSub.sauces.includes(' ' + props[el].name)) {
                   if (selected.includes(props[el].id)) {
-                    customSub.sauces.push(props[el].name)
+                    customSub.sauces.push(' ' + props[el].name)
                   }
                 }
               }
@@ -310,9 +310,9 @@ export default class Modal extends Component {
           case 'fillings':
             if (selected.length !== 0) {
               for (let el in props) {
-                if (!customSub.fillings.includes(props[el].name)) {
+                if (!customSub.fillings.includes(' ' + props[el].name)) {
                   if (selected.includes(props[el].id)) {
-                    customSub.fillings.push(props[el].name)
+                    customSub.fillings.push(' ' + props[el].name)
                   }
                 }
               }
@@ -379,13 +379,13 @@ export default class Modal extends Component {
                               <span>Хлеб: ${this.customSubway.bread}</span>
                             </div>
                             <div class="middle__vegentables middle__item">
-                              <span>Овощи: ${this.customSubway.vegetables} </span>
+                              <span>Овощи: ${this.customSubway.vegetables}</span>
                             </div>
                             <div class="middle__sauces middle__item">
-                              <span>Соусы: ${this.customSubway.sauces} </span>
+                              <span>Соусы: ${this.customSubway.sauces}</span>
                             </div>
                             <div class="middle__fillings middle__item">
-                              <span>Начинка: ${this.customSubway.fillings} </span>
+                              <span>Начинка: ${this.customSubway.fillings}</span>
                             </div>
                           </div>
                           <div class="right__bottom">
