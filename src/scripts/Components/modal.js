@@ -65,6 +65,18 @@ export default class Modal extends Component {
     this.renderComp(this.content, document.getElementById(this.id)) //modalRoot - место рендеринга модального окна
     this.renderCurrentPage(props)
   }
+  joinDataForCustom(props) {
+    const modalContent = document.getElementById('content-card-root')
+    if (!this.customSubway.idChanged) {
+      for (let key in props) {
+        for (let secKey in props[key]) {
+          props[key][secKey].id = 'modal-' + props[key][secKey].id
+          console.log(props[key][secKey].id)
+        }
+        this.customSubway.idChanged = true
+      }
+    }
+  }
   get currentPageValue() {
     return this.currentPage
   }
@@ -121,24 +133,26 @@ export default class Modal extends Component {
         this.destroyPage(this.id)
         this.renderPageContent(props.sizes)
         this.addListenerModal(undefined, props.sizes, this.customSubway, 'sizes')
-        // this.getSelectedToCustom()
         break
       case 1:
         this.destroyPage(this.id)
         this.renderPageContent(props.breads)
         this.addListenerModal(undefined, props.breads, this.customSubway, 'breads')
-        // this.getSelectedToCustom()
         break
       case 2:
         this.destroyPage(this.id)
         this.renderPageContent(props.vegetables)
-        this.addListenerModal(Object.keys(props.vegetables).length)
-        // this.getSelectedToCustom(props.vegetables,this.customSubway.vegetables)
+        this.addListenerModal(
+          Object.keys(props.vegetables).length,
+          props.vegetables,
+          this.customSubway,
+          'vegetables'
+        )
         break
       case 3:
         this.destroyPage(this.id)
         this.renderPageContent(props.sauces)
-        this.addListenerModal(3)
+        this.addListenerModal(3, props.sauces, this.customSubway, 'sauces')
         break
       case 4:
         this.destroyPage(this.id)
@@ -152,18 +166,6 @@ export default class Modal extends Component {
         break
       default:
         break
-    }
-  }
-  joinDataForCustom(props) {
-    const modalContent = document.getElementById('content-card-root')
-    if (!this.customSubway.idChanged) {
-      for (let key in props) {
-        for (let secKey in props[key]) {
-          props[key][secKey].id = 'modal-' + props[key][secKey].id
-          console.log(props[key][secKey].id)
-        }
-        this.customSubway.idChanged = true
-      }
     }
   }
   // getSelectedToCustom(props, property) {
@@ -188,7 +190,7 @@ export default class Modal extends Component {
     //Добавление анимации выбора
     const modalContent = document.getElementById('content-card-root')
     if (maxSelectedItem === 1) {
-      let selected = false
+      let selected = false // Animtaion only
       let selectedId
       let lastClickObjId = modalContent.addEventListener('click', (e) => {
         if (e.target.closest('.modal__content-card')) {
@@ -272,6 +274,36 @@ export default class Modal extends Component {
               console.log('selectedState', selected)
             }
           }
+        }
+        switch (typeOfProp) {
+          case 'vegetables':
+            if (selected.length !== 0) {
+              for (let el in props) {
+                if (selected.includes(props[el].id)) {
+                  customSub.vegetables.push(props[el].name)
+                }
+              }
+              debugger
+            }
+            break
+          case 'sauces':
+            if (selected.length !== 0) {
+              for (let el in props) {
+                if (selected.includes(props[el].id)) {
+                  customSub.sauces.push(props[el].name)
+                }
+              }
+            }
+            break
+          case 'fillings':
+            if (selected.length !== 0) {
+              for (let el in props) {
+                if (selected.includes(props[el].id)) {
+                  customSub.fillings.push(props[el].name)
+                }
+              }
+            }
+            break
         }
       })
     }
