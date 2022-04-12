@@ -157,7 +157,12 @@ export default class Modal extends Component {
       case 4:
         this.destroyPage(this.id)
         this.renderPageContent(props.fillings)
-        this.addListenerModal(Object.keys(props.fillings).length)
+        this.addListenerModal(
+          Object.keys(props.fillings).length,
+          props.fillings,
+          this.customSubway,
+          'fillings'
+        )
         break
       case 5:
         this.destroyPage(this.id)
@@ -279,29 +284,40 @@ export default class Modal extends Component {
           case 'vegetables':
             if (selected.length !== 0) {
               for (let el in props) {
-                if (selected.includes(props[el].id)) {
-                  customSub.vegetables.push(props[el].name)
+                if (!customSub.vegetables.includes(props[el].name)) {
+                  if (selected.includes(props[el].id)) {
+                    customSub.vegetables.push(props[el].name)
+                  }
                 }
               }
-              debugger
+            } else {
+              console.log('empty vegetables')
             }
             break
           case 'sauces':
             if (selected.length !== 0) {
               for (let el in props) {
-                if (selected.includes(props[el].id)) {
-                  customSub.sauces.push(props[el].name)
+                if (!customSub.sauces.includes(props[el].name)) {
+                  if (selected.includes(props[el].id)) {
+                    customSub.sauces.push(props[el].name)
+                  }
                 }
               }
+            } else {
+              console.log('empty sauces')
             }
             break
           case 'fillings':
             if (selected.length !== 0) {
               for (let el in props) {
-                if (selected.includes(props[el].id)) {
-                  customSub.fillings.push(props[el].name)
+                if (!customSub.fillings.includes(props[el].name)) {
+                  if (selected.includes(props[el].id)) {
+                    customSub.fillings.push(props[el].name)
+                  }
                 }
               }
+            } else {
+              console.log('empty fillings')
             }
             break
         }
@@ -360,16 +376,16 @@ export default class Modal extends Component {
                               <span>Размер: ${this.customSubway.size}</span>
                             </div>
                             <div class="middle__bread middle__item">
-                              <span>Хлеб: ${this.customSubway.bread} </span>
+                              <span>Хлеб: ${this.customSubway.bread}</span>
                             </div>
                             <div class="middle__vegentables middle__item">
-                              <span>Овощи: ${this.customSubway.vegetables}</span>
+                              <span>Овощи: ${this.customSubway.vegetables} </span>
                             </div>
                             <div class="middle__sauces middle__item">
-                              <span>Соусы: ${this.customSubway.sauces}</span>
+                              <span>Соусы: ${this.customSubway.sauces} </span>
                             </div>
                             <div class="middle__fillings middle__item">
-                              <span>Начинка: ${this.customSubway.fillings}</span>
+                              <span>Начинка: ${this.customSubway.fillings} </span>
                             </div>
                           </div>
                           <div class="right__bottom">
