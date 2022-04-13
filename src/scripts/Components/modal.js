@@ -237,7 +237,7 @@ export default class Modal extends Component {
       case 5:
         this.renderSummaryContent(this.id)
         this.addListenerModal()
-        debugger
+
         break
       default:
         break
@@ -284,12 +284,10 @@ export default class Modal extends Component {
               selected = false
               selectedId = null
               if (typeOfProp === 'sizes') {
-                debugger
                 customSub.size = 'Not selected'
                 customSub.sizeId = ''
               }
               if (typeOfProp === 'breads') {
-                debugger
                 customSub.bread = 'Not selected'
                 customSub.breadId = ''
               }
@@ -468,6 +466,7 @@ export default class Modal extends Component {
       this.id = 'content-card-root'
       this.renderComp(this.content, document.getElementById(this.id))
     }
+    this.renderPrice()
   }
   renderSummaryContent(id) {
     const point = document.getElementById(id)
