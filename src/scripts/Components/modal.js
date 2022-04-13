@@ -250,18 +250,54 @@ export default class Modal extends Component {
     if (maxSelectedItem === 1) {
       let selected = false // Animtaion only
       let selectedId
-      let lastClickObjId = modalContent.addEventListener('click', (e) => {
+      let lastClickObjId
+      switch (typeOfProp) {
+        case 'sizes':
+          if (customSub.sizeId !== '') {
+            const alreadySelected = document.getElementById(customSub.sizeId)
+            alreadySelected.classList.add('select')
+            selected = true
+            selectedId = customSub.sizeId
+            customSub.lastSelectedObj = customSub.sizeId
+          }
+          break
+        case 'breads':
+          if (customSub.breadId !== '') {
+            const alreadySelected = document.getElementById(customSub.breadId)
+            alreadySelected.classList.add('select')
+            selected = true
+            selectedId = customSub.breadId
+            customSub.lastSelectedObj = customSub.breadId
+          }
+          break
+      }
+      lastClickObjId = modalContent.addEventListener('click', (e) => {
         if (e.target.closest('.modal__content-card')) {
           const currId = e.target.closest('.modal__content-card').id
           const currContentCard = document.getElementById(currId)
           if (selected) {
-            if (lastClickObjId === e.target.closest('.modal__content-card').id) {
+            if (
+              lastClickObjId === e.target.closest('.modal__content-card').id ||
+              customSub.lastSelectedObj
+            ) {
               currContentCard.classList.toggle('select')
               selected = false
               selectedId = null
+              if (typeOfProp === 'sizes') {
+                debugger
+                customSub.size = 'Not selected'
+                customSub.sizeId = ''
+              }
+              if (typeOfProp === 'breads') {
+                debugger
+                customSub.bread = 'Not selected'
+                customSub.breadId = ''
+              }
               lastClickObjId = e.target.closest('.modal__content-card').id
             } else {
-              const removeToggleNode = document.getElementById(lastClickObjId)
+              const removeToggleNode = document.getElementById(
+                lastClickObjId || customSub.lastSelectedObj
+              )
               removeToggleNode.classList.toggle('select')
               currContentCard.classList.toggle('select')
               selectedId = currId
@@ -283,10 +319,6 @@ export default class Modal extends Component {
                 }
               }
               customSub.sizeId = selectedId
-              debugger
-            } else {
-              customSub.size = 'Not selected'
-              debugger
             }
             break
           case 'breads':
@@ -297,8 +329,6 @@ export default class Modal extends Component {
                 }
               }
               customSub.breadId = selectedId
-            } else {
-              customSub.bread = 'Not selected'
             }
             break
         }
@@ -306,6 +336,38 @@ export default class Modal extends Component {
     } else {
       let currentSelectedItem = 0
       let selected = []
+      switch (typeOfProp) {
+        case 'vegetables':
+          if (customSub.vegetablesId.length !== 0) {
+            customSub.vegetablesId.forEach((element) => {
+              const alreadySelected = document.getElementById(element)
+              alreadySelected.classList.add('select')
+              currentSelectedItem++
+            })
+            selected = [...customSub.vegetablesId]
+          }
+          break
+        case 'sauces':
+          if (customSub.saucesId.length !== 0) {
+            customSub.saucesId.forEach((element) => {
+              const alreadySelected = document.getElementById(element)
+              alreadySelected.classList.add('select')
+              currentSelectedItem++
+            })
+            selected = [...customSub.saucesId]
+          }
+          break
+        case 'fillings':
+          if (customSub.fillingsId.length !== 0) {
+            customSub.fillingsId.forEach((element) => {
+              const alreadySelected = document.getElementById(element)
+              alreadySelected.classList.add('select')
+              currentSelectedItem++
+            })
+            selected = [...customSub.fillingsId]
+          }
+          break
+      }
       modalContent.addEventListener('click', (e) => {
         if (e.target.closest('.modal__content-card')) {
           const currId = e.target.closest('.modal__content-card').id
@@ -335,6 +397,7 @@ export default class Modal extends Component {
         switch (typeOfProp) {
           case 'vegetables':
             if (selected.length !== 0) {
+              customSub.vegetables = []
               for (let el in props) {
                 if (!customSub.vegetables.includes(' ' + props[el].name)) {
                   if (selected.includes(props[el].id)) {
@@ -349,6 +412,7 @@ export default class Modal extends Component {
             break
           case 'sauces':
             if (selected.length !== 0) {
+              customSub.sauces = []
               for (let el in props) {
                 if (!customSub.sauces.includes(' ' + props[el].name)) {
                   if (selected.includes(props[el].id)) {
@@ -363,6 +427,7 @@ export default class Modal extends Component {
             break
           case 'fillings':
             if (selected.length !== 0) {
+              customSub.fillings = []
               for (let el in props) {
                 if (!customSub.fillings.includes(' ' + props[el].name)) {
                   if (selected.includes(props[el].id)) {
