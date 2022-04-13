@@ -7,7 +7,7 @@ export default class Modal extends Component {
     this.quantity = 0
     this.currentPage = 0
     this.customSubway = {
-      id: 'customSubway-' + `${Math.floor(Math.random())}}`,
+      id: 'customSubway-' + `${Date.now()}}`,
       name: 'Custom-Subway ' + `${Date.now()}`,
       price: 0 || this.price,
       quantity: 0 || this.quantity,
@@ -17,6 +17,11 @@ export default class Modal extends Component {
       vegetables: [],
       sauces: [],
       fillings: [],
+      sizeId: '',
+      breadId: '',
+      vegetablesId: [],
+      saucesId: [],
+      fillingsId: [],
     }
     this.content = `
     <div class="modal-overlay">
@@ -232,6 +237,7 @@ export default class Modal extends Component {
       case 5:
         this.renderSummaryContent(this.id)
         this.addListenerModal()
+        debugger
         break
       default:
         break
@@ -248,7 +254,6 @@ export default class Modal extends Component {
         if (e.target.closest('.modal__content-card')) {
           const currId = e.target.closest('.modal__content-card').id
           const currContentCard = document.getElementById(currId)
-
           if (selected) {
             if (lastClickObjId === e.target.closest('.modal__content-card').id) {
               currContentCard.classList.toggle('select')
@@ -268,34 +273,34 @@ export default class Modal extends Component {
             selectedId = currId
             lastClickObjId = e.target.closest('.modal__content-card').id
           }
-          switch (typeOfProp) {
-            case 'sizes':
-              if (selectedId !== null) {
-                for (let el in props) {
-                  if (selectedId === props[el].id) {
-                    customSub.size = props[el].name
-                  }
+        }
+        switch (typeOfProp) {
+          case 'sizes':
+            if (selectedId !== null) {
+              for (let el in props) {
+                if (selectedId === props[el].id) {
+                  customSub.size = props[el].name
                 }
-              } else {
-                customSub.size = 'Not selected'
               }
-              break
-            case 'breads':
-              if (selectedId !== null) {
-                for (let el in props) {
-                  if (selectedId === props[el].id) {
-                    customSub.bread = props[el].name
-                  }
+              customSub.sizeId = selectedId
+              debugger
+            } else {
+              customSub.size = 'Not selected'
+              debugger
+            }
+            break
+          case 'breads':
+            if (selectedId !== null) {
+              for (let el in props) {
+                if (selectedId === props[el].id) {
+                  customSub.bread = props[el].name
                 }
-              } else {
-                customSub.bread = 'Not selected'
               }
-              break
-          }
-
-          console.log('this.customSubway', customSub.size)
-          console.log('select')
-          console.log('selectedState', selected)
+              customSub.breadId = selectedId
+            } else {
+              customSub.bread = 'Not selected'
+            }
+            break
         }
       })
     } else {
@@ -337,6 +342,7 @@ export default class Modal extends Component {
                   }
                 }
               }
+              customSub.vegetablesId = [...selected] //Or slice
             } else {
               console.log('empty vegetables')
             }
@@ -350,6 +356,7 @@ export default class Modal extends Component {
                   }
                 }
               }
+              customSub.saucesId = [...selected]
             } else {
               console.log('empty sauces')
             }
@@ -363,6 +370,7 @@ export default class Modal extends Component {
                   }
                 }
               }
+              customSub.fillingsId = [...selected]
             } else {
               console.log('empty fillings')
             }
@@ -401,7 +409,6 @@ export default class Modal extends Component {
                     </div>`
     this.id = 'place-for-modal-content'
     this.renderComp(this.content, document.getElementById(this.id))
-
     this.content = `<div class="modal__content-total" id="modal-summary">
                       <div class="content-total__block">
                         <div class="block__left">
