@@ -148,9 +148,15 @@ $border-radius-modal: 7px;
     border-bottom-right-radius: 5px;
   }
   &__item {
+    cursor: pointer;
     padding: 10px 45px;
+    transition: background-color 0.4s ease;
+  }
+  &__item:hover {
+    background-color: tomato;
   }
   &__item.selected {
+    cursor: none;
     background-color: tomato;
   }
 }

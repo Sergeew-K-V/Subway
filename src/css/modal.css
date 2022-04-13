@@ -179,10 +179,18 @@
 }
 
 .navbar__item {
+  cursor: pointer;
   padding: 10px 45px;
+  -webkit-transition: background-color 0.4s ease;
+  transition: background-color 0.4s ease;
+}
+
+.navbar__item:hover {
+  background-color: tomato;
 }
 
 .navbar__item.selected {
+  cursor: none;
   background-color: tomato;
 }
 

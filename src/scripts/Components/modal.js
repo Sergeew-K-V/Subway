@@ -407,6 +407,7 @@ export default class Modal extends Component {
               }
               customSub.vegetablesId = [...selected] //Or slice
             } else {
+              customSub.vegetables = []
               console.log('empty vegetables')
             }
             break
@@ -422,6 +423,7 @@ export default class Modal extends Component {
               }
               customSub.saucesId = [...selected]
             } else {
+              customSub.sauces = []
               console.log('empty sauces')
             }
             break
@@ -437,6 +439,7 @@ export default class Modal extends Component {
               }
               customSub.fillingsId = [...selected]
             } else {
+              customSub.fillings = []
               console.log('empty fillings')
             }
             break

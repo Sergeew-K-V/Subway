@@ -108,9 +108,23 @@ btnCustom.addEventListener('click', () => {
     modal.listenerForBtnBack()
     // console.log('btn-next: crrPage:', modal.currentPageValue)
   })
+  const navbarList = document.querySelector('.body__navbar-section')
+  navbarList.addEventListener('click', (e) => {
+    if (e.target.closest('.navbar__item')) {
+      const currNavbarId = e.target.closest('.navbar__item').id
+      if (currNavbarId !== `navbar-item-${modal.currentPageValue}`) {
+        const selectedNavbar = document.getElementById(`navbar-item-${modal.currentPageValue}`)
+        selectedNavbar.classList.remove('selected')
+        modal.currentPage = +currNavbarId.slice(-1)
+        const selectedNextNavbar = document.getElementById(`navbar-item-${modal.currentPageValue}`)
+        selectedNextNavbar.classList.add('selected')
+        modal.renderCurrentPage(dataForModal)
+      }
+    }
+  })
 })
 // На усмотрение
-// переключение по клику в navbar-Item
+// переключение по клику в navbar-Item +
 
 // Надо сделать
 // сверстать итоговую сборку бутерброда и соответсвенно стилизовать +
