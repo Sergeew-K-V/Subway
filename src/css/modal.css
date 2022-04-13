@@ -190,7 +190,7 @@
 }
 
 .navbar__item.selected {
-  cursor: none;
+  cursor: default;
   background-color: tomato;
 }
 

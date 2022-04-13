@@ -682,7 +682,7 @@ input::-webkit-inner-spin-button {
 }
 
 .navbar__item.selected {
-  cursor: none;
+  cursor: default;
   background-color: tomato;
 }
 

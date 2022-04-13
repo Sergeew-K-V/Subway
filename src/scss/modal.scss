@@ -156,7 +156,7 @@ $border-radius-modal: 7px;
     background-color: tomato;
   }
   &__item.selected {
-    cursor: none;
+    cursor: default;
     background-color: tomato;
   }
 }
