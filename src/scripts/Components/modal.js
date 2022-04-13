@@ -11,7 +11,7 @@ export default class Modal extends Component {
       name: 'Custom-Subway ' + `${Date.now()}`,
       price: 0 || this.price,
       quantity: 0 || this.quantity,
-      idChanged: false,
+      idChanged: 0,
       size: 'Not selected',
       bread: 'Not selected',
       vegetables: [],
@@ -70,18 +70,17 @@ export default class Modal extends Component {
     this.renderComp(this.content, document.getElementById(this.id)) //modalRoot - место рендеринга модального окна
     this.renderCurrentPage(props)
   }
-  joinDataForCustom(props) {
-    const modalContent = document.getElementById('content-card-root')
-    if (!this.customSubway.idChanged) {
-      for (let key in props) {
-        for (let secKey in props[key]) {
-          props[key][secKey].id = 'modal-' + props[key][secKey].id
-          console.log(props[key][secKey].id)
-        }
-        this.customSubway.idChanged = true
-      }
-    }
-  }
+  // joinDataForCustom(props) {
+  //   if (this.customSubway.idChanged === 0) {
+  //     for (let key in props) {
+  //       for (let secKey in props[key]) {
+  //         props[key][secKey].id = 'modal-' + props[key][secKey].id
+  //         console.log(props[key][secKey].id)
+  //       }
+  //       this.customSubway.idChanged++
+  //     }
+  //   }
+  // }
   get currentPageValue() {
     return this.currentPage
   }
@@ -200,7 +199,7 @@ export default class Modal extends Component {
     }
   }
   renderCurrentPage(props) {
-    this.joinDataForCustom(props)
+    // this.joinDataForCustom(props)
     this.listenerFotQuantityBtn()
     this.id = 'content-card-root'
     switch (this.currentPageValue) {
@@ -237,7 +236,6 @@ export default class Modal extends Component {
       case 5:
         this.renderSummaryContent(this.id)
         this.addListenerModal()
-
         break
       default:
         break

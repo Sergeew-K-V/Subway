@@ -60,7 +60,7 @@ subwayBtnGroup.addEventListener('click', (e) => {
 
 ////Модальное окно, появление и уничтожение(доработка потом)
 const btnCustom = document.getElementById('btn-custom')
-
+let idChanged = false
 btnCustom.addEventListener('click', () => {
   const dataForModal = {
     sizes: data.sizes,
@@ -68,6 +68,15 @@ btnCustom.addEventListener('click', () => {
     vegetables: data.vegetables,
     sauces: data.sauces,
     fillings: data.fillings,
+  }
+  if (!idChanged) {
+    for (let key in dataForModal) {
+      for (let secKey in dataForModal[key]) {
+        dataForModal[key][secKey].id = 'modal-' + dataForModal[key][secKey].id
+        console.log(dataForModal[key][secKey].id)
+      }
+      idChanged = true
+    }
   }
   const modal = new Modal(dataForModal)
   modal.listenerForBtnBack()
