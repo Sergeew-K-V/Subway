@@ -3,14 +3,14 @@ export default class Modal extends Component {
   constructor(props) {
     super()
     this.id = 'modal-root'
-    this.price = 0
-    this.quantity = 0
+    // this.price = 0
+    // this.quantity = 0
     this.currentPage = 0
     this.customSubway = {
       id: 'customSubway-' + `${Date.now()}}`,
       name: 'Custom-Subway ' + `${Date.now()}`,
-      price: 0 || this.price,
-      quantity: 0 || this.quantity,
+      price: 0,
+      quantity: 0,
       idChanged: 0,
       size: 'Not selected',
       bread: 'Not selected',
@@ -88,17 +88,18 @@ export default class Modal extends Component {
     this.currentPage = value
   }
   get priceValue() {
-    return this.price
+    return this.customSubway.price
   }
   set priceValue(value) {
-    this.price += value
+    this.customSubway.price += value
+    this.renderPrice()
   }
   get quantityValue() {
     this.listenerFotQuantityBtn()
-    return this.price
+    return this.customSubway.quantity
   }
   set quantityValue(value) {
-    this.price = value
+    this.customSubway.quantity = value
     console.log('setter quantity')
   }
   listenerForBtnBack() {
@@ -249,6 +250,7 @@ export default class Modal extends Component {
       let selected = false // Animtaion only
       let selectedId
       let lastClickObjId
+      //check exist selected item or not
       switch (typeOfProp) {
         case 'sizes':
           if (customSub.sizeId !== '') {
@@ -284,10 +286,20 @@ export default class Modal extends Component {
               if (typeOfProp === 'sizes') {
                 customSub.size = 'Not selected'
                 customSub.sizeId = ''
+                for (let el in props) {
+                  if (currContentCard.id === props[el].id) {
+                    this.priceValue = -props[el].price
+                  }
+                }
               }
               if (typeOfProp === 'breads') {
                 customSub.bread = 'Not selected'
                 customSub.breadId = ''
+                for (let el in props) {
+                  if (currContentCard.id === props[el].id) {
+                    this.priceValue = -props[el].price
+                  }
+                }
               }
               lastClickObjId = e.target.closest('.modal__content-card').id
             } else {
@@ -295,7 +307,17 @@ export default class Modal extends Component {
                 lastClickObjId || customSub.lastSelectedObj
               )
               removeToggleNode.classList.toggle('select')
+              for (let el in props) {
+                if (removeToggleNode.id === props[el].id) {
+                  this.priceValue = -props[el].price
+                }
+              }
               currContentCard.classList.toggle('select')
+              for (let el in props) {
+                if (currContentCard.id === props[el].id) {
+                  this.priceValue = +props[el].price
+                }
+              }
               selectedId = currId
               lastClickObjId = e.target.closest('.modal__content-card').id
             }
@@ -303,12 +325,19 @@ export default class Modal extends Component {
             currContentCard.classList.toggle('select')
             selected = true
             selectedId = currId
+            for (let el in props) {
+              if (currContentCard.id === props[el].id) {
+                this.priceValue = +props[el].price
+              }
+            }
             lastClickObjId = e.target.closest('.modal__content-card').id
           }
         }
+        let previousPriceId
         switch (typeOfProp) {
           case 'sizes':
             if (selectedId !== null) {
+              // previousPriceId=selectedId
               for (let el in props) {
                 if (selectedId === props[el].id) {
                   customSub.size = props[el].name
@@ -316,7 +345,23 @@ export default class Modal extends Component {
               }
               customSub.sizeId = selectedId
             }
+            // if (customSub.sizeId !== '') {
+            //   for (let el in props) {
+            //     if (customSub.sizeId === props[el].id) {
+            //       this.priceValue = props[el].price
+            //     }
+            //   }
+            // }
             break
+          // pricing(props, selectedId) {
+          //   for (let key in props) {
+          //     if (selectedId)
+          //       if (props[key].id === selectedId) {
+          //         this.priceValue = props[key].price
+          //         debugger
+          //       }
+          //   }
+          // }
           case 'breads':
             if (selectedId !== null) {
               for (let el in props) {
@@ -332,6 +377,7 @@ export default class Modal extends Component {
     } else {
       let currentSelectedItem = 0
       let selected = []
+      //check exist selected item or not
       switch (typeOfProp) {
         case 'vegetables':
           if (customSub.vegetablesId.length !== 0) {
@@ -371,6 +417,11 @@ export default class Modal extends Component {
           if (selected.includes(currId) && currentSelectedItem === maxSelectedItem) {
             selected = selected.filter((el) => el != currId)
             --currentSelectedItem
+            for (let el in props) {
+              if (currContentCard.id === props[el].id) {
+                this.priceValue = -props[el].price
+              }
+            }
             currContentCard.classList.toggle('select')
           } else {
             if (currentSelectedItem === maxSelectedItem) {
@@ -379,11 +430,21 @@ export default class Modal extends Component {
               if (selected.includes(currId)) {
                 selected = selected.filter((el) => el != currId)
                 --currentSelectedItem
+                for (let el in props) {
+                  if (currContentCard.id === props[el].id) {
+                    this.priceValue = -props[el].price
+                  }
+                }
                 currContentCard.classList.toggle('select')
               } else {
                 currContentCard.classList.toggle('select')
                 selected.push(currId)
                 ++currentSelectedItem
+                for (let el in props) {
+                  if (currContentCard.id === props[el].id) {
+                    this.priceValue = +props[el].price
+                  }
+                }
               }
               console.log('select')
               console.log('selectedState', selected)
