@@ -70,17 +70,6 @@ export default class Modal extends Component {
     this.renderComp(this.content, document.getElementById(this.id)) //modalRoot - место рендеринга модального окна
     this.renderCurrentPage(props)
   }
-  // joinDataForCustom(props) {
-  //   if (this.customSubway.idChanged === 0) {
-  //     for (let key in props) {
-  //       for (let secKey in props[key]) {
-  //         props[key][secKey].id = 'modal-' + props[key][secKey].id
-  //         console.log(props[key][secKey].id)
-  //       }
-  //       this.customSubway.idChanged++
-  //     }
-  //   }
-  // }
   get currentPageValue() {
     return this.currentPage
   }
@@ -271,14 +260,16 @@ export default class Modal extends Component {
           }
           break
       }
-      lastClickObjId = modalContent.addEventListener('click', (e) => {
+      modalContent.addEventListener('click', (e) => {
         if (e.target.closest('.modal__content-card')) {
           const currId = e.target.closest('.modal__content-card').id
           const currContentCard = document.getElementById(currId)
           if (selected) {
             if (
+              // lastClickObjId ===
+              // (e.target.closest('.modal__content-card').id || customSub.lastSelectedObj)
               lastClickObjId === e.target.closest('.modal__content-card').id ||
-              customSub.lastSelectedObj
+              lastClickObjId === customSub.lastSelectedObj
             ) {
               currContentCard.classList.toggle('select')
               selected = false
@@ -302,6 +293,9 @@ export default class Modal extends Component {
                 }
               }
               lastClickObjId = e.target.closest('.modal__content-card').id
+
+              console.log('customSub', customSub)
+              console.log('e.target.closest().id', e.target.closest('.modal__content-card').id)
             } else {
               const removeToggleNode = document.getElementById(
                 lastClickObjId || customSub.lastSelectedObj
