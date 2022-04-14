@@ -793,6 +793,7 @@ input::-webkit-inner-spin-button {
   border-radius: 50%;
   background-color: white;
   min-width: 300px;
+  min-height: 300px;
 }
 
 .content-total__img img {

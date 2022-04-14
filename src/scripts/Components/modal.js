@@ -7,7 +7,7 @@ export default class Modal extends Component {
     this.basket = basket
     this.customSubway = {
       id: 'customSubway-' + `${Date.now()}`,
-      name: 'Custom-Subway-' + `${Date.now()}`.slice(9, 14),
+      name: 'Subway-' + `${Date.now()}`.slice(7, 14),
       price: 0,
       quantity: 0,
       idChanged: 0,
@@ -88,7 +88,6 @@ export default class Modal extends Component {
   }
   set quantityValue(value) {
     this.customSubway.quantity = value
-    console.log('setter quantity')
   }
   listenerForBtnBack() {
     const btnBack = document.getElementById('btn-back')
@@ -112,7 +111,6 @@ export default class Modal extends Component {
   listenerFotQuantityBtn() {
     const modalFooter = document.getElementById('modal-total-bottom-root')
     modalFooter.addEventListener('click', (e) => {
-      console.log('footer alive')
       //Изменение кол-ва бутербродов
       if (
         e.target === modalFooter.querySelector('.fa-minus') ||
@@ -192,8 +190,6 @@ export default class Modal extends Component {
     }
   }
   renderCurrentPage(props) {
-    // this.joinDataForCustom(props)
-    this.listenerFotQuantityBtn()
     this.id = 'content-card-root'
     switch (this.currentPageValue) {
       case 0:
@@ -228,6 +224,7 @@ export default class Modal extends Component {
         break
       case 5:
         this.renderSummaryContent(this.id)
+        this.listenerFotQuantityBtn()
         this.addListenerModal()
         break
       default:
