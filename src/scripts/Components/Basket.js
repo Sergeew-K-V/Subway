@@ -1,18 +1,5 @@
 import Component from './Component'
 
-// У корзины должен быть массив, где лежат объекты - название и кол-во,
-// если мы кликнули на плюс и в массиве корзины есть такой тип,
-// то мы добавляем выбранное кол-во товара в эту значению и вызываем перередер всей корзины и нужно,
-//чтобы цена адаптировалась
-// если мы нажали на минус, то находит в массиве элемент
-
-//можно давать айди по типу, если в массиве есть такой айдишник,
-//то я вызываю перерендер по этому айди с новым кол-вом товара,
-//если выбрано 0 и нажата кнопка то нужно проверить если ли выбранный элемент,
-//чтобы удалить его из корзины обычным дестроем
-
-// Proxy
-
 export default class Basket extends Component {
   constructor(props) {
     super()
@@ -37,8 +24,6 @@ export default class Basket extends Component {
             <div class="body__quantity"><span>Количество</span></div>
           </div>
             <!-- Тут будут появляться добавленнные товары -->
-            
-          
         </div>
         <div class="basket__footer" id="place-price">
           <div class="basket__total"><span>Итого: ${this.priceValue} руб.</span></div>
@@ -52,7 +37,6 @@ export default class Basket extends Component {
     this.id = 'place-for-body-item'
     this.basketRender()
   }
-  //Getters and setters
   get priceValue() {
     return this.price
   }
@@ -72,7 +56,6 @@ export default class Basket extends Component {
   set quantityValue(value) {
     this.quantity = value
   }
-  //Methods
   basketRender() {
     this.content = `<div class="body__bottom" id='array__wrapper'>
     </div>`
@@ -90,18 +73,15 @@ export default class Basket extends Component {
       this.renderComp(this.content, document.getElementById(this.id))
     })
   }
-
   reRenderPrice() {
     this.content = `<div class="basket__total"><span>Итого: ${this.priceValue} руб.</span></div>`
     document.querySelector('.basket__total').remove()
     this.renderComp(this.content, document.getElementById('place-price'))
   }
-
   destroy(id = 'array__wrapper') {
     const destroyPoint = document.getElementById(id)
     destroyPoint.remove()
   }
-
   addItem(sendedId) {
     getArrayOfBasket(
       this.arrayOfGoods,
@@ -113,7 +93,7 @@ export default class Basket extends Component {
     this.priceValue = getTotalPrice(this.arrayOfGoods, this.priceValue)
     this.destroy()
     this.basketRender()
-    console.log('arrayofgoods', this.arrayOfGoods)
+    // console.log('arrayofgoods', this.arrayOfGoods)
   }
 
   removeItem(sendedId) {
@@ -123,7 +103,7 @@ export default class Basket extends Component {
     this.basketRender()
     this.priceValue -= removingItem.price * removingItem.quantity
     this.reRenderPrice()
-    console.log('removing item from basket', removingItem)
+    // console.log('removing item from basket', removingItem)
   }
 }
 function getTotalPrice(array, price) {
