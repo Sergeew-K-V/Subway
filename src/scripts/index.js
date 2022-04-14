@@ -4,13 +4,49 @@ import Modal from './Components/Modal'
 import Basket from './Components/Basket'
 //Инициализации корзины? Чисто шаблон
 const basket = new Basket({})
+function createMainBlock() {
+  const container = document.getElementById('root').remove()
+  const position = document.querySelector('.container-content')
+  const newRoot = document.createElement('div')
+  newRoot.classList.add('main__flex')
+  newRoot.id = 'root'
+  position.insertAdjacentElement('beforeend', newRoot)
+}
 ////Первая часть - инициализация элементов
+const navbarMenu = document.querySelector('.navbar__menu')
+navbarMenu.addEventListener('click', (e) => {
+  if (e.target.closest('.menu__item')) {
+    const categoryId = e.target.closest('.menu__item').id
+    console.log('menu__item', categoryId)
+
+    switch (categoryId) {
+      case 'sandwiches':
+        createMainBlock()
+        const sandwiches = data.menu.filter((el) => el.category === 'sandwiches')
+        const subwayArray = sandwiches.map((el) => {
+          const subTemp = new SubwayComponent(undefined, el)
+          return subTemp
+        })
+        break
+      case 'pizza':
+        createMainBlock()
+
+        const pizzas = data.menu.filter((el) => el.category === 'pizza')
+        const pizzaArray = pizzas.map((el) => {
+          const pizzaTemp = new SubwayComponent(undefined, el)
+          return pizzaTemp
+        })
+        break
+      default:
+        break
+    }
+  }
+})
 const sandwiches = data.menu.filter((el) => el.category === 'sandwiches')
 const subwayArray = sandwiches.map((el) => {
   const subTemp = new SubwayComponent(undefined, el)
   return subTemp
 })
-
 const subwayBtnGroup = document.getElementById('root')
 subwayBtnGroup.addEventListener('click', (e) => {
   let currElement // Сюда помещаем экземпляр класса, который соответствует id блока по которому мы кликнули
