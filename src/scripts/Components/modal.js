@@ -83,7 +83,6 @@ export default class Modal extends Component {
     this.renderPrice()
   }
   get quantityValue() {
-    this.listenerFotQuantityBtn()
     return this.customSubway.quantity
   }
   set quantityValue(value) {
@@ -133,6 +132,21 @@ export default class Modal extends Component {
       }
     })
   }
+  actualPrice(props, curContCardId, action = 'minus') {
+    if (action === 'plus') {
+      for (let el in props) {
+        if (curContCardId === props[el].id) {
+          this.priceValue = +props[el].price
+        }
+      }
+    } else {
+      for (let el in props) {
+        if (curContCardId === props[el].id) {
+          this.priceValue = -props[el].price
+        }
+      }
+    }
+  }
   destroyModal() {
     const point = document.querySelector('.modal-overlay')
     point.remove()
@@ -177,6 +191,7 @@ export default class Modal extends Component {
                       </div>`
       this.id = 'modal-total-bottom-root'
       this.renderComp(this.content, document.getElementById(this.id))
+      this.listenerFotQuantityBtn()
     } else {
       this.content = `<div class="modal__footer" id="modal-total-bottom-root">
                       </div>`
@@ -187,6 +202,7 @@ export default class Modal extends Component {
                       </div>`
       this.id = 'modal-total-bottom-root'
       this.renderComp(this.content, document.getElementById(this.id))
+      this.listenerFotQuantityBtn()
     }
   }
   renderCurrentPage(props) {
@@ -224,7 +240,6 @@ export default class Modal extends Component {
         break
       case 5:
         this.renderSummaryContent(this.id)
-        this.listenerFotQuantityBtn()
         this.addListenerModal()
         break
       default:
@@ -236,7 +251,7 @@ export default class Modal extends Component {
     //Добавление анимации выбора
     const modalContent = document.getElementById('content-card-root')
     if (maxSelectedItem === 1) {
-      let selected = false // Animtaion only
+      let selected = false // animation only
       let selectedId
       let lastClickObjId
       //check exist selected item or not
@@ -266,8 +281,6 @@ export default class Modal extends Component {
           const currContentCard = document.getElementById(currId)
           if (selected) {
             if (
-              // lastClickObjId ===
-              // (e.target.closest('.modal__content-card').id || customSub.lastSelectedObj)
               lastClickObjId === e.target.closest('.modal__content-card').id ||
               lastClickObjId === customSub.lastSelectedObj
             ) {
@@ -277,41 +290,23 @@ export default class Modal extends Component {
               if (typeOfProp === 'sizes') {
                 customSub.size = 'Not selected'
                 customSub.sizeId = ''
-                for (let el in props) {
-                  if (currContentCard.id === props[el].id) {
-                    this.priceValue = -props[el].price
-                  }
-                }
+
+                this.actualPrice(props, currId)
               }
               if (typeOfProp === 'breads') {
                 customSub.bread = 'Not selected'
                 customSub.breadId = ''
-                for (let el in props) {
-                  if (currContentCard.id === props[el].id) {
-                    this.priceValue = -props[el].price
-                  }
-                }
+                this.actualPrice(props, currId)
               }
               lastClickObjId = e.target.closest('.modal__content-card').id
-
-              console.log('customSub', customSub)
-              console.log('e.target.closest().id', e.target.closest('.modal__content-card').id)
             } else {
               const removeToggleNode = document.getElementById(
                 lastClickObjId || customSub.lastSelectedObj
               )
               removeToggleNode.classList.toggle('select')
-              for (let el in props) {
-                if (removeToggleNode.id === props[el].id) {
-                  this.priceValue = -props[el].price
-                }
-              }
+              this.actualPrice(props, removeToggleNode.id, this.priceValue)
               currContentCard.classList.toggle('select')
-              for (let el in props) {
-                if (currContentCard.id === props[el].id) {
-                  this.priceValue = +props[el].price
-                }
-              }
+              this.actualPrice(props, currId, 'plus')
               selectedId = currId
               lastClickObjId = e.target.closest('.modal__content-card').id
             }
@@ -319,19 +314,13 @@ export default class Modal extends Component {
             currContentCard.classList.toggle('select')
             selected = true
             selectedId = currId
-            for (let el in props) {
-              if (currContentCard.id === props[el].id) {
-                this.priceValue = +props[el].price
-              }
-            }
+            this.actualPrice(props, currId, 'plus')
             lastClickObjId = e.target.closest('.modal__content-card').id
           }
         }
-        let previousPriceId
         switch (typeOfProp) {
           case 'sizes':
             if (selectedId !== null) {
-              // previousPriceId=selectedId
               for (let el in props) {
                 if (selectedId === props[el].id) {
                   customSub.size = props[el].name
@@ -395,11 +384,7 @@ export default class Modal extends Component {
           if (selected.includes(currId) && currentSelectedItem === maxSelectedItem) {
             selected = selected.filter((el) => el != currId)
             --currentSelectedItem
-            for (let el in props) {
-              if (currContentCard.id === props[el].id) {
-                this.priceValue = -props[el].price
-              }
-            }
+            this.actualPrice(props, currId)
             currContentCard.classList.toggle('select')
           } else {
             if (currentSelectedItem === maxSelectedItem) {
@@ -408,24 +393,14 @@ export default class Modal extends Component {
               if (selected.includes(currId)) {
                 selected = selected.filter((el) => el != currId)
                 --currentSelectedItem
-                for (let el in props) {
-                  if (currContentCard.id === props[el].id) {
-                    this.priceValue = -props[el].price
-                  }
-                }
+                this.actualPrice(props, currId)
                 currContentCard.classList.toggle('select')
               } else {
                 currContentCard.classList.toggle('select')
                 selected.push(currId)
                 ++currentSelectedItem
-                for (let el in props) {
-                  if (currContentCard.id === props[el].id) {
-                    this.priceValue = +props[el].price
-                  }
-                }
+                this.actualPrice(props, currId, 'plus')
               }
-              console.log('select')
-              console.log('selectedState', selected)
             }
           }
         }
@@ -443,7 +418,7 @@ export default class Modal extends Component {
               customSub.vegetablesId = [...selected] //Or slice
             } else {
               customSub.vegetables = []
-              console.log('empty vegetables')
+              alert('empty vegetables')
             }
             break
           case 'sauces':
@@ -459,7 +434,7 @@ export default class Modal extends Component {
               customSub.saucesId = [...selected]
             } else {
               customSub.sauces = []
-              console.log('empty sauces')
+              alert('empty sauces')
             }
             break
           case 'fillings':
@@ -475,7 +450,7 @@ export default class Modal extends Component {
               customSub.fillingsId = [...selected]
             } else {
               customSub.fillings = []
-              console.log('empty fillings')
+              alert('empty fillings')
             }
             break
         }
