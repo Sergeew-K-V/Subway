@@ -80,6 +80,9 @@ $text-white: white;
   &__item:hover {
     background-color: $bg-color-orange;
   }
+  &__item.selected {
+    background-color: $bg-color-orange;
+  }
   &__item:hover.menu__item a {
     color: $text-white;
   }

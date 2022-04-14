@@ -4,35 +4,42 @@ import Modal from './Components/Modal'
 import Basket from './Components/Basket'
 //Инициализации корзины? Чисто шаблон
 const basket = new Basket({})
-function createMainBlock() {
-  const container = document.getElementById('root').remove()
-  const position = document.querySelector('.container-content')
-  const newRoot = document.createElement('div')
-  newRoot.classList.add('main__flex')
-  newRoot.id = 'root'
-  position.insertAdjacentElement('beforeend', newRoot)
-}
 ////Первая часть - инициализация элементов
+const sandwiches = data.menu.filter((el) => el.category === 'sandwiches')
+sandwiches.map((el) => {
+  const subTemp = new SubwayComponent(undefined, el, basket)
+  subTemp.listeners()
+  return subTemp
+})
+let lastMenuItemId = null
 const navbarMenu = document.querySelector('.navbar__menu')
 navbarMenu.addEventListener('click', (e) => {
   if (e.target.closest('.menu__item')) {
     const categoryId = e.target.closest('.menu__item').id
-    console.log('menu__item', categoryId)
-
+    const currMenuItem = document.getElementById(categoryId)
+    currMenuItem.classList.toggle('selected')
+    if (lastMenuItemId !== null) {
+      const lastMenuItem = document.getElementById(lastMenuItemId)
+      lastMenuItem.classList.remove('selected')
+    }
+    lastMenuItemId = categoryId
     switch (categoryId) {
       case 'sandwiches':
         createMainBlock()
         const subways = data.menu.filter((el) => el.category === categoryId)
-        subways.map((el) => {
-          const subTemp = new SubwayComponent(undefined, el)
+        const subwaysArray = subways.map((el) => {
+          const subTemp = new SubwayComponent(undefined, el, basket)
+          subTemp.listeners()
           return subTemp
         })
+
         break
       case 'shaurma':
         createMainBlock()
         const shaurmas = data.menu.filter((el) => el.category === categoryId)
         shaurmas.map((el) => {
-          const shaurmaTemp = new SubwayComponent(undefined, el)
+          const shaurmaTemp = new SubwayComponent(undefined, el, basket)
+          shaurmaTemp.listeners()
           return shaurmaTemp
         })
         break
@@ -40,7 +47,8 @@ navbarMenu.addEventListener('click', (e) => {
         createMainBlock()
         const burgers = data.menu.filter((el) => el.category === categoryId)
         burgers.map((el) => {
-          const burgerTemp = new SubwayComponent(undefined, el)
+          const burgerTemp = new SubwayComponent(undefined, el, basket)
+          burgerTemp.listeners()
           return burgerTemp
         })
         break
@@ -48,7 +56,8 @@ navbarMenu.addEventListener('click', (e) => {
         createMainBlock()
         const pizzas = data.menu.filter((el) => el.category === categoryId)
         pizzas.map((el) => {
-          const pizzaTemp = new SubwayComponent(undefined, el)
+          const pizzaTemp = new SubwayComponent(undefined, el, basket)
+          pizzaTemp.listeners()
           return pizzaTemp
         })
         break
@@ -56,7 +65,8 @@ navbarMenu.addEventListener('click', (e) => {
         createMainBlock()
         const chickens = data.menu.filter((el) => el.category === categoryId)
         chickens.map((el) => {
-          const chickenTemp = new SubwayComponent(undefined, el)
+          const chickenTemp = new SubwayComponent(undefined, el, basket)
+          chickenTemp.listeners()
           return chickenTemp
         })
         break
@@ -64,7 +74,8 @@ navbarMenu.addEventListener('click', (e) => {
         createMainBlock()
         const salads = data.menu.filter((el) => el.category === categoryId)
         salads.map((el) => {
-          const saladsTemp = new SubwayComponent(undefined, el)
+          const saladsTemp = new SubwayComponent(undefined, el, basket)
+          saladsTemp.listeners()
           return saladsTemp
         })
         break
@@ -72,63 +83,13 @@ navbarMenu.addEventListener('click', (e) => {
         createMainBlock()
         const drinks = data.menu.filter((el) => el.category === categoryId)
         drinks.map((el) => {
-          const drinksTemp = new SubwayComponent(undefined, el)
+          const drinksTemp = new SubwayComponent(undefined, el, basket)
+          drinksTemp.listeners()
           return drinksTemp
         })
         break
       default:
         break
-    }
-  }
-})
-const sandwiches = data.menu.filter((el) => el.category === 'sandwiches')
-const subwayArray = sandwiches.map((el) => {
-  const subTemp = new SubwayComponent(undefined, el)
-  return subTemp
-})
-const subwayBtnGroup = document.getElementById('root')
-subwayBtnGroup.addEventListener('click', (e) => {
-  let currElement // Сюда помещаем экземпляр класса, который соответствует id блока по которому мы кликнули
-
-  //тут получил id of block
-  const currId = e.target.closest('.subway__block').id
-  const selectedSubwayBlock = document.getElementById(currId)
-  console.log('currId', currId)
-  //получили нужный объект к этому блоку
-  subwayArray.forEach((element) => {
-    if (element.id === currId) {
-      currElement = element
-    }
-  })
-
-  //Изменение кол-ва бутербродов
-  if (
-    e.target === selectedSubwayBlock.querySelector('.fa-minus') ||
-    selectedSubwayBlock.querySelector('.fa-plus') ||
-    selectedSubwayBlock.querySelector('.btns-list__btn')
-  ) {
-    if (e.target === selectedSubwayBlock.querySelector('.fa-minus')) {
-      if (currElement.quantityValue === 0) {
-      } else {
-        currElement.destroy()
-        currElement.quantityValue = -1
-      }
-    }
-    if (e.target === selectedSubwayBlock.querySelector('.fa-plus')) {
-      currElement.destroy()
-      currElement.quantityValue = 1
-    }
-  }
-  //Added subway to basket
-  if (e.target === selectedSubwayBlock.querySelector('.btn-to-basket__btn')) {
-    const objForBasket = currElement.sendToBasket()
-    if (currElement.quantityValue != 0) {
-      basket.quantityValue = objForBasket.quantityValue
-      basket.priceValue = objForBasket.price
-      basket.nameValue = objForBasket.name
-      basket.addItem(objForBasket.id)
-    } else {
-      basket.removeItem(objForBasket.id)
     }
   }
 })
@@ -240,3 +201,64 @@ btnCustom.addEventListener('click', () => {
 
 //navbar-item стилизовать, чтобы пробелов не было   +
 //поправить анимацию кнопочек, при переключении через navbar-item  +
+
+function createMainBlock() {
+  const container = document.getElementById('root').remove()
+  const position = document.querySelector('.container-content')
+  const newRoot = document.createElement('div')
+  newRoot.classList.add('main__flex')
+  newRoot.id = 'root'
+  position.insertAdjacentElement('beforeend', newRoot)
+}
+
+// const sandwiches = data.menu.filter((el) => el.category === 'sandwiches')
+// const subwayArray = sandwiches.map((el) => {
+//   const subTemp = new SubwayComponent(undefined, el)
+//   return subTemp
+// })
+// const subwayBtnGroup = document.getElementById('root')
+// subwayBtnGroup.addEventListener('click', (e) => {
+//   let currElement // Сюда помещаем экземпляр класса, который соответствует id блока по которому мы кликнули
+
+//   //тут получил id of block
+//   const currId = e.target.closest('.subway__block').id
+//   const selectedSubwayBlock = document.getElementById(currId)
+//   console.log('currId', currId)
+//   //получили нужный объект к этому блоку
+//   subwayArray.forEach((element) => {
+//     if (element.id === currId) {
+//       currElement = element
+//     }
+//   })
+
+//   //Изменение кол-ва бутербродов
+//   if (
+//     e.target === selectedSubwayBlock.querySelector('.fa-minus') ||
+//     selectedSubwayBlock.querySelector('.fa-plus') ||
+//     selectedSubwayBlock.querySelector('.btns-list__btn')
+//   ) {
+//     if (e.target === selectedSubwayBlock.querySelector('.fa-minus')) {
+//       if (currElement.quantityValue === 0) {
+//       } else {
+//         currElement.destroy()
+//         currElement.quantityValue = -1
+//       }
+//     }
+//     if (e.target === selectedSubwayBlock.querySelector('.fa-plus')) {
+//       currElement.destroy()
+//       currElement.quantityValue = 1
+//     }
+//   }
+//   //Added subway to basket
+//   if (e.target === selectedSubwayBlock.querySelector('.btn-to-basket__btn')) {
+//     const objForBasket = currElement.sendToBasket()
+//     if (currElement.quantityValue != 0) {
+//       basket.quantityValue = objForBasket.quantityValue
+//       basket.priceValue = objForBasket.price
+//       basket.nameValue = objForBasket.name
+//       basket.addItem(objForBasket.id)
+//     } else {
+//       basket.removeItem(objForBasket.id)
+//     }
+//   }
+// })

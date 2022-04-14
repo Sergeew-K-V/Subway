@@ -78,6 +78,10 @@
   background-color: orange;
 }
 
+.menu__item.selected {
+  background-color: orange;
+}
+
 .menu__item:hover.menu__item a {
   color: white;
 }
