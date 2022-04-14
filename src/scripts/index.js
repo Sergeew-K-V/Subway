@@ -131,6 +131,23 @@ btnCustom.addEventListener('click', () => {
         modal.renderCurrentPage(dataForModal)
       }
     }
+    const btnBack = document.getElementById('btn-back')
+    const btnNext = document.getElementById('btn-next')
+    const btnList = document.querySelector('.modal__btn-list')
+    if (modal.currentPageValue === 0) {
+      btnBack.classList.add('hidden')
+      btnList.classList.add('hiddenBack')
+    } else {
+      btnBack.classList.remove('hidden')
+      btnList.classList.remove('hiddenBack')
+    }
+    if (modal.currentPageValue === 5) {
+      btnNext.classList.add('hidden')
+      btnList.classList.add('hiddenNext')
+    } else {
+      btnNext.classList.remove('hidden')
+      btnList.classList.remove('hiddenNext')
+    }
   })
 })
 // На усмотрение
@@ -147,4 +164,4 @@ btnCustom.addEventListener('click', () => {
 // потом после этого мб реализовать через наблюдателя и подписки
 
 //navbar-item стилизовать, чтобы пробелов не было   +
-//поправить анимацию кнопочек, при переключении через navbar-item
+//поправить анимацию кнопочек, при переключении через navbar-item  +
