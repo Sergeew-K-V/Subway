@@ -135,7 +135,6 @@ btnCustom.addEventListener('click', () => {
       modal.renderCurrentPage(dataForModal)
     }
     modal.listenerForBtnBack()
-    // console.log('btn-back : crrPage:', modal.currentPageValue)
   })
   //Переключение страниц && //Анимация вернего nabvar item
   const btnNext = document.getElementById('btn-next')
@@ -151,7 +150,6 @@ btnCustom.addEventListener('click', () => {
       modal.renderCurrentPage(dataForModal)
     }
     modal.listenerForBtnBack()
-    // console.log('btn-next: crrPage:', modal.currentPageValue)
   })
   //Переключение по navbar-item
   const navbarList = document.querySelector('.body__navbar-section')
@@ -210,55 +208,3 @@ function createMainBlock() {
   newRoot.id = 'root'
   position.insertAdjacentElement('beforeend', newRoot)
 }
-
-// const sandwiches = data.menu.filter((el) => el.category === 'sandwiches')
-// const subwayArray = sandwiches.map((el) => {
-//   const subTemp = new SubwayComponent(undefined, el)
-//   return subTemp
-// })
-// const subwayBtnGroup = document.getElementById('root')
-// subwayBtnGroup.addEventListener('click', (e) => {
-//   let currElement // Сюда помещаем экземпляр класса, который соответствует id блока по которому мы кликнули
-
-//   //тут получил id of block
-//   const currId = e.target.closest('.subway__block').id
-//   const selectedSubwayBlock = document.getElementById(currId)
-//   console.log('currId', currId)
-//   //получили нужный объект к этому блоку
-//   subwayArray.forEach((element) => {
-//     if (element.id === currId) {
-//       currElement = element
-//     }
-//   })
-
-//   //Изменение кол-ва бутербродов
-//   if (
-//     e.target === selectedSubwayBlock.querySelector('.fa-minus') ||
-//     selectedSubwayBlock.querySelector('.fa-plus') ||
-//     selectedSubwayBlock.querySelector('.btns-list__btn')
-//   ) {
-//     if (e.target === selectedSubwayBlock.querySelector('.fa-minus')) {
-//       if (currElement.quantityValue === 0) {
-//       } else {
-//         currElement.destroy()
-//         currElement.quantityValue = -1
-//       }
-//     }
-//     if (e.target === selectedSubwayBlock.querySelector('.fa-plus')) {
-//       currElement.destroy()
-//       currElement.quantityValue = 1
-//     }
-//   }
-//   //Added subway to basket
-//   if (e.target === selectedSubwayBlock.querySelector('.btn-to-basket__btn')) {
-//     const objForBasket = currElement.sendToBasket()
-//     if (currElement.quantityValue != 0) {
-//       basket.quantityValue = objForBasket.quantityValue
-//       basket.priceValue = objForBasket.price
-//       basket.nameValue = objForBasket.name
-//       basket.addItem(objForBasket.id)
-//     } else {
-//       basket.removeItem(objForBasket.id)
-//     }
-//   }
-// })

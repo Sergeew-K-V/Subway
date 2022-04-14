@@ -73,14 +73,6 @@ export default class SubwayComponent extends Component {
     const destroyPoint = document.getElementById('content-' + this.id)
     destroyPoint.remove()
   }
-  // sendToBasket() {
-  //   return {
-  //     id: this.id,
-  //     name: this.name,
-  //     quantityValue: this.quantityValue,
-  //     price: this.price,
-  //   }
-  // }
   listeners() {
     const subwayCurrBlock = document.getElementById(this.id)
     subwayCurrBlock.addEventListener('click', (e) => {
