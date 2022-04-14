@@ -22,19 +22,58 @@ navbarMenu.addEventListener('click', (e) => {
     switch (categoryId) {
       case 'sandwiches':
         createMainBlock()
-        const sandwiches = data.menu.filter((el) => el.category === 'sandwiches')
-        const subwayArray = sandwiches.map((el) => {
+        const subways = data.menu.filter((el) => el.category === categoryId)
+        subways.map((el) => {
           const subTemp = new SubwayComponent(undefined, el)
           return subTemp
         })
         break
+      case 'shaurma':
+        createMainBlock()
+        const shaurmas = data.menu.filter((el) => el.category === categoryId)
+        shaurmas.map((el) => {
+          const shaurmaTemp = new SubwayComponent(undefined, el)
+          return shaurmaTemp
+        })
+        break
+      case 'burgers':
+        createMainBlock()
+        const burgers = data.menu.filter((el) => el.category === categoryId)
+        burgers.map((el) => {
+          const burgerTemp = new SubwayComponent(undefined, el)
+          return burgerTemp
+        })
+        break
       case 'pizza':
         createMainBlock()
-
-        const pizzas = data.menu.filter((el) => el.category === 'pizza')
-        const pizzaArray = pizzas.map((el) => {
+        const pizzas = data.menu.filter((el) => el.category === categoryId)
+        pizzas.map((el) => {
           const pizzaTemp = new SubwayComponent(undefined, el)
           return pizzaTemp
+        })
+        break
+      case 'chicken':
+        createMainBlock()
+        const chickens = data.menu.filter((el) => el.category === categoryId)
+        chickens.map((el) => {
+          const chickenTemp = new SubwayComponent(undefined, el)
+          return chickenTemp
+        })
+        break
+      case 'salads':
+        createMainBlock()
+        const salads = data.menu.filter((el) => el.category === categoryId)
+        salads.map((el) => {
+          const saladsTemp = new SubwayComponent(undefined, el)
+          return saladsTemp
+        })
+        break
+      case 'drinks':
+        createMainBlock()
+        const drinks = data.menu.filter((el) => el.category === categoryId)
+        drinks.map((el) => {
+          const drinksTemp = new SubwayComponent(undefined, el)
+          return drinksTemp
         })
         break
       default:
