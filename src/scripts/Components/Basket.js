@@ -67,6 +67,7 @@ export default class Basket extends Component {
       <div class="body__item" id="body__item">
         <span>${el.name}</span>
         <span>${el.quantity}</span>
+        <span><i class="fa-solid fa-basket-shopping"></i></span>
       </div>
       `
       this.id = 'array__wrapper'
