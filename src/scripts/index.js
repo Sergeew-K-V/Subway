@@ -78,7 +78,7 @@ btnCustom.addEventListener('click', () => {
       idChanged = true
     }
   }
-  const modal = new Modal(dataForModal)
+  const modal = new Modal(dataForModal, basket)
   modal.listenerForBtnBack()
   //Закрытие модального окна
   const modalClose = document.querySelector('.modal__close')

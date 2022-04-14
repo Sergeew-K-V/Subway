@@ -1,11 +1,12 @@
 import Component from './Component'
 export default class Modal extends Component {
-  constructor(props) {
+  constructor(props, basket) {
     super()
     this.id = 'modal-root'
     // this.price = 0
     // this.quantity = 0
     this.currentPage = 0
+    this.basket = basket
     this.customSubway = {
       id: 'customSubway-' + `${Date.now()}}`,
       name: 'Custom-Subway ' + `${Date.now()}`,
@@ -132,24 +133,48 @@ export default class Modal extends Component {
           this.renderPrice(true)
         }
       }
-      //Added CustomSubway to basket
-      // if (e.target === modalFooter.querySelector('.btn-to-basket__btn')) {
-      //   const objForBasketCustomSub = this.customSubway.package
-      //   if (currElement.quantityValue != 0) {
-      //     basket.quantityValue = objForBasket.quantityValue
-      //     basket.priceValue = objForBasket.price
-      //     basket.nameValue = objForBasket.name
-      //     basket.addItem(objForBasket.id)
-      //   } else {
-      //     basket.removeItem(objForBasket.id)
-      //   }
-      // }
+      this.listenerForBtnToBasket(this.basket)
     })
   }
   destroyModal() {
     const point = document.querySelector('.modal-overlay')
     point.remove()
   }
+  listenerForBtnToBasket(basket) {
+    const modalFooter = document.getElementById('modal-total-bottom-root')
+    const modalBtnToBasket = modalFooter.querySelector('.btn-to-basket__btn')
+    modalBtnToBasket.addEventListener('click', () => {
+      // const customSub = sendCustomToBasket()
+      if (this.quantityValue !== 0) {
+        basket.quantityValue = this.customSubway.quantity
+        basket.priceValue = this.customSubway.price
+        basket.nameValue = this.customSubway.name
+        basket.addItem(this.customSubway.id)
+      } else {
+        basket.removeItem(this.customSubway.id)
+      }
+    })
+  }
+  // sendCustomToBasket() {
+  //   // Added CustomSubway to basket
+  //   // if (e.target === modalFooter.querySelector('.btn-to-basket__btn')) {
+  //   //   const objForBasketCustomSub = this.customSubway.package
+  //   //   if (currElement.quantityValue != 0) {
+  //   //     basket.quantityValue = objForBasket.quantityValue
+  //   //     basket.priceValue = objForBasket.price
+  //   //     basket.nameValue = objForBasket.name
+  //   //     basket.addItem(objForBasket.id)
+  //   //   } else {
+  //   //     basket.removeItem(objForBasket.id)
+  //   //   }
+  //   // }
+  //   return {
+  //     id: this.customSubway.id,
+  //     name: this.customSubway.name,
+  //     quantityValue: this.customSubway.quantityValue,
+  //     price: this.customSubway.price,
+  //   }
+  // }
   renderPrice(summary = false) {
     const priceId = 'modal-total-bottom-root'
     const pointPrice = document.getElementById(priceId)
