@@ -1,10 +1,6 @@
 import Component from './Component'
-
 export default class SubwayComponent extends Component {
-  // #title
-  // #content
-
-  constructor(content, props, basket) {
+  constructor(props, basket) {
     super()
     this.id = `${props.id}`
     this.image = props.image
@@ -25,7 +21,6 @@ export default class SubwayComponent extends Component {
     this.getContent
     this.renderComp(this.content, document.getElementById(this.id))
   }
-
   get getContent() {
     return (this.content = `
       <div class="subway__flex" id='content-${this.id}'>
@@ -59,7 +54,6 @@ export default class SubwayComponent extends Component {
         </div>
       </div>`)
   }
-
   get quantityValue() {
     return this.quantity
   }

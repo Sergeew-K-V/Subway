@@ -7,94 +7,98 @@ const basket = new Basket({})
 ////Первая часть - инициализация элементов
 const sandwiches = data.menu.filter((el) => el.category === 'sandwiches')
 sandwiches.map((el) => {
-  const subTemp = new SubwayComponent(undefined, el, basket)
+  const subTemp = new SubwayComponent(el, basket)
   subTemp.listeners()
   return subTemp
 })
-let lastMenuItemId = null
+//animation and logic for transition of 'meun__item'
+let lastMenuItemId = null // last menu item if was selected
 const navbarMenu = document.querySelector('.navbar__menu')
 navbarMenu.addEventListener('click', (e) => {
   if (e.target.closest('.menu__item')) {
     const categoryId = e.target.closest('.menu__item').id
     const currMenuItem = document.getElementById(categoryId)
-    currMenuItem.classList.toggle('selected')
-    if (lastMenuItemId !== null) {
-      const lastMenuItem = document.getElementById(lastMenuItemId)
-      lastMenuItem.classList.remove('selected')
-    }
-    lastMenuItemId = categoryId
-    switch (categoryId) {
-      case 'sandwiches':
-        createMainBlock()
-        const subways = data.menu.filter((el) => el.category === categoryId)
-        const subwaysArray = subways.map((el) => {
-          const subTemp = new SubwayComponent(undefined, el, basket)
-          subTemp.listeners()
-          return subTemp
-        })
+    currMenuItem.classList.add('selected')
+    if (lastMenuItemId === categoryId) {
+      alert('Already opened')
+    } else {
+      if (lastMenuItemId !== null) {
+        const lastMenuItem = document.getElementById(lastMenuItemId)
+        lastMenuItem.classList.remove('selected')
+      }
+      lastMenuItemId = categoryId
+      switch (categoryId) {
+        case 'sandwiches':
+          createMainBlock()
+          const subways = data.menu.filter((el) => el.category === categoryId)
+          const subwaysArray = subways.map((el) => {
+            const subTemp = new SubwayComponent(el, basket)
+            subTemp.listeners()
+            return subTemp
+          })
 
-        break
-      case 'shaurma':
-        createMainBlock()
-        const shaurmas = data.menu.filter((el) => el.category === categoryId)
-        shaurmas.map((el) => {
-          const shaurmaTemp = new SubwayComponent(undefined, el, basket)
-          shaurmaTemp.listeners()
-          return shaurmaTemp
-        })
-        break
-      case 'burgers':
-        createMainBlock()
-        const burgers = data.menu.filter((el) => el.category === categoryId)
-        burgers.map((el) => {
-          const burgerTemp = new SubwayComponent(undefined, el, basket)
-          burgerTemp.listeners()
-          return burgerTemp
-        })
-        break
-      case 'pizza':
-        createMainBlock()
-        const pizzas = data.menu.filter((el) => el.category === categoryId)
-        pizzas.map((el) => {
-          const pizzaTemp = new SubwayComponent(undefined, el, basket)
-          pizzaTemp.listeners()
-          return pizzaTemp
-        })
-        break
-      case 'chicken':
-        createMainBlock()
-        const chickens = data.menu.filter((el) => el.category === categoryId)
-        chickens.map((el) => {
-          const chickenTemp = new SubwayComponent(undefined, el, basket)
-          chickenTemp.listeners()
-          return chickenTemp
-        })
-        break
-      case 'salads':
-        createMainBlock()
-        const salads = data.menu.filter((el) => el.category === categoryId)
-        salads.map((el) => {
-          const saladsTemp = new SubwayComponent(undefined, el, basket)
-          saladsTemp.listeners()
-          return saladsTemp
-        })
-        break
-      case 'drinks':
-        createMainBlock()
-        const drinks = data.menu.filter((el) => el.category === categoryId)
-        drinks.map((el) => {
-          const drinksTemp = new SubwayComponent(undefined, el, basket)
-          drinksTemp.listeners()
-          return drinksTemp
-        })
-        break
-      default:
-        break
+          break
+        case 'shaurma':
+          createMainBlock()
+          const shaurmas = data.menu.filter((el) => el.category === categoryId)
+          shaurmas.map((el) => {
+            const shaurmaTemp = new SubwayComponent(el, basket)
+            shaurmaTemp.listeners()
+            return shaurmaTemp
+          })
+          break
+        case 'burgers':
+          createMainBlock()
+          const burgers = data.menu.filter((el) => el.category === categoryId)
+          burgers.map((el) => {
+            const burgerTemp = new SubwayComponent(el, basket)
+            burgerTemp.listeners()
+            return burgerTemp
+          })
+          break
+        case 'pizza':
+          createMainBlock()
+          const pizzas = data.menu.filter((el) => el.category === categoryId)
+          pizzas.map((el) => {
+            const pizzaTemp = new SubwayComponent(el, basket)
+            pizzaTemp.listeners()
+            return pizzaTemp
+          })
+          break
+        case 'chicken':
+          createMainBlock()
+          const chickens = data.menu.filter((el) => el.category === categoryId)
+          chickens.map((el) => {
+            const chickenTemp = new SubwayComponent(el, basket)
+            chickenTemp.listeners()
+            return chickenTemp
+          })
+          break
+        case 'salads':
+          createMainBlock()
+          const salads = data.menu.filter((el) => el.category === categoryId)
+          salads.map((el) => {
+            const saladsTemp = new SubwayComponent(el, basket)
+            saladsTemp.listeners()
+            return saladsTemp
+          })
+          break
+        case 'drinks':
+          createMainBlock()
+          const drinks = data.menu.filter((el) => el.category === categoryId)
+          drinks.map((el) => {
+            const drinksTemp = new SubwayComponent(el, basket)
+            drinksTemp.listeners()
+            return drinksTemp
+          })
+          break
+        default:
+          break
+      }
     }
   }
 })
-
-////Модальное окно, появление и уничтожение(доработка потом)
+////Модальное окно
 const btnCustom = document.getElementById('btn-custom')
 let idChanged = false
 btnCustom.addEventListener('click', () => {
@@ -105,6 +109,7 @@ btnCustom.addEventListener('click', () => {
     sauces: data.sauces,
     fillings: data.fillings,
   }
+  //Changing ID for correct seacrh of curr Element
   if (!idChanged) {
     for (let key in dataForModal) {
       for (let secKey in dataForModal[key]) {
@@ -184,6 +189,15 @@ btnCustom.addEventListener('click', () => {
     }
   })
 })
+
+function createMainBlock() {
+  const container = document.getElementById('root').remove()
+  const position = document.querySelector('.container-content')
+  const newRoot = document.createElement('div')
+  newRoot.classList.add('main__flex')
+  newRoot.id = 'root'
+  position.insertAdjacentElement('beforeend', newRoot)
+}
 // На усмотрение
 // переключение по клику в navbar-Item +
 
@@ -195,16 +209,6 @@ btnCustom.addEventListener('click', () => {
 // написать метод, который будет отдавать этот объект +
 // не забыть про кол-во и цену +
 // в корзину должен приниматься этот объект +
-// потом после этого мб реализовать через наблюдателя и подписки
 
 //navbar-item стилизовать, чтобы пробелов не было   +
 //поправить анимацию кнопочек, при переключении через navbar-item  +
-
-function createMainBlock() {
-  const container = document.getElementById('root').remove()
-  const position = document.querySelector('.container-content')
-  const newRoot = document.createElement('div')
-  newRoot.classList.add('main__flex')
-  newRoot.id = 'root'
-  position.insertAdjacentElement('beforeend', newRoot)
-}
