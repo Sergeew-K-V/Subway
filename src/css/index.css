@@ -645,7 +645,7 @@ input::-webkit-inner-spin-button {
 }
 
 .body__navbar {
-  margin: 20px 0;
+  margin: 20px 1px;
   background-color: white;
   border-radius: 5px;
 }
