@@ -3,13 +3,11 @@ export default class Modal extends Component {
   constructor(props, basket) {
     super()
     this.id = 'modal-root'
-    // this.price = 0
-    // this.quantity = 0
     this.currentPage = 0
     this.basket = basket
     this.customSubway = {
-      id: 'customSubway-' + `${Date.now()}}`,
-      name: 'Custom-Subway ' + `${Date.now()}`,
+      id: 'customSubway-' + `${Date.now()}`,
+      name: 'Custom-Subway-' + `${Date.now()}`.slice(9, 14),
       price: 0,
       quantity: 0,
       idChanged: 0,
@@ -126,14 +124,15 @@ export default class Modal extends Component {
           } else {
             this.quantityValue = this.quantityValue - 1
             this.renderPrice(true)
+            this.listenerForBtnToBasket(this.basket)
           }
         }
         if (e.target === modalFooter.querySelector('.fa-plus')) {
           this.quantityValue = this.quantityValue + 1
           this.renderPrice(true)
+          this.listenerForBtnToBasket(this.basket)
         }
       }
-      this.listenerForBtnToBasket(this.basket)
     })
   }
   destroyModal() {
@@ -144,7 +143,6 @@ export default class Modal extends Component {
     const modalFooter = document.getElementById('modal-total-bottom-root')
     const modalBtnToBasket = modalFooter.querySelector('.btn-to-basket__btn')
     modalBtnToBasket.addEventListener('click', () => {
-      // const customSub = sendCustomToBasket()
       if (this.quantityValue !== 0) {
         basket.quantityValue = this.customSubway.quantity
         basket.priceValue = this.customSubway.price
@@ -155,26 +153,6 @@ export default class Modal extends Component {
       }
     })
   }
-  // sendCustomToBasket() {
-  //   // Added CustomSubway to basket
-  //   // if (e.target === modalFooter.querySelector('.btn-to-basket__btn')) {
-  //   //   const objForBasketCustomSub = this.customSubway.package
-  //   //   if (currElement.quantityValue != 0) {
-  //   //     basket.quantityValue = objForBasket.quantityValue
-  //   //     basket.priceValue = objForBasket.price
-  //   //     basket.nameValue = objForBasket.name
-  //   //     basket.addItem(objForBasket.id)
-  //   //   } else {
-  //   //     basket.removeItem(objForBasket.id)
-  //   //   }
-  //   // }
-  //   return {
-  //     id: this.customSubway.id,
-  //     name: this.customSubway.name,
-  //     quantityValue: this.customSubway.quantityValue,
-  //     price: this.customSubway.price,
-  //   }
-  // }
   renderPrice(summary = false) {
     const priceId = 'modal-total-bottom-root'
     const pointPrice = document.getElementById(priceId)
@@ -364,23 +342,7 @@ export default class Modal extends Component {
               }
               customSub.sizeId = selectedId
             }
-            // if (customSub.sizeId !== '') {
-            //   for (let el in props) {
-            //     if (customSub.sizeId === props[el].id) {
-            //       this.priceValue = props[el].price
-            //     }
-            //   }
-            // }
             break
-          // pricing(props, selectedId) {
-          //   for (let key in props) {
-          //     if (selectedId)
-          //       if (props[key].id === selectedId) {
-          //         this.priceValue = props[key].price
-          //         debugger
-          //       }
-          //   }
-          // }
           case 'breads':
             if (selectedId !== null) {
               for (let el in props) {
