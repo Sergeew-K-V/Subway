@@ -249,3 +249,7 @@
       -ms-flex-align: center;
           align-items: center;
 }
+
+.fa-trash-can {
+  cursor: pointer;
+}

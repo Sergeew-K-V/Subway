@@ -91,8 +91,8 @@ export default class SubwayComponent extends Component {
       // //Added subway to basket
       if (e.target === subwayCurrBlock.querySelector('.btn-to-basket__btn')) {
         if (this.quantityValue != 0) {
-          console.log('this.objForBasket.quantityValue', this.objForBasket.quantity)
-          console.log('basket', this.basket)
+          // console.log('this.objForBasket.quantityValue', this.objForBasket.quantity)
+          // console.log('basket', this.basket)
           this.basket.quantityValue = this.objForBasket.quantity
           this.basket.priceValue = this.objForBasket.price
           this.basket.nameValue = this.objForBasket.name

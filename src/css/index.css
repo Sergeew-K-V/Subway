@@ -352,6 +352,10 @@ h6 {
           align-items: center;
 }
 
+.fa-trash-can {
+  cursor: pointer;
+}
+
 .subway__block {
   text-align: center;
   min-height: 380px;

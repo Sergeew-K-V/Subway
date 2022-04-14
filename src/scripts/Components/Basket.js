@@ -67,11 +67,19 @@ export default class Basket extends Component {
       <div class="body__item" id="body__item">
         <span>${el.name}</span>
         <span>${el.quantity}</span>
-        <span><i class="fa-solid fa-basket-shopping"></i></span>
+        <span><i class="fa-solid fa-trash-can"></i></span>
       </div>
       `
       this.id = 'array__wrapper'
       this.renderComp(this.content, document.getElementById(this.id))
+    })
+  }
+  listener() {
+    const basketBody = document.getElementById('place-for-body-item')
+    basketBody.addEventListener('click', (e) => {
+      if (e.target.closest('.fa-trash-can')) {
+        //e.target.closest()//need add id for deleting
+      }
     })
   }
   reRenderPrice() {
