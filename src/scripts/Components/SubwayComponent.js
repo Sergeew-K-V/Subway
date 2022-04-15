@@ -98,7 +98,7 @@ export default class SubwayComponent extends Component {
           this.basket.nameValue = this.objForBasket.name
           this.basket.addItem(this.objForBasket.id)
         } else {
-          this.basket.removeItem(this.objForBasket.id)
+          this.basket.removeItem('body__item-' + this.objForBasket.id)
         }
       }
     })

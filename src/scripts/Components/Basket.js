@@ -65,7 +65,7 @@ export default class Basket extends Component {
 
     this.arrayOfGoods.map((el) => {
       this.content = `
-      <div class="body__item" id="body__item-${el.id}">
+      <div class="body__item" id="${el.id}">
         <span>${el.name}</span>
         <span>${el.quantity}</span>
         <span><i class="fa-solid fa-trash-can"></i></span>
@@ -108,7 +108,7 @@ export default class Basket extends Component {
   }
 
   removeItem(sendedId) {
-    const removingItem = this.arrayOfGoods.find((el) => 'body__item-' + el.id === sendedId)
+    const removingItem = this.arrayOfGoods.find((el) => el.id === sendedId)
     this.arrayOfGoods = this.arrayOfGoods.filter((el) => el != removingItem)
     this.destroy()
     this.basketRender()
@@ -125,7 +125,7 @@ function getTotalPrice(array, price) {
 }
 function getArrayOfBasket(array, name, quantity, price, id) {
   if (array.length === 0) {
-    array.push({ id: id, name: name, quantity: quantity, price: price })
+    array.push({ id: 'body__item-' + id, name: name, quantity: quantity, price: price })
   } else {
     const finded = array.find((el) => {
       if (el.id === id) {

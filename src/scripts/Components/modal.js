@@ -161,7 +161,7 @@ export default class Modal extends Component {
         basket.nameValue = this.customSubway.name
         basket.addItem(this.customSubway.id)
       } else {
-        basket.removeItem(this.customSubway.id)
+        basket.removeItem('body__item-' + this.customSubway.id)
       }
     })
   }
