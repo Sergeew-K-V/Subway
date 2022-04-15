@@ -11,3 +11,4 @@ export default class Component {
     render(content, root)
   }
 }
+// https://medium.com/@an_parubets/pattern-event-emitter-js-9378aa082e86

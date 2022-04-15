@@ -3,6 +3,21 @@ import Component from './Component'
 export default class Basket extends Component {
   constructor(props) {
     super()
+
+    this.data = new Proxy(
+      {
+        id,
+        arrayOfGoods,
+      },
+      () => {
+        // this.render()
+      }
+    )
+
+    eventEmitter.subscribe('addToBasket', (product) => {
+      this.data.arrayOfGoods = [...this.data.arrayOfGoods, product]
+    })
+
     this.arrayOfGoods = []
     this.id = 'basket-root'
     this.price = props.price || 0
@@ -33,6 +48,7 @@ export default class Basket extends Component {
         </div>
       </div>
     </div>`
+
     this.renderComp(this.content, document.getElementById(this.id))
     this.id = 'place-for-body-item'
     this.basketRender()

@@ -1,9 +1,20 @@
+// rewrite to Component
+
 import SubwayComponent from './Components/SubwayComponent'
 import data from '../../data.json'
 import Modal from './Components/Modal'
 import Basket from './Components/Basket'
+
+// const selected = 'sandwiches';
+
+// setCategory(c) {
+//   selected = c;
+//   this.render()
+// }
+
 //Инициализации корзины? Чисто шаблон
 const basket = new Basket({})
+
 ////Первая часть - инициализация элементов
 const sandwiches = data.menu.filter((el) => el.category === 'sandwiches')
 sandwiches.map((el) => {
@@ -119,6 +130,7 @@ btnCustom.addEventListener('click', () => {
       idChanged = true
     }
   }
+  // basket not needed
   const modal = new Modal(dataForModal, basket)
   modal.listenerForBtnBack()
   //Закрытие модального окна
@@ -126,6 +138,7 @@ btnCustom.addEventListener('click', () => {
   modalClose.addEventListener('click', () => {
     modal.destroyModal()
   })
+  // move to modal
   //Переключение страниц && //Анимация вернего nabvar item
   const btnBack = document.getElementById('btn-back')
   btnBack.addEventListener('click', () => {

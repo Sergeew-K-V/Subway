@@ -88,6 +88,7 @@ export default class Modal extends Component {
   set quantityValue(value) {
     this.customSubway.quantity = value
   }
+
   listenerForBtnBack() {
     const btnBack = document.getElementById('btn-back')
     const btnNext = document.getElementById('btn-next')
@@ -107,6 +108,7 @@ export default class Modal extends Component {
       btnList.classList.remove('hiddenNext')
     }
   }
+
   listenerFotQuantityBtn() {
     const modalFooter = document.getElementById('modal-total-bottom-root')
     modalFooter.addEventListener('click', (e) => {
@@ -147,10 +149,12 @@ export default class Modal extends Component {
       }
     }
   }
+
   destroyModal() {
     const point = document.querySelector('.modal-overlay')
     point.remove()
   }
+
   listenerForBtnToBasket(basket) {
     const modalFooter = document.getElementById('modal-total-bottom-root')
     const modalBtnToBasket = modalFooter.querySelector('.btn-to-basket__btn')
@@ -165,6 +169,7 @@ export default class Modal extends Component {
       }
     })
   }
+
   renderPrice(summary = false) {
     const priceId = 'modal-total-bottom-root'
     const pointPrice = document.getElementById(priceId)
@@ -174,6 +179,7 @@ export default class Modal extends Component {
                     </div>`
       this.id = 'modal-block'
       this.renderComp(this.content, document.getElementById(this.id))
+
       this.content = `<div class="modal__btn-block">
                       <div class="modal-block__text">Количество</div>
                         <div class="modal-block__btns-list">
@@ -197,6 +203,7 @@ export default class Modal extends Component {
                       </div>`
       this.id = 'modal-block'
       this.renderComp(this.content, document.getElementById(this.id))
+
       this.content = `<div class="modal__total-price">
                         <span>Итого: ${this.customSubway.price} руб.</span>
                       </div>`
@@ -254,6 +261,7 @@ export default class Modal extends Component {
       let selected = false // animation only
       let selectedId
       let lastClickObjId
+
       //check exist selected item or not
       switch (typeOfProp) {
         case 'sizes':
@@ -275,6 +283,7 @@ export default class Modal extends Component {
           }
           break
       }
+
       modalContent.addEventListener('click', (e) => {
         if (e.target.closest('.modal__content-card')) {
           const currId = e.target.closest('.modal__content-card').id
@@ -318,6 +327,7 @@ export default class Modal extends Component {
             lastClickObjId = e.target.closest('.modal__content-card').id
           }
         }
+
         switch (typeOfProp) {
           case 'sizes':
             if (selectedId !== null) {
@@ -344,6 +354,7 @@ export default class Modal extends Component {
     } else {
       let currentSelectedItem = 0
       let selected = []
+
       //check exist selected item or not
       switch (typeOfProp) {
         case 'vegetables':
@@ -377,6 +388,7 @@ export default class Modal extends Component {
           }
           break
       }
+
       modalContent.addEventListener('click', (e) => {
         if (e.target.closest('.modal__content-card')) {
           const currId = e.target.closest('.modal__content-card').id
@@ -404,6 +416,7 @@ export default class Modal extends Component {
             }
           }
         }
+
         switch (typeOfProp) {
           case 'vegetables':
             if (selected.length !== 0) {
@@ -460,12 +473,14 @@ export default class Modal extends Component {
   renderPageContent(props, id) {
     const point = document.getElementById(id)
     point.remove()
+
     this.content = `<div class="modal__content" id="content-card-root">
                       <!-- Сюда рендерится новый контент -->
                     </div>`
     this.id = 'place-for-modal-content'
     this.renderComp(this.content, document.getElementById(this.id))
     for (const el in props) {
+      // ${selected.includes(el.id) ? 'active' : ''}
       this.content = `<div class="modal__content-card" id="${props[el].id}">
                         <div class="content-card__block">
                           <div class="content-card__img">
@@ -483,11 +498,13 @@ export default class Modal extends Component {
   renderSummaryContent(id) {
     const point = document.getElementById(id)
     point.remove()
+
     this.content = `<div class="modal__content" id="content-card-root">
                       <!-- Сюда рендерится новый контент -->
                     </div>`
     this.id = 'place-for-modal-content'
     this.renderComp(this.content, document.getElementById(this.id))
+
     this.content = `<div class="modal__content-total" id="modal-summary">
                       <div class="content-total__block">
                         <div class="block__left">
