@@ -36,6 +36,7 @@ export default class Basket extends Component {
     this.renderComp(this.content, document.getElementById(this.id))
     this.id = 'place-for-body-item'
     this.basketRender()
+    this.listener()
   }
   get priceValue() {
     return this.price
@@ -64,7 +65,7 @@ export default class Basket extends Component {
 
     this.arrayOfGoods.map((el) => {
       this.content = `
-      <div class="body__item" id="body__item">
+      <div class="body__item" id="body__item-${el.id}">
         <span>${el.name}</span>
         <span>${el.quantity}</span>
         <span><i class="fa-solid fa-trash-can"></i></span>
@@ -78,7 +79,8 @@ export default class Basket extends Component {
     const basketBody = document.getElementById('place-for-body-item')
     basketBody.addEventListener('click', (e) => {
       if (e.target.closest('.fa-trash-can')) {
-        //e.target.closest()//need add id for deleting
+        const temp = e.target.closest('.body__item').id
+        this.removeItem(temp)
       }
     })
   }
@@ -106,7 +108,7 @@ export default class Basket extends Component {
   }
 
   removeItem(sendedId) {
-    const removingItem = this.arrayOfGoods.find((el) => el.id === sendedId)
+    const removingItem = this.arrayOfGoods.find((el) => 'body__item-' + el.id === sendedId)
     this.arrayOfGoods = this.arrayOfGoods.filter((el) => el != removingItem)
     this.destroy()
     this.basketRender()
