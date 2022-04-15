@@ -1,0 +1,247 @@
+$bg-basket: rgb(235, 218, 122);
+$border-color: grey;
+$bg-color-orange: orange;
+$basket-index: 5;
+$basket-shadow-color: rgba(0, 0, 0, 0.2);
+$basket-bg-border-radius: 10px;
+$text-white: white;
+
+.navbar {
+  &__block {
+    padding-right: 30px;
+    flex: 1 1 25%;
+    max-width: 400px;
+  }
+  &__top {
+    text-align: center;
+    border: 2px solid $border-color;
+    border-radius: 2%;
+    background-color: white;
+  }
+
+  &__middle {
+    margin-top: 40px;
+  }
+
+  &__btn-custom {
+    padding: 10px 10px;
+    width: 100%;
+  }
+
+  &__btn-custom button {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px;
+    border-radius: 4px;
+    box-shadow: 0px 5px 0 black;
+    background-color: rgb(128, 128, 128);
+    text-transform: uppercase;
+    color: $text-white;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  &__btn-custom button:hover {
+    background-color: rgb(219, 157, 24);
+  }
+  &__btn-custom button:active {
+    top: 3px;
+    box-shadow: 0px 1px 0 black;
+  }
+
+  &__menu-block {
+  }
+
+  &__menu {
+  }
+
+  &__bottom {
+    margin-top: 40px;
+  }
+
+  &__basket-block {
+    border: 2px solid $border-color;
+    border-radius: $basket-bg-border-radius;
+  }
+}
+.menu {
+  &__item {
+    padding: 10px 20px;
+    transition: background-color 0.4s ease;
+    cursor: pointer;
+  }
+  &__item a {
+    text-decoration: none;
+    color: black;
+    transition: color 0.4s ease;
+  }
+  &__item:hover {
+    background-color: $bg-color-orange;
+  }
+  &__item.selected {
+    background-color: $bg-color-orange;
+  }
+  &__item:hover.menu__item a {
+    color: $text-white;
+  }
+}
+.basket {
+  &__flex {
+    font-family: initial;
+    font-family: initial;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &__header {
+    padding: 15px 10px;
+    color: $text-white;
+    font-size: 30px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: $bg-color-orange;
+    border-bottom: 1px solid $border-color;
+    border-top-left-radius: $basket-bg-border-radius;
+    border-top-right-radius: $basket-bg-border-radius;
+  }
+
+  &__icon {
+    padding-left: 10px;
+    position: relative;
+  }
+
+  &__title {
+    padding: 5px 10px 0 0;
+  }
+
+  &__body {
+    position: relative;
+    background-color: $bg-basket;
+  }
+
+  &__footer {
+    padding: 10px;
+    text-align: center;
+    font-weight: 600;
+    background-color: $bg-basket;
+  }
+
+  &__total {
+  }
+
+  &__btn {
+    padding: 10px 10px;
+    width: 100%;
+    border-bottom-left-radius: $basket-bg-border-radius;
+    border-bottom-right-radius: $basket-bg-border-radius;
+    background-color: $bg-basket;
+  }
+  &__btn button {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px;
+    border-radius: 4px;
+    box-shadow: 0px 5px 0 black;
+    background-color: rgb(128, 128, 128);
+    text-transform: uppercase;
+    color: $text-white;
+    font-size: 18px;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+  }
+  &__btn button:active {
+    top: 3px;
+    box-shadow: 0px 1px 0 black;
+  }
+  &__btn button:hover {
+    background-color: rgb(219, 157, 24);
+  }
+}
+.fa-solid {
+  position: relative;
+}
+.icon-shadow {
+  position: absolute;
+  content: '';
+  width: 15px;
+  height: 15px;
+  top: 5px;
+  right: 10px;
+  background-color: $basket-shadow-color;
+  transform: rotate(-35deg);
+}
+.icon-shadow::after {
+  position: absolute;
+  content: '';
+  top: 15px;
+  left: -11px;
+  width: 35px;
+  height: 50px;
+  background-color: $basket-shadow-color;
+}
+.body {
+  &__item {
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    text-align: left;
+    &_left {
+      flex: 1 1 80%;
+    }
+
+    &_right {
+      flex: 1 0 20%;
+    }
+  }
+
+  &__top {
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    font-weight: 600;
+  }
+  &__top::after {
+    position: absolute;
+    content: '';
+    width: 90%;
+    height: 2px;
+    bottom: 0;
+    background-color: $bg-color-orange;
+  }
+
+  &__name {
+  }
+
+  &__quantity {
+  }
+
+  &__bottom {
+    text-align: center;
+    padding: 15px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+.fa-trash-can {
+  position: relative;
+  cursor: pointer;
+  margin-left: 5px;
+}
+.fa-trash-can:hover {
+  cursor: pointer;
+  margin-left: 5px;
+  bottom: 3px;
+  left: 3px;
+  color: rgb(58, 39, 2);
+}

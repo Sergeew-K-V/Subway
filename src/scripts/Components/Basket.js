@@ -66,9 +66,8 @@ export default class Basket extends Component {
     this.arrayOfGoods.map((el) => {
       this.content = `
       <div class="body__item" id="${el.id}">
-        <span>${el.name}</span>
-        <span>${el.quantity}</span>
-        <span><i class="fa-solid fa-trash-can"></i></span>
+        <span class="body__item_left">${el.name}</span>
+        <span class="body__item_right">${el.quantity} <i class="fa-solid fa-trash-can"></i></span>
       </div>
       `
       this.id = 'array__wrapper'
@@ -79,8 +78,8 @@ export default class Basket extends Component {
     const basketBody = document.getElementById('place-for-body-item')
     basketBody.addEventListener('click', (e) => {
       if (e.target.closest('.fa-trash-can')) {
-        const temp = e.target.closest('.body__item').id
-        this.removeItem(temp)
+        const currBodyItem = e.target.closest('.body__item').id
+        this.removeItem(currBodyItem)
       }
     })
   }
@@ -135,7 +134,7 @@ function getArrayOfBasket(array, name, quantity, price, id) {
     })
     //Проверяем, если finded - undef или мы нашли совпадение
     if (!finded) {
-      array.push({ id: id, name: name, quantity: quantity, price: price })
+      array.push({ id: 'body__item-' + id, name: name, quantity: quantity, price: price })
     }
   }
 }
