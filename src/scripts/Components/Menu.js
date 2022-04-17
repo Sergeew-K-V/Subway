@@ -1,11 +1,11 @@
 import Component from './Component'
-class Menu extends Component {
+export default class Menu extends Component {
   constructor(props) {
     super()
     this.content = `<ul class="navbar__menu">
                         <li class="menu__item" id="pizza"><a href="#">Блины</a></li>
                         <li class="menu__item" id="shaurma"><a href="#">Шаурма</a></li>
-                        <li class="menu__item" id="sandwiches"><a href="#">Сендвичи</a></li>
+                        <li class="menu__item selected" id="sandwiches"><a href="#">Сендвичи</a></li>
                         <li class="menu__item" id="burgers"><a href="#">Бургеры</a></li>
                         <li class="menu__item" id="chicken"><a href="#">Курица & Картофель</a></li>
                         <li class="menu__item" id="salads"><a href="#">Тортилья & Салаты</a></li>
@@ -14,9 +14,9 @@ class Menu extends Component {
     this.id = 'menu__root'
     this.category = 'sandwiches'
     this.renderComp(this.content, document.getElementById(this.id))
-    this.listenerChangingCategory()
+    this.listenerChangingCategory(props)
   }
-  listenerChangingCategory() {
+  listenerChangingCategory(data) {
     let lastMenuItemId = null // last menu item if was selected
     const navbarMenu = document.querySelector('.navbar__menu')
     navbarMenu.addEventListener('click', (e) => {
@@ -25,11 +25,8 @@ class Menu extends Component {
         const currMenuItem = document.getElementById(categoryId)
         currMenuItem.classList.add('selected')
         if (lastMenuItemId === categoryId) {
-          alert('Already opened')
         } else {
           if (lastMenuItemId !== null) {
-            const lastMenuItem = document.getElementById(lastMenuItemId)
-            lastMenuItem.classList.remove('selected')
           }
           lastMenuItemId = categoryId
           switch (categoryId) {
@@ -51,18 +48,24 @@ class Menu extends Component {
                 shaurmaTemp.listeners()
                 return shaurmaTemp
               })
+              console.log('123123')
               break
           }
         }
       }
     })
   }
+  set setCategory(value) {
+    this.category = value
+  }
 }
-// const menuLittle = new Menu()
-export default new Proxy(Menu, {
+const menuLittle = new Menu()
+const menuProxy = new Proxy(menuLittle, {
   set(target, prop, value) {
+    debugger
     target[prop] = value
     target.renderComp(target.content, document.getElementById(target.id))
+    console.log("it's proxy render")
   },
 })
 

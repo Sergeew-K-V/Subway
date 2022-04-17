@@ -3,7 +3,7 @@ import data from '../../../data.json'
 import Modal from './Modal'
 import Basket from './Basket'
 import Component from './Component'
-import menuProxy from './Menu'
+import Menu from './Menu'
 
 class Main extends Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class Main extends Component {
       subTemp.listeners()
       return subTemp
     })
-    const menuInMain = menuProxy
+    const menu = new Menu(data)
   }
 }
 const main = new Main()
