@@ -14,9 +14,9 @@ export default class Basket extends Component {
     //   }
     // )
 
-    // eventEmitter.subscribe('addToBasket', (product) => {
-    //   this.data.arrayOfGoods = [...this.data.arrayOfGoods, product]
-    // })
+    eventEmitter.subscribe('addToBasket', (product) => {
+      this.data.arrayOfGoods = [...this.data.arrayOfGoods, product]
+    })
 
     this.arrayOfGoods = []
     this.id = 'basket-root'

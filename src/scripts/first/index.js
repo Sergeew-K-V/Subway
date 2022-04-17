@@ -1,9 +1,8 @@
-// rewrite to Component
-
 import SubwayComponent from './Components/SubwayComponent'
 import data from '../../data.json'
 import Modal from './Components/Modal'
 import Basket from './Components/Basket'
+// rewrite to Component
 
 // const selected = 'sandwiches';
 
@@ -195,17 +194,3 @@ function createMainBlock() {
   newRoot.id = 'root'
   position.insertAdjacentElement('beforeend', newRoot)
 }
-// На усмотрение
-// переключение по клику в navbar-Item +
-
-// Надо сделать
-// сверстать итоговую сборку бутерброда и соответсвенно стилизовать +
-// сделать возможным выбор для овощей и ингридеентов - безграничным +
-// создать в модалке мигрирующий объект, который будет принимать в себя выбранные значения +
-// при выборе ингредиентов должны сохраняться выборы из нашего мигрированного объекта +
-// написать метод, который будет отдавать этот объект +
-// не забыть про кол-во и цену +
-// в корзину должен приниматься этот объект +
-
-//navbar-item стилизовать, чтобы пробелов не было   +
-//поправить анимацию кнопочек, при переключении через navbar-item  +
