@@ -1,6 +1,6 @@
 import Component from './Component'
-export default class SubwayComponent extends Component {
-  constructor(props, basket) {
+export default class Product extends Component {
+  constructor(props) {
     super()
     this.id = `${props.id}`
     this.image = props.image
@@ -14,7 +14,6 @@ export default class SubwayComponent extends Component {
       price: this.price,
       quantity: this.quantity,
     }
-    this.basket = basket
     this.headerBlock = `<div class="subway__block" id="${this.id}">
     </div>`
     this.renderComp(this.headerBlock)
@@ -89,16 +88,16 @@ export default class SubwayComponent extends Component {
         }
       }
       // //Added subway to basket
-      if (e.target === subwayCurrBlock.querySelector('.btn-to-basket__btn')) {
-        if (this.quantityValue != 0) {
-          this.basket.quantityValue = this.objForBasket.quantity
-          this.basket.priceValue = this.objForBasket.price
-          this.basket.nameValue = this.objForBasket.name
-          this.basket.addItem(this.objForBasket.id)
-        } else {
-          this.basket.removeItem('body__item-' + this.objForBasket.id)
-        }
-      }
+      // if (e.target === subwayCurrBlock.querySelector('.btn-to-basket__btn')) {
+      //   if (this.quantityValue != 0) {
+      //     this.basket.quantityValue = this.objForBasket.quantity
+      //     this.basket.priceValue = this.objForBasket.price
+      //     this.basket.nameValue = this.objForBasket.name
+      //     this.basket.addItem(this.objForBasket.id)
+      //   } else {
+      //     this.basket.removeItem('body__item-' + this.objForBasket.id)
+      //   }
+      // }
     })
   }
 }

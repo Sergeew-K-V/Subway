@@ -3,32 +3,45 @@ import data from '../../../data.json'
 class Menu extends Component {
   constructor(props) {
     super()
-    this.content = `<ul class="navbar__menu" id="menu__subRoot">
-                        <li class="menu__item" id="pizza"><a href="#">Блины</a></li>
-                        <li class="menu__item" id="shaurma"><a href="#">Шаурма</a></li>
-                        <li class="menu__item" id="sandwiches"><a href="#">Сендвичи</a></li>
-                        <li class="menu__item" id="burgers"><a href="#">Бургеры</a></li>
-                        <li class="menu__item" id="chicken"><a href="#">Курица & Картофель</a></li>
-                        <li class="menu__item" id="salads"><a href="#">Тортилья & Салаты</a></li>
-                        <li class="menu__item" id="drinks"><a href="#">Напитки & Десерты</a></li>
-                    </ul>`
     this.id = 'menu__root'
     this.category = 'sandwiches'
-    this.firstInit = true
+    this.created = true
+    this.arrayOfCategory = [
+      { cat: 'sandwiches', name: 'Сендвичи' },
+      { cat: 'pizza', name: 'Блины' },
+      { cat: 'shaurma', name: 'Шаурма' },
+      { cat: 'burgers', name: 'Бургеры' },
+      { cat: 'chicken', name: 'Курица & Картофель' },
+      { cat: 'salads', name: 'Тортилья & Салаты' },
+      { cat: 'drinks', name: 'Напитки & Десерты' },
+    ]
+  }
+  get getContent() {
+    return (this.content = `<ul class="navbar__menu" id="menu__subRoot">
+                              ${this.arrayOfCategory
+                                .map((el) => {
+                                  return `<li class="menu__item ${
+                                    el.cat === this.category ? 'selected' : ''
+                                  }" id="${el.cat}"><a href="#">${el.name}</a></li>`
+                                })
+                                .join('')}
+                            </ul>`)
   }
 }
 const menuLittle = new Menu()
 export const menuProxy = new Proxy(menuLittle, {
   set(target, prop, value) {
     target[prop] = value
-    if (!target.firstInit) {
+    if (target.created) {
       target.destroy('menu__subRoot')
-    } else {
-      target.firstInit = false
+      target.created = false
     }
-
-    target.renderComp(target.content, document.getElementById(target.id))
+    target.renderComp(target.getContent, document.getElementById(target.id))
+    target.created = true
     console.log("it's proxy render")
     return true
+  },
+  get(target, prop) {
+    return target[prop]
   },
 })
