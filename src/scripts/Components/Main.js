@@ -17,6 +17,7 @@ class Main extends Component {
     this.renderComp(this.getContent, document.getElementById(this.id))
     this.initContent()
   }
+
   get getContent() {
     return (this.content = `<div class="main__content" id="root-subMain-right">
                               <div class="container-content">
@@ -33,6 +34,43 @@ class Main extends Component {
   }
 }
 
+const main = new Main({ data })
+const menu = new Menu({ emitter, category: main.category })
+const basket = new Basket()
+let lastMenuItemId = main.category
+
+emitter.subscribe('onCategoryChanged', (category) => {
+  console.log('In emmiter', emitter)
+  console.log('category', category)
+  const navbarMenu = document.querySelector('.navbar__menu')
+  navbarMenu.addEventListener('click', (e) => {
+    if (e.target.closest('.menu__item')) {
+      const categoryId = e.target.closest('.menu__item').id
+      const currMenuItem = document.getElementById(categoryId)
+      currMenuItem.classList.add('selected')
+      if (categoryId === lastMenuItemId) {
+        alert('Already opened')
+      } else {
+        if (lastMenuItemId !== null) {
+          const lastMenuItem = document.getElementById(lastMenuItemId)
+          lastMenuItem.classList.remove('selected')
+        }
+        lastMenuItemId = categoryId
+
+        main.destroy('root-subMain-right')
+        main.renderComp(main.getContent, document.getElementById(main.id))
+        menu.data.category = categoryId
+
+        const arrayOfProduct = data.menu.filter((el) => el.category === categoryId)
+        arrayOfProduct.map((el) => {
+          const product = new Product(el)
+          return product
+        })
+        emitter.emit('onCategoryChanged')
+      }
+    }
+  })
+})
 // emitter.subscribe('menuItemPressed', () => {
 //   console.log('emmiter')
 //   const navbarMenu = document.querySelector('.navbar__menu')
@@ -65,10 +103,5 @@ class Main extends Component {
 //     }
 //   })
 // })
-emitter.subscribe('onCategoryChanged', (category) => {})
-const main = new Main({ data })
-const menu = new Menu({ emitter, category: main.category })
-const basket = new Basket()
-// let lastMenuItemId = menu.category
 
 // emitter.emit('menuItemPressed')

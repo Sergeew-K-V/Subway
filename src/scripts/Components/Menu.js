@@ -5,7 +5,6 @@ import EventEmitter from '../EventEmitter'
 export default class Menu extends Component {
   constructor(props) {
     super()
-
     this.emitter = props.emitter
 
     this.id = 'menu__root'
@@ -20,17 +19,20 @@ export default class Menu extends Component {
       { cat: 'salads', name: 'Тортилья & Салаты' },
       { cat: 'drinks', name: 'Напитки & Десерты' },
     ]
-
     this.data = new Proxy(
       {
         category: this.category,
       },
       {
         set: (target, key, value) => {
+          if (this.created) {
+            this.destroy('menu__subRoot')
+            this.created = false
+          }
+          this.created = true
+          console.log("it's proxy render")
           this.renderComp(this.getContent, document.getElementById(this.id))
-
           this.emitter.emit('onCategoryChanged', value)
-
           return true
         },
       }
@@ -38,8 +40,9 @@ export default class Menu extends Component {
 
     // setTimeout(() => {
     //   this.data.category = 'pizza'
-    // }, 5000)
+    // }, 2000)
     this.renderComp(this.getContent, document.getElementById(this.id))
+    this.emitter.emit('onCategoryChanged')
   }
   get getContent() {
     return (this.content = `<ul class="navbar__menu" id="menu__subRoot">
