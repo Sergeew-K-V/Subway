@@ -12,13 +12,14 @@ export default class Product extends Component {
       id: this.id,
       name: this.name,
       price: this.price,
-      quantity: this.quantity,
+      quantity: this.quantityValue,
     }
     this.headerBlock = `<div class="subway__block" id="${this.id}">
     </div>`
     this.renderComp(this.headerBlock)
     this.getContent
     this.renderComp(this.content, document.getElementById(this.id))
+    this.listeners()
   }
   get getContent() {
     return (this.content = `
@@ -62,9 +63,17 @@ export default class Product extends Component {
     this.getContent
     this.renderComp(this.content, document.getElementById(this.id))
   }
-  destroy() {
-    const destroyPoint = document.getElementById('content-' + this.id)
-    destroyPoint.remove()
+  get getObjForBasket() {
+    return (this.objForBasket = {
+      id: this.id,
+      name: this.name,
+      price: this.price,
+      quantity: this.quantityValue,
+    })
+  }
+  sendObjToBasket() {
+    this.getObjForBasket
+    return this.objForBasket
   }
   listeners() {
     const subwayCurrBlock = document.getElementById(this.id)
@@ -78,26 +87,23 @@ export default class Product extends Component {
         if (e.target === subwayCurrBlock.querySelector('.fa-minus')) {
           if (this.quantityValue === 0) {
           } else {
-            this.destroy()
+            this.destroy('content-' + this.id)
             this.quantityValue = -1
           }
         }
         if (e.target === subwayCurrBlock.querySelector('.fa-plus')) {
-          this.destroy()
+          this.destroy('content-' + this.id)
           this.quantityValue = 1
         }
       }
       // //Added subway to basket
-      // if (e.target === subwayCurrBlock.querySelector('.btn-to-basket__btn')) {
-      //   if (this.quantityValue != 0) {
-      //     this.basket.quantityValue = this.objForBasket.quantity
-      //     this.basket.priceValue = this.objForBasket.price
-      //     this.basket.nameValue = this.objForBasket.name
-      //     this.basket.addItem(this.objForBasket.id)
-      //   } else {
-      //     this.basket.removeItem('body__item-' + this.objForBasket.id)
-      //   }
-      // }
+      if (e.target === subwayCurrBlock.querySelector('.btn-to-basket__btn')) {
+        if (this.quantityValue != 0) {
+          this.sendObjToBasket()
+        } else {
+          alert('Укажите кол-во товара, чтобы добавить')
+        }
+      }
     })
   }
 }

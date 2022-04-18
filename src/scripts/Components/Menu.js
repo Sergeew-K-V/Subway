@@ -1,10 +1,15 @@
 import Component from './Component'
 import data from '../../../data.json'
-class Menu extends Component {
+import EventEmitter from '../EventEmitter'
+
+export default class Menu extends Component {
   constructor(props) {
     super()
+
+    this.emitter = props.emitter
+
     this.id = 'menu__root'
-    this.category = 'sandwiches'
+    this.category = props.category
     this.created = true
     this.arrayOfCategory = [
       { cat: 'sandwiches', name: 'Сендвичи' },
@@ -15,33 +20,52 @@ class Menu extends Component {
       { cat: 'salads', name: 'Тортилья & Салаты' },
       { cat: 'drinks', name: 'Напитки & Десерты' },
     ]
+
+    this.data = new Proxy(
+      {
+        category: this.category,
+      },
+      {
+        set: (target, key, value) => {
+          this.renderComp(this.getContent, document.getElementById(this.id))
+
+          this.emitter.emit('onCategoryChanged', value)
+
+          return true
+        },
+      }
+    )
+
+    // setTimeout(() => {
+    //   this.data.category = 'pizza'
+    // }, 5000)
+    this.renderComp(this.getContent, document.getElementById(this.id))
   }
   get getContent() {
     return (this.content = `<ul class="navbar__menu" id="menu__subRoot">
                               ${this.arrayOfCategory
                                 .map((el) => {
                                   return `<li class="menu__item ${
-                                    el.cat === this.category ? 'selected' : ''
+                                    el.cat === this.data.category ? 'selected' : ''
                                   }" id="${el.cat}"><a href="#">${el.name}</a></li>`
                                 })
                                 .join('')}
                             </ul>`)
   }
 }
-const menuLittle = new Menu()
-export const menuProxy = new Proxy(menuLittle, {
-  set(target, prop, value) {
-    target[prop] = value
-    if (target.created) {
-      target.destroy('menu__subRoot')
-      target.created = false
-    }
-    target.renderComp(target.getContent, document.getElementById(target.id))
-    target.created = true
-    console.log("it's proxy render")
-    return true
-  },
-  get(target, prop) {
-    return target[prop]
-  },
-})
+// const menuProxy = new Proxy(menuLittle, {
+//   set(target, prop, value) {
+//     target[prop] = value
+//     if (target.created) {
+//       target.destroy('menu__subRoot')
+//       target.created = false
+//     }
+//     target.renderComp(target.getContent, document.getElementById(target.id))
+//     target.created = true
+//     console.log("it's proxy render")
+//     return true
+//   },
+//   get(target, prop) {
+//     return target[prop]
+//   },
+// })

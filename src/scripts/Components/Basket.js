@@ -1,7 +1,7 @@
 import Component from './Component'
 
 export default class Basket extends Component {
-  constructor(props) {
+  constructor(props = {}) {
     super()
 
     // this.data = new Proxy(
