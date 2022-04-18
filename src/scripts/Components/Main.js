@@ -24,9 +24,11 @@ emitter.subscribe('menu__item pressed', () => {
           lastMenuItem.classList.remove('selected')
         }
         lastMenuItemId = categoryId
+
         main.destroy('root-subMain-right')
         main.renderComp(main.getContent, document.getElementById(main.id))
         menuProxy.category = categoryId
+
         const arrayOfProduct = data.menu.filter((el) => el.category === categoryId)
         arrayOfProduct.map((el) => {
           const product = new Product(el)
@@ -55,7 +57,7 @@ class Main extends Component {
 const main = new Main()
 menuProxy.renderComp(menuProxy.getContent, document.getElementById(menuProxy.id))
 const sandwiches = data.menu.filter((el) => el.category === menuProxy.category)
-let lastMenuItemId = menuProxy.category // last menu item if was selected
+let lastMenuItemId = menuProxy.category
 
 const arrayOfProduct = data.menu.filter((el) => el.category === lastMenuItemId)
 arrayOfProduct.map((el) => {
