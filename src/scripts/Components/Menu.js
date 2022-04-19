@@ -6,8 +6,8 @@ export default class Menu extends Component {
   constructor(props) {
     super()
     this.emitter = props.emitter
+    // this.category = props.category
     this.id = 'menu__root'
-    this.category = props.category
     this.created = true
     this.arrayOfCategory = [
       { cat: 'sandwiches', name: 'Сендвичи' },
@@ -20,7 +20,7 @@ export default class Menu extends Component {
     ]
     this.data = new Proxy(
       {
-        category: this.category,
+        category: props.category,
       },
       {
         set: (target, key, value) => {
