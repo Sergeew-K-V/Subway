@@ -8,8 +8,9 @@ import EventEmitter from '../EventEmitter'
 const emitter = new EventEmitter()
 console.log(emitter)
 // this.emitter.emit('onProductQuantityChange',value)
-emitter.subscribe('onProductQuantityChange', () => {
-  console.log('Triggered by')
+emitter.subscribe('sendObjToBasket', (data) => {
+  console.log('sendObjToBasket is now')
+  basket.addItem(data)
 })
 
 emitter.subscribe('onCategoryChanged', () => {

@@ -108,14 +108,8 @@ export default class Basket extends Component {
     const destroyPoint = document.getElementById(id)
     destroyPoint.remove()
   }
-  addItem(sendedId) {
-    getArrayOfBasket(
-      this.arrayOfGoods,
-      this.nameValue,
-      this.quantityValue,
-      this.priceValue,
-      sendedId
-    )
+  addItem(data) {
+    getArrayOfBasket(this.arrayOfGoods, data.id, data.name, data.quantity, data.price)
     this.priceValue = getTotalPrice(this.arrayOfGoods, this.priceValue)
     this.destroy()
     this.basketRender()
@@ -138,12 +132,12 @@ function getTotalPrice(array, price) {
   }, 0)
   return (price = totalPrice)
 }
-function getArrayOfBasket(array, name, quantity, price, id) {
+function getArrayOfBasket(array, id, name, quantity, price) {
   if (array.length === 0) {
     array.push({ id: 'body__item-' + id, name: name, quantity: quantity, price: price })
   } else {
     const finded = array.find((el) => {
-      if (el.id === id) {
+      if (el.id === 'body__item-' + id) {
         el.quantity = quantity
         return el
       }
