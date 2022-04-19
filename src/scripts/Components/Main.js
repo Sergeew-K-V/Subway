@@ -32,10 +32,6 @@ class Main extends Component {
     })
   }
 }
-const main = new Main({ data })
-const menu = new Menu({ emitter, category: main.category })
-const basket = new Basket()
-let lastMenuItemId = menu.data.category
 
 emitter.subscribe('onCategoryChanged', () => {
   console.log("emmiter, yes it's main")
@@ -67,4 +63,8 @@ emitter.subscribe('onCategoryChanged', () => {
     }
   })
 })
-emitter.emit('onCategoryChanged')
+
+const main = new Main({ data })
+const menu = new Menu({ emitter, category: main.category })
+const basket = new Basket()
+let lastMenuItemId = menu.data.category

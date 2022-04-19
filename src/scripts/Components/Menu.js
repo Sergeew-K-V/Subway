@@ -6,7 +6,6 @@ export default class Menu extends Component {
   constructor(props) {
     super()
     this.emitter = props.emitter
-    // this.category = props.category
     this.id = 'menu__root'
     this.created = true
     this.arrayOfCategory = [
@@ -33,12 +32,12 @@ export default class Menu extends Component {
           this.renderComp(this.getContent, document.getElementById(this.id))
           this.created = true
           this.emitter.emit('onCategoryChanged', value)
-          debugger
           return true
         },
       }
     )
     this.renderComp(this.getContent, document.getElementById(this.id))
+    this.emitter.emit('onCategoryChanged')
   }
 
   get getContent() {
