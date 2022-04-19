@@ -5,9 +5,7 @@ import EventEmitter from '../EventEmitter'
 export default class Menu extends Component {
   constructor(props) {
     super()
-
     this.emitter = props.emitter
-
     this.id = 'menu__root'
     this.category = props.category
     this.created = true
@@ -20,27 +18,29 @@ export default class Menu extends Component {
       { cat: 'salads', name: 'Тортилья & Салаты' },
       { cat: 'drinks', name: 'Напитки & Десерты' },
     ]
-
     this.data = new Proxy(
       {
         category: this.category,
       },
       {
         set: (target, key, value) => {
+          console.log('we are in proxy data')
+          if (this.created) {
+            this.destroy('menu__subRoot')
+            this.created = false
+          }
+          target[key] = value
           this.renderComp(this.getContent, document.getElementById(this.id))
-
+          this.created = true
           this.emitter.emit('onCategoryChanged', value)
 
           return true
         },
       }
     )
-
-    // setTimeout(() => {
-    //   this.data.category = 'pizza'
-    // }, 5000)
     this.renderComp(this.getContent, document.getElementById(this.id))
   }
+
   get getContent() {
     return (this.content = `<ul class="navbar__menu" id="menu__subRoot">
                               ${this.arrayOfCategory
@@ -53,19 +53,3 @@ export default class Menu extends Component {
                             </ul>`)
   }
 }
-// const menuProxy = new Proxy(menuLittle, {
-//   set(target, prop, value) {
-//     target[prop] = value
-//     if (target.created) {
-//       target.destroy('menu__subRoot')
-//       target.created = false
-//     }
-//     target.renderComp(target.getContent, document.getElementById(target.id))
-//     target.created = true
-//     console.log("it's proxy render")
-//     return true
-//   },
-//   get(target, prop) {
-//     return target[prop]
-//   },
-// })

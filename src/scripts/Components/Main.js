@@ -32,43 +32,38 @@ class Main extends Component {
     })
   }
 }
-
-// emitter.subscribe('menuItemPressed', () => {
-//   console.log('emmiter')
-//   const navbarMenu = document.querySelector('.navbar__menu')
-//   navbarMenu.addEventListener('click', (e) => {
-//     if (e.target.closest('.menu__item')) {
-//       const categoryId = e.target.closest('.menu__item').id
-//       const currMenuItem = document.getElementById(categoryId)
-//       currMenuItem.classList.add('selected')
-//       if (categoryId === lastMenuItemId) {
-//         debugger
-//         alert('Already opened')
-//       } else {
-//         if (lastMenuItemId !== null) {
-//           const lastMenuItem = document.getElementById(lastMenuItemId)
-//           lastMenuItem.classList.remove('selected')
-//         }
-//         lastMenuItemId = categoryId
-
-//         main.destroy('root-subMain-right')
-//         main.renderComp(main.getContent, document.getElementById(main.id))
-//         menu.category = categoryId
-
-//         const arrayOfProduct = data.menu.filter((el) => el.category === menu.category)
-//         arrayOfProduct.map((el) => {
-//           const product = new Product(el)
-//           return product
-//         })
-//         emitter.emit('menuItemPressed')
-//       }
-//     }
-//   })
-// })
-emitter.subscribe('onCategoryChanged', (category) => {})
 const main = new Main({ data })
 const menu = new Menu({ emitter, category: main.category })
 const basket = new Basket()
-// let lastMenuItemId = menu.category
+let lastMenuItemId = menu.data.category
 
-// emitter.emit('menuItemPressed')
+emitter.subscribe('onCategoryChanged', () => {
+  console.log("emmiter, yes it's main")
+  const navbarMenu = document.querySelector('.navbar__menu')
+  navbarMenu.addEventListener('click', (e) => {
+    if (e.target.closest('.menu__item')) {
+      const categoryId = e.target.closest('.menu__item').id
+      const currMenuItem = document.getElementById(categoryId)
+      currMenuItem.classList.add('selected')
+      if (categoryId === lastMenuItemId) {
+        alert('Already opened')
+      } else {
+        if (lastMenuItemId !== null) {
+          const lastMenuItem = document.getElementById(lastMenuItemId)
+          lastMenuItem.classList.remove('selected')
+        }
+        lastMenuItemId = categoryId
+
+        main.destroy('root-subMain-right')
+        main.renderComp(main.getContent, document.getElementById(main.id))
+        menu.data.category = categoryId
+
+        const arrayOfProduct = data.menu.filter((el) => el.category === menu.data.category)
+        arrayOfProduct.map((el) => {
+          const product = new Product(el)
+          return product
+        })
+      }
+    }
+  })
+})
