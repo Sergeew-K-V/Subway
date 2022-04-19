@@ -18,7 +18,7 @@ export default class Basket extends Component {
           return true
         },
         get: (target, key) => {
-          console.log("it's prxy of product - GETTER(No re-render)")
+          console.log("it's proxy of basket - GETTER(No re-render)")
           return target.price
         },
       }
