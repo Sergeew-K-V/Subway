@@ -7,31 +7,10 @@ import Menu from './Menu'
 import EventEmitter from '../EventEmitter'
 const emitter = new EventEmitter()
 console.log(emitter)
-
-class Main extends Component {
-  constructor(props) {
-    super()
-    this.id = 'root-main-right'
-    this.category = 'sandwiches'
-    this.arrayOfProduct = props.data.menu.filter((el) => el.category === this.category)
-    this.renderComp(this.getContent, document.getElementById(this.id))
-    this.initContent()
-  }
-  get getContent() {
-    return (this.content = `<div class="main__content" id="root-subMain-right">
-                              <div class="container-content">
-                                <div id="root" class="main__flex">
-                                </div>
-                              </div>
-                            </div>`)
-  }
-  initContent() {
-    this.arrayOfProduct.map((el) => {
-      const product = new Product(el)
-      return product
-    })
-  }
-}
+// this.emitter.emit('onProductQuantityChange',value)
+emitter.subscribe('onProductQuantityChange', () => {
+  console.log('Triggered by Product ')
+})
 
 emitter.subscribe('onCategoryChanged', () => {
   console.log("emmiter, yes it's main")
@@ -56,13 +35,38 @@ emitter.subscribe('onCategoryChanged', () => {
 
         const arrayOfProduct = data.menu.filter((el) => el.category === menu.data.category)
         arrayOfProduct.map((el) => {
-          const product = new Product(el)
+          const product = new Product(el, emitter)
           return product
         })
       }
     }
   })
 })
+
+class Main extends Component {
+  constructor(props) {
+    super()
+    this.id = 'root-main-right'
+    this.category = 'sandwiches'
+    this.arrayOfProduct = props.data.menu.filter((el) => el.category === this.category)
+    this.renderComp(this.getContent, document.getElementById(this.id))
+    this.initContent()
+  }
+  get getContent() {
+    return (this.content = `<div class="main__content" id="root-subMain-right">
+                              <div class="container-content">
+                                <div id="root" class="main__flex">
+                                </div>
+                              </div>
+                            </div>`)
+  }
+  initContent() {
+    this.arrayOfProduct.map((el) => {
+      const product = new Product(el, emitter)
+      return product
+    })
+  }
+}
 
 const main = new Main({ data })
 const menu = new Menu({ emitter, category: main.category })

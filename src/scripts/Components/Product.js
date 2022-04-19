@@ -1,18 +1,38 @@
 import Component from './Component'
 export default class Product extends Component {
-  constructor(props) {
+  constructor(props, emitter) {
     super()
+    this.emitter = emitter
     this.id = `product-${props.id}`
     this.image = props.image
     this.description = props.description
     this.name = props.name
     this.price = props.price
-    this.quantity = 0
+    this.dataProduct = new Proxy(
+      {
+        quantity: 0,
+      },
+      {
+        set: (target, key, value) => {
+          console.log("it's prxy of product - SETTER")
+          target.quantity += value
+          this.renderComp(this.getContent, document.getElementById(this.id))
+          this.emitter.emit('onProductQuantityChange', value)
+          return true
+        },
+        get: (target, key) => {
+          console.log("it's prxy of product - GETTER")
+          return target.quantity
+        },
+      }
+    )
     this.objForBasket = {
       id: this.id,
       name: this.name,
-      price: this.price,
-      quantity: this.quantityValue,
+      price: 0,
+      quantity: 0,
+      // price: this.price,
+      // quantity: this.dataProduct.quantity,
     }
     this.headerBlock = `<div class="subway__block" id="${this.id}">
     </div>`
@@ -20,6 +40,7 @@ export default class Product extends Component {
     this.getContent
     this.renderComp(this.content, document.getElementById(this.id))
     this.listeners()
+    this.emitter.emit('onProductQuantityChange')
   }
   get getContent() {
     return (this.content = `
@@ -44,7 +65,7 @@ export default class Product extends Component {
             <div class="btn-block__text">Количество</div>
             <div class="btn-block__btns-list">
               <button class="btns-list__btn"><i class="fa-solid fa-minus"></i></button>
-              <input type="number" class="btns-list__btn subway-input" value="${this.quantityValue}" />
+              <input type="number" class="btns-list__btn subway-input" value="${this.dataProduct.quantity}" />
               <button class="btns-list__btn"><i class="fa-solid fa-plus"></i></button>
             </div>
           </div>
@@ -54,21 +75,12 @@ export default class Product extends Component {
         </div>
       </div>`)
   }
-  get quantityValue() {
-    return this.quantity
-  }
-  set quantityValue(value) {
-    this.quantity += value
-    this.objForBasket.quantity += value
-    this.getContent
-    this.renderComp(this.content, document.getElementById(this.id))
-  }
   get getObjForBasket() {
     return (this.objForBasket = {
       id: this.id,
       name: this.name,
       price: this.price,
-      quantity: this.quantityValue,
+      quantity: this.dataProduct.quantity,
     })
   }
   sendObjToBasket() {
@@ -85,20 +97,20 @@ export default class Product extends Component {
         subwayCurrBlock.querySelector('.btns-list__btn')
       ) {
         if (e.target === subwayCurrBlock.querySelector('.fa-minus')) {
-          if (this.quantityValue === 0) {
+          if (this.dataProduct.quantity === 0) {
           } else {
             this.destroy('content-' + this.id)
-            this.quantityValue = -1
+            this.dataProduct.quantity = -1
           }
         }
         if (e.target === subwayCurrBlock.querySelector('.fa-plus')) {
           this.destroy('content-' + this.id)
-          this.quantityValue = 1
+          this.dataProduct.quantity = 1
         }
       }
       // //Added subway to basket
       if (e.target === subwayCurrBlock.querySelector('.btn-to-basket__btn')) {
-        if (this.quantityValue != 0) {
+        if (this.dataProduct.quantity != 0) {
           this.sendObjToBasket()
         } else {
           alert('Укажите кол-во товара, чтобы добавить')

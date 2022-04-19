@@ -28,7 +28,7 @@ export default class Menu extends Component {
             this.destroy('menu__subRoot')
             this.created = false
           }
-          target[key] = value
+          target.category = value
           this.renderComp(this.getContent, document.getElementById(this.id))
           this.created = true
           this.emitter.emit('onCategoryChanged', value)
