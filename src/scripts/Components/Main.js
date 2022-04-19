@@ -17,6 +17,7 @@ class Main extends Component {
     this.renderComp(this.getContent, document.getElementById(this.id))
     this.initContent()
   }
+
   get getContent() {
     return (this.content = `<div class="main__content" id="root-subMain-right">
                               <div class="container-content">
