@@ -9,7 +9,7 @@ const emitter = new EventEmitter()
 console.log(emitter)
 // this.emitter.emit('onProductQuantityChange',value)
 emitter.subscribe('onProductQuantityChange', () => {
-  console.log('Triggered by Product ')
+  console.log('Triggered by')
 })
 
 emitter.subscribe('onCategoryChanged', () => {

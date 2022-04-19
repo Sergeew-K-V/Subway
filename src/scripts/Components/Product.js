@@ -17,11 +17,11 @@ export default class Product extends Component {
           console.log("it's prxy of product - SETTER")
           target.quantity += value
           this.renderComp(this.getContent, document.getElementById(this.id))
-          this.emitter.emit('onProductQuantityChange', value)
+          // this.emitter.emit('onProductQuantityChange', value)
           return true
         },
         get: (target, key) => {
-          console.log("it's prxy of product - GETTER")
+          console.log("it's prxy of product - GETTER(No re-render)")
           return target.quantity
         },
       }
@@ -29,10 +29,8 @@ export default class Product extends Component {
     this.objForBasket = {
       id: this.id,
       name: this.name,
-      price: 0,
-      quantity: 0,
-      // price: this.price,
-      // quantity: this.dataProduct.quantity,
+      price: this.price,
+      quantity: this.dataProduct.quantity,
     }
     this.headerBlock = `<div class="subway__block" id="${this.id}">
     </div>`
@@ -40,7 +38,7 @@ export default class Product extends Component {
     this.getContent
     this.renderComp(this.content, document.getElementById(this.id))
     this.listeners()
-    this.emitter.emit('onProductQuantityChange')
+    // this.emitter.emit('onProductQuantityChange')
   }
   get getContent() {
     return (this.content = `
