@@ -109,7 +109,7 @@ export default class Product extends Component {
       // //Added subway to basket
       if (e.target === subwayCurrBlock.querySelector('.btn-to-basket__btn')) {
         if (this.dataProduct.quantity != 0) {
-          this.sendObjToBasket()
+          // this.sendObjToBasket()
           this.emitter.emit('sendObjToBasket', this.sendObjToBasket())
         } else {
           alert('Укажите кол-во товара, чтобы добавить')

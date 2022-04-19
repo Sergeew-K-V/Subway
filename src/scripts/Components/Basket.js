@@ -1,9 +1,10 @@
 import Component from './Component'
 
 export default class Basket extends Component {
-  constructor(props = {}) {
+  constructor(props) {
     super()
     this.arrayOfGoods = []
+    this.emitter = props.emitter
     this.id = 'basket-root'
     this.dataBasket = new Proxy(
       {
@@ -14,7 +15,7 @@ export default class Basket extends Component {
           console.log('Proxy from basket - SETTER')
           target.price = getTotalPrice(this.arrayOfGoods, this.dataBasket.price)
           this.renderComp(this.getContent, document.getElementById(this.id))
-          this.listener()
+          this.emitter.emit('faTrashClick')
           return true
         },
         get: (target, key) => {
@@ -24,7 +25,23 @@ export default class Basket extends Component {
       }
     )
     this.renderComp(this.getContent, document.getElementById(this.id))
-    this.listener()
+    this.emitter.emit('faTrashClick')
+
+    this.emitter.subscribe('sendObjToBasket', (data) => {
+      console.log('sendObjToBasket is now')
+      this.addItem(data)
+    })
+
+    this.emitter.subscribe('faTrashClick', () => {
+      console.log('emitter faTrash')
+      const basketBody = document.getElementById('place-for-body-item')
+      basketBody.addEventListener('click', (e) => {
+        if (e.target.closest('.fa-trash-can')) {
+          const currBodyItem = e.target.closest('.body__item').id
+          this.removeItem(currBodyItem)
+        }
+      })
+    })
   }
   get getContent() {
     return (this.content = `<div class="navbar__basket-block" id="basket-subRoot">
@@ -63,15 +80,6 @@ export default class Basket extends Component {
       </div>
     </div>
   </div>`)
-  }
-  listener() {
-    const basketBody = document.getElementById('place-for-body-item')
-    basketBody.addEventListener('click', (e) => {
-      if (e.target.closest('.fa-trash-can')) {
-        const currBodyItem = e.target.closest('.body__item').id
-        this.removeItem(currBodyItem)
-      }
-    })
   }
   addItem(data) {
     getArrayOfBasket(this.arrayOfGoods, data.id, data.name, data.quantity, data.price)

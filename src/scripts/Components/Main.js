@@ -7,11 +7,6 @@ import Menu from './Menu'
 import EventEmitter from '../EventEmitter'
 const emitter = new EventEmitter()
 console.log(emitter)
-// this.emitter.emit('onProductQuantityChange',value)
-emitter.subscribe('sendObjToBasket', (data) => {
-  console.log('sendObjToBasket is now')
-  basket.addItem(data)
-})
 
 emitter.subscribe('onCategoryChanged', () => {
   console.log("emmiter, yes it's main")
@@ -52,6 +47,7 @@ class Main extends Component {
     this.arrayOfProduct = props.data.menu.filter((el) => el.category === this.category)
     this.renderComp(this.getContent, document.getElementById(this.id))
     this.initContent()
+    // this.emitter.emit('onCategoryChanged',)
   }
   get getContent() {
     return (this.content = `<div class="main__content" id="root-subMain-right">
@@ -69,7 +65,7 @@ class Main extends Component {
   }
 }
 
-const main = new Main({ data })
+const main = new Main({ data, emitter })
 const menu = new Menu({ emitter, category: main.category })
-const basket = new Basket()
+const basket = new Basket({ emitter })
 let lastMenuItemId = menu.data.category
