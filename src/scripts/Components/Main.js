@@ -39,6 +39,12 @@ emitter.subscribe('onCategoryChanged', () => {
   })
 })
 
+emitter.subscribe('btnModalClose', (modal) => {
+  const modalClose = document.querySelector('.modal__close')
+  modalClose.addEventListener('click', () => {
+    modal.destroyModal()
+  })
+})
 class Main extends Component {
   constructor(props) {
     super()
@@ -47,7 +53,6 @@ class Main extends Component {
     this.arrayOfProduct = props.data.menu.filter((el) => el.category === this.category)
     this.renderComp(this.getContent, document.getElementById(this.id))
     this.initContent()
-    // this.emitter.emit('onCategoryChanged',)
   }
   get getContent() {
     return (this.content = `<div class="main__content" id="root-subMain-right">
@@ -64,8 +69,87 @@ class Main extends Component {
     })
   }
 }
+emitter.subscribe('btnModalOpen', () => {
+  console.log('You are opening modal emitter')
+  const btnCustom = document.getElementById('btn-custom')
+  let idChanged = false
+  btnCustom.addEventListener('click', () => {
+    const dataForModal = {
+      sizes: data.sizes,
+      breads: data.breads,
+      vegetables: data.vegetables,
+      sauces: data.sauces,
+      fillings: data.fillings,
+    }
+    //Changing ID for correct seacrh of curr Element
+    if (!idChanged) {
+      for (let key in dataForModal) {
+        for (let secKey in dataForModal[key]) {
+          dataForModal[key][secKey].id = 'modal-' + dataForModal[key][secKey].id
+          // console.log(dataForModal[key][secKey].id)
+        }
+        idChanged = true
+      }
+    }
+    // basket not needed
+    const modal = new Modal(dataForModal, basket)
+    modal.listenerForBtnBack()
+    //Закрытие модального окна
+    emitter.emit('btnModalClose', modal)
 
-const main = new Main({ data, emitter })
+    // move to modal
+    //Переключение страниц && //Анимация вернего nabvar item
+    const btnBack = document.getElementById('btn-back')
+    btnBack.addEventListener('click', () => {
+      if (modal.currentPageValue === 0) {
+      } else {
+        //Решил не делать из этих 5 строк метод, тк это будет менее читабельно в классе, чем непосредственно здесь
+        const selectedNavbar = document.getElementById(`navbar-item-${modal.currentPageValue}`)
+        selectedNavbar.classList.remove('selected')
+        modal.currentPageValue = modal.currentPageValue - 1
+        const selectedNextNavbar = document.getElementById(`navbar-item-${modal.currentPageValue}`)
+        selectedNextNavbar.classList.add('selected')
+        modal.renderCurrentPage(dataForModal)
+      }
+      modal.listenerForBtnBack()
+    })
+    //Переключение страниц && //Анимация вернего nabvar item
+    const btnNext = document.getElementById('btn-next')
+    btnNext.addEventListener('click', () => {
+      if (modal.currentPageValue >= 5) {
+      } else {
+        //Решил не делать из этих 5 строк метод, тк это будет менее читабельно в классе, чем непосредственно здесь
+        const selectedNavbar = document.getElementById(`navbar-item-${modal.currentPageValue}`)
+        selectedNavbar.classList.remove('selected')
+        modal.currentPageValue = modal.currentPageValue + 1
+        const selectedNextNavbar = document.getElementById(`navbar-item-${modal.currentPageValue}`)
+        selectedNextNavbar.classList.add('selected')
+        modal.renderCurrentPage(dataForModal)
+      }
+      modal.listenerForBtnBack()
+    })
+    //Переключение по navbar-item
+    const navbarList = document.querySelector('.body__navbar-section')
+    navbarList.addEventListener('click', (e) => {
+      if (e.target.closest('.navbar__item')) {
+        const currNavbarId = e.target.closest('.navbar__item').id
+        if (currNavbarId !== `navbar-item-${modal.currentPageValue}`) {
+          const selectedNavbar = document.getElementById(`navbar-item-${modal.currentPageValue}`)
+          selectedNavbar.classList.remove('selected')
+          modal.currentPage = +currNavbarId.slice(-1)
+          const selectedNextNavbar = document.getElementById(
+            `navbar-item-${modal.currentPageValue}`
+          )
+          selectedNextNavbar.classList.add('selected')
+          modal.renderCurrentPage(dataForModal)
+        }
+        modal.listenerForBtnBack()
+      }
+    })
+  })
+})
+const main = new Main({ data })
 const menu = new Menu({ emitter, category: main.category })
 const basket = new Basket({ emitter })
+emitter.emit('btnModalOpen')
 let lastMenuItemId = menu.data.category
