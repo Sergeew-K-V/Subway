@@ -2,7 +2,7 @@ import Component from './Component'
 export default class Product extends Component {
   constructor(props) {
     super()
-    this.id = `content-${props.id}`
+    this.id = `product-${props.id}`
     this.image = props.image
     this.description = props.description
     this.name = props.name
@@ -23,7 +23,7 @@ export default class Product extends Component {
   }
   get getContent() {
     return (this.content = `
-      <div class="subway__flex" >
+      <div class="subway__flex" id='content-${this.id}'>
         <div class="flex__top">
           <div class="subway__logo">
             <img src="/src/img/icons/markets/subway_logo.png" alt="" />
