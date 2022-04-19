@@ -8,6 +8,48 @@ import EventEmitter from '../EventEmitter'
 const emitter = new EventEmitter()
 console.log(emitter)
 
+emitter.subscribe('onProductQuantityChange', (array) => {
+  console.log('Subscribe onProductQuantityChange SET')
+  const mainContentBlock = document.getElementById('root')
+  mainContentBlock.addEventListener('click', (e) => {
+    //Изменение кол-ва бутербродов
+    if (
+      e.target.closest('.subway__block') === mainContentBlock.querySelector('.fa-minus') ||
+      mainContentBlock.querySelector('.fa-plus') ||
+      mainContentBlock.querySelector('.btns-list__btn')
+    ) {
+      const currProductId = e.target.closest('.subway__block').id
+      const currProductBlock = document.getElementById(currProductId)
+
+      const currProductObj = array.find((el) => {
+        if (el.id === currProductId) {
+          return el
+        }
+      })
+
+      if (e.target === currProductBlock.querySelector('.fa-minus')) {
+        if (currProductObj.dataProduct.quantity === 0) {
+        } else {
+          currProductObj.destroy('content-' + currProductObj.id)
+          currProductObj.dataProduct.quantity = -1
+        }
+      }
+      if (e.target === currProductBlock.querySelector('.fa-plus')) {
+        currProductObj.destroy('content-' + currProductObj.id)
+        currProductObj.dataProduct.quantity = 1
+      }
+    }
+    // //Added subway to basket
+    // if (e.target === subwayCurrBlock.querySelector('.btn-to-basket__btn')) {
+    //   if (this.dataProduct.quantity != 0) {
+    //     this.emitter.emit('sendObjToBasket', this.getObjForBasket)
+    //   } else {
+    //     alert('Укажите кол-во товара, чтобы добавить')
+    //   }
+    // }
+  })
+})
+
 emitter.subscribe('onCategoryChanged', () => {
   console.log("emmiter, yes it's main")
   const navbarMenu = document.querySelector('.navbar__menu')
@@ -28,12 +70,16 @@ emitter.subscribe('onCategoryChanged', () => {
         main.destroy('root-subMain-right')
         main.renderComp(main.getContent, document.getElementById(main.id))
         menu.data.category = categoryId
-
-        const arrayOfProduct = data.menu.filter((el) => el.category === menu.data.category)
-        arrayOfProduct.map((el) => {
+        const arrayOfProducts = data.menu.filter((el) => el.category === menu.data.category)
+        arrayOfProducts.map((el) => {
           const product = new Product(el, emitter)
           return product
         })
+        // emitter.emit(
+        //   'onProductQuantityChange',
+        //   arrayOfProducts,
+        //   console.log('GOT on RE-RENDER by Menu onProductQuantityChange')
+        // )
       }
     }
   })
@@ -49,10 +95,17 @@ class Main extends Component {
   constructor(props) {
     super()
     this.id = 'root-main-right'
+    this.emitter = props.emitter
     this.category = 'sandwiches'
     this.arrayOfProduct = props.data.menu.filter((el) => el.category === this.category)
     this.renderComp(this.getContent, document.getElementById(this.id))
-    this.initContent()
+    this.tempArray = this.initContent()
+
+    this.emitter.emit(
+      'onProductQuantityChange',
+      this.tempArray,
+      console.log('GOT on INIT onProductQuantityChange')
+    )
   }
   get getContent() {
     return (this.content = `<div class="main__content" id="root-subMain-right">
@@ -63,10 +116,11 @@ class Main extends Component {
                             </div>`)
   }
   initContent() {
-    this.arrayOfProduct.map((el) => {
+    const transformedArrayOfProducts = this.arrayOfProduct.map((el) => {
       const product = new Product(el, emitter)
       return product
     })
+    return transformedArrayOfProducts
   }
 }
 emitter.subscribe('btnModalOpen', () => {
@@ -148,7 +202,7 @@ emitter.subscribe('btnModalOpen', () => {
     })
   })
 })
-const main = new Main({ data })
+const main = new Main({ data, emitter })
 const menu = new Menu({ emitter, category: main.category })
 const basket = new Basket({ emitter })
 emitter.emit('btnModalOpen')
