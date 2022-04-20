@@ -17,7 +17,6 @@ export default class Product extends Component {
           console.log("it's proxy of product - SETTER")
           target.quantity += value
           this.renderComp(this.getContent, document.getElementById(this.id))
-          // this.emitter.emit('onProductQuantityChange', value)
           return true
         },
         get: (target, key) => {

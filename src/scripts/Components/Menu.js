@@ -31,14 +31,18 @@ export default class Menu extends Component {
           target.category = value
           this.renderComp(this.getContent, document.getElementById(this.id))
           this.created = true
-          this.emitter.emit('onCategoryChanged', value)
+          this.emitter.emit('onCategoryChanged', this.lastMenuItemId)
           return true
         },
       }
     )
+    this.lastMenuItemId = this.data.category
+
     this.renderComp(this.getContent, document.getElementById(this.id))
-    this.emitter.emit('onCategoryChanged')
+    this.emitter.emit('onCategoryChanged', this.lastMenuItemId)
+
     this.emitter.subscribe('categoryChanging', (categoryId) => {
+      this.lastMenuItemId = categoryId
       this.data.category = categoryId
       const arrayOfProducts = dataJSON.menu.filter((el) => el.category === this.data.category)
       const convertedArrayOfProducts = arrayOfProducts.map((el) => {
