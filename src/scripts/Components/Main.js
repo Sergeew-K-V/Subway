@@ -51,7 +51,7 @@ emitter.subscribe('onProductQuantityChange', (array) => {
 })
 
 emitter.subscribe('onCategoryChanged', () => {
-  console.log("emmiter, yes it's main")
+  // console.log("emmiter, yes it's main")
   const navbarMenu = document.querySelector('.navbar__menu')
   navbarMenu.addEventListener('click', (e) => {
     if (e.target.closest('.menu__item')) {
@@ -71,15 +71,15 @@ emitter.subscribe('onCategoryChanged', () => {
         main.renderComp(main.getContent, document.getElementById(main.id))
         menu.data.category = categoryId
         const arrayOfProducts = data.menu.filter((el) => el.category === menu.data.category)
-        arrayOfProducts.map((el) => {
+        const convertedArrayOfProducts = arrayOfProducts.map((el) => {
           const product = new Product(el, emitter)
           return product
         })
-        // emitter.emit(
-        //   'onProductQuantityChange',
-        //   arrayOfProducts,
-        //   console.log('GOT on RE-RENDER by Menu onProductQuantityChange')
-        // )
+        emitter.emit(
+          'onProductQuantityChange',
+          convertedArrayOfProducts,
+          console.log('GOT on RE-RENDER by Menu onProductQuantityChange')
+        )
       }
     }
   })
@@ -99,11 +99,11 @@ class Main extends Component {
     this.category = 'sandwiches'
     this.arrayOfProduct = props.data.menu.filter((el) => el.category === this.category)
     this.renderComp(this.getContent, document.getElementById(this.id))
-    this.tempArray = this.initContent()
+    this.transformedArrayOfProducts = this.initContent()
 
     this.emitter.emit(
       'onProductQuantityChange',
-      this.tempArray,
+      this.transformedArrayOfProducts,
       console.log('GOT on INIT onProductQuantityChange')
     )
   }
