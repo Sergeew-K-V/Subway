@@ -13,20 +13,18 @@ emitter.subscribe('onProductQuantityChange', (array) => {
   const mainContentBlock = document.getElementById('root')
   mainContentBlock.addEventListener('click', (e) => {
     //Изменение кол-ва бутербродов
+    const currProductId = e.target.closest('.subway__block').id
+    const currProductBlock = document.getElementById(currProductId)
+    const currProductObj = array.find((el) => {
+      if (el.id === currProductId) {
+        return el
+      }
+    })
     if (
-      e.target.closest('.subway__block') === mainContentBlock.querySelector('.fa-minus') ||
-      mainContentBlock.querySelector('.fa-plus') ||
-      mainContentBlock.querySelector('.btns-list__btn')
+      e.target.closest('.subway__block') === currProductBlock.querySelector('.fa-minus') ||
+      currProductBlock.querySelector('.fa-plus') ||
+      currProductBlock.querySelector('.btns-list__btn')
     ) {
-      const currProductId = e.target.closest('.subway__block').id
-      const currProductBlock = document.getElementById(currProductId)
-
-      const currProductObj = array.find((el) => {
-        if (el.id === currProductId) {
-          return el
-        }
-      })
-
       if (e.target === currProductBlock.querySelector('.fa-minus')) {
         if (currProductObj.dataProduct.quantity === 0) {
         } else {
@@ -40,13 +38,13 @@ emitter.subscribe('onProductQuantityChange', (array) => {
       }
     }
     // //Added subway to basket
-    // if (e.target === subwayCurrBlock.querySelector('.btn-to-basket__btn')) {
-    //   if (this.dataProduct.quantity != 0) {
-    //     this.emitter.emit('sendObjToBasket', this.getObjForBasket)
-    //   } else {
-    //     alert('Укажите кол-во товара, чтобы добавить')
-    //   }
-    // }
+    if (e.target === currProductBlock.querySelector('.btn-to-basket__btn')) {
+      if (currProductObj.dataProduct.quantity != 0) {
+        emitter.emit('sendObjToBasket', currProductObj.getObjForBasket)
+      } else {
+        alert('Укажите кол-во товара, чтобы добавить')
+      }
+    }
   })
 })
 
