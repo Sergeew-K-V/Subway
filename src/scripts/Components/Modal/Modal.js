@@ -4,8 +4,20 @@ export default class Modal extends Component {
   constructor(props, emitter) {
     super()
     this.id = 'modal-root'
-    this.currentPage = 0
+    // this.currentPage = 0
     this.emitter = emitter
+    this.dataModal = new Proxy(
+      {
+        currentPage: 0,
+      },
+      {
+        set: (target, key, value) => {
+          console.log("it's setter of dataModal - currPage")
+          return true
+        },
+      }
+    )
+    this.currentNavbar = 'navbar-item-' + 0
     this.customSubway = {
       id: 'customSubway-' + `${Date.now()}`,
       name: 'Subway-' + `${Date.now()}`.slice(7, 14),
@@ -35,13 +47,17 @@ export default class Modal extends Component {
     this.emitter.subscribe('onBtnNext', () => {
       const btnNext = document.getElementById('btn-next')
       btnNext.addEventListener('click', () => {
-        if (this.currentPageValue >= 5) {
+        if (this.dataModal.currentPage >= 5) {
         } else {
           //Решил не делать из этих 5 строк метод, тк это будет менее читабельно в классе, чем непосредственно здесь
-          const selectedNavbar = document.getElementById(`navbar-item-${this.currentPageValue}`)
+          const selectedNavbar = document.getElementById(
+            `navbar-item-${this.dataModal.currentPage}`
+          )
           selectedNavbar.classList.remove('selected')
-          this.currentPageValue = this.currentPageValue + 1
-          const selectedNextNavbar = document.getElementById(`navbar-item-${this.currentPageValue}`)
+          this.dataModal.currentPage = this.dataModal.currentPage + 1
+          const selectedNextNavbar = document.getElementById(
+            `navbar-item-${this.dataModal.currentPage}`
+          )
           selectedNextNavbar.classList.add('selected')
           this.destroy('modal-overlay')
           this.renderComp(this.getContent, document.getElementById(this.id))
@@ -63,7 +79,7 @@ export default class Modal extends Component {
     return array
   }
   get getContent() {
-    if (this.currentPageValue === 5) {
+    if (this.dataModal.currentPage === 5) {
       return (this.content = `
       <div class="modal-overlay" id="modal-overlay">
         <div class="modal">
@@ -201,12 +217,6 @@ export default class Modal extends Component {
         </div>
       </div>`)
     }
-  }
-  get currentPageValue() {
-    return this.currentPage
-  }
-  set currentPageValue(value) {
-    this.currentPage = value
   }
   get priceValue() {
     return this.customSubway.price
