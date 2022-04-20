@@ -69,17 +69,7 @@ emitter.subscribe('onCategoryChanged', () => {
 
         main.destroy('root-subMain-right')
         main.renderComp(main.getContent, document.getElementById(main.id))
-        menu.data.category = categoryId
-        const arrayOfProducts = data.menu.filter((el) => el.category === menu.data.category)
-        const convertedArrayOfProducts = arrayOfProducts.map((el) => {
-          const product = new Product(el, emitter)
-          return product
-        })
-        emitter.emit(
-          'onProductQuantityChange',
-          convertedArrayOfProducts,
-          console.log('GOT on RE-RENDER by Menu onProductQuantityChange')
-        )
+        emitter.emit('categoryChanging', categoryId)
       }
     }
   })
