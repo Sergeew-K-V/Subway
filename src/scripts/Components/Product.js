@@ -37,22 +37,7 @@ export default class Product extends Component {
     this.renderComp(this.headerBlock)
     this.getContent
     this.renderComp(this.content, document.getElementById(this.id))
-    // this.listeners()
-    // this.emitterQuantAndAdd()
   }
-  // emitterQuantAndAdd() {
-  //   this.emitter.subscribe('onProductQuantityChange', () => {
-  //     console.log('emmiter, product listeners')
-  //     //this.id = product-1, but rendered another
-  //     //эта штука вызывается много раз, а хватит одного  - нужно переставить в мейн перед инициализацией массива, а после сделать эмит
-  //     const subwayCurrBlock = document.getElementById(this.id)
-  //     debugger
-  //     subwayCurrBlock.addEventListener('click', (e) => {
-  //       //Изменение кол-ва бутербродов
-  //       console.log('e.target', e.target)
-  //     })
-  //   })
-  // }
   get getContent() {
     return (this.content = `
       <div class="subway__flex" id='content-${this.id}'>
@@ -94,36 +79,4 @@ export default class Product extends Component {
       quantity: this.dataProduct.quantity,
     })
   }
-  // listeners() {
-  //   const subwayCurrBlock = document.getElementById(this.id)
-  //   subwayCurrBlock.addEventListener('click', (e) => {
-  //     //Изменение кол-ва бутербродов
-  //     if (
-  //       e.target === subwayCurrBlock.querySelector('.fa-minus') ||
-  //       subwayCurrBlock.querySelector('.fa-plus') ||
-  //       subwayCurrBlock.querySelector('.btns-list__btn')
-  //     ) {
-  //       if (e.target === subwayCurrBlock.querySelector('.fa-minus')) {
-  //         if (this.dataProduct.quantity === 0) {
-  //         } else {
-  //           this.destroy('content-' + this.id)
-  //           this.dataProduct.quantity = -1
-  //         }
-  //       }
-  //       if (e.target === subwayCurrBlock.querySelector('.fa-plus')) {
-  //         this.destroy('content-' + this.id)
-  //         this.dataProduct.quantity = 1
-  //       }
-  //     }
-  //     // //Added subway to basket
-  //     if (e.target === subwayCurrBlock.querySelector('.btn-to-basket__btn')) {
-  //       if (this.dataProduct.quantity != 0) {
-  //         // this.sendObjToBasket()
-  //         this.emitter.emit('sendObjToBasket', this.getObjForBasket)
-  //       } else {
-  //         alert('Укажите кол-во товара, чтобы добавить')
-  //       }
-  //     }
-  //   })
-  // }
 }
