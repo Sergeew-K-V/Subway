@@ -1,6 +1,6 @@
 import Product from './Product'
 import data from '../../../data.json'
-import Modal from './Modal'
+import Modal from './Modal/Modal'
 import Basket from './Basket'
 import Component from './Component'
 import Menu from './Menu'
@@ -9,10 +9,11 @@ const emitter = new EventEmitter()
 console.log(emitter)
 
 emitter.subscribe('btnModalOpen', () => {
-  console.log('You are opening modal emitter')
+  // console.log('You are opening modal emitter')
   const btnCustom = document.getElementById('btn-custom')
   let idChanged = false
   btnCustom.addEventListener('click', () => {
+    /////////////// 1 ///////////////
     const dataForModal = {
       sizes: data.sizes,
       breads: data.breads,
@@ -30,9 +31,10 @@ emitter.subscribe('btnModalOpen', () => {
         idChanged = true
       }
     }
-    // basket not needed
     const modal = new Modal(dataForModal, emitter)
-    modal.listenerForBtnBack()
+    /////////////// 1 ///////////////
+
+    // modal.listenerForBtnBack()
     //Закрытие модального окна
     emitter.emit('btnModalClose')
 
@@ -57,24 +59,7 @@ emitter.subscribe('btnModalOpen', () => {
       })
     })
     //Переключение страниц && //Анимация вернего nabvar item
-    emitter.subscribe('onBtnNext', () => {
-      const btnNext = document.getElementById('btn-next')
-      btnNext.addEventListener('click', () => {
-        if (modal.currentPageValue >= 5) {
-        } else {
-          //Решил не делать из этих 5 строк метод, тк это будет менее читабельно в классе, чем непосредственно здесь
-          const selectedNavbar = document.getElementById(`navbar-item-${modal.currentPageValue}`)
-          selectedNavbar.classList.remove('selected')
-          modal.currentPageValue = modal.currentPageValue + 1
-          const selectedNextNavbar = document.getElementById(
-            `navbar-item-${modal.currentPageValue}`
-          )
-          selectedNextNavbar.classList.add('selected')
-          modal.renderCurrentPage(dataForModal)
-        }
-        modal.listenerForBtnBack()
-      })
-    })
+
     //Переключение по navbar-item
     emitter.subscribe('onNavbarItem', () => {
       const navbarList = document.querySelector('.body__navbar-section')

@@ -34,8 +34,7 @@ export default class Product extends Component {
     this.headerBlock = `<div class="subway__block" id="${this.id}">
     </div>`
     this.renderComp(this.headerBlock)
-    this.getContent
-    this.renderComp(this.content, document.getElementById(this.id))
+    this.renderComp(this.getContent, document.getElementById(this.id))
   }
   get getContent() {
     return (this.content = `
