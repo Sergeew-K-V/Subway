@@ -32,15 +32,24 @@ export default class Modal extends Component {
         set: (target, key, value) => {
           console.log("it's setter of dataModal -", key, target[key])
           target.currentPage = value
-          this.emitter.emit('animationModalBtn', this)
+          const data = this.currentData(props)
 
+          this.destroy('modal-overlay')
+          this.currentArrayOfData = []
+
+          this.renderComp(this.getContent, document.getElementById(this.id)) //modalRoot - место рендеринга модального окна
+          this.currentArrayOfData = this.initData(data)
+
+          this.emitter.emit('onBtnNextAndBack')
+          this.emitter.emit('onNavbarItem')
+          this.emitter.emit('animationModalBtn')
           return true
         },
       }
     )
 
     this.renderComp(this.getContent, document.getElementById(this.id)) //modalRoot - место рендеринга модального окна
-    this.arrayOfSize = this.initData(props.sizes)
+    this.currentArrayOfData = this.initData(props.sizes)
 
     this.subscribeCheck()
     this.emitter.subscribe('animationModalBtn', () => {
@@ -134,6 +143,28 @@ export default class Modal extends Component {
       this.destroy('modal-overlay')
     })
   }
+  currentData(props) {
+    switch (this.dataModal.currentPage) {
+      case 0:
+        console.log('props.sizes', props.sizes)
+        return props.sizes
+      case 1:
+        console.log('props.breads', props.breads)
+        return props.breads
+      case 2:
+        console.log('props.vegetables', props.vegetables)
+        return props.vegetables
+      case 3:
+        console.log('props.sauces', props.sauces)
+        return props.sauces
+      case 4:
+        console.log('props.fillings', props.fillings)
+        return props.fillings
+      case 5:
+        console.log('last')
+        break
+    }
+  }
   subscribeCheck() {
     for (let key in this.emitter.events) {
       if (key === 'animationModalBtn' || key === 'onBtnNextAndBack' || key === 'onNavbarItem') {
@@ -166,7 +197,7 @@ export default class Modal extends Component {
               <div class="modal__body" id="place-for-modal-content">
                 <div class="body__navbar">
                   <ul class="body__navbar-section">
-                    <li class="navbar__item sizes selected" id="navbar-item-0">Размер</li>
+                    <li class="navbar__item sizes" id="navbar-item-0">Размер</li>
                     <li class="navbar__item breads"id="navbar-item-1">Хлеб</li>
                     <li class="navbar__item vegetables"id="navbar-item-2">Овощи</li>
                     <li class="navbar__item sauces"id="navbar-item-3">Соусы</li>
@@ -258,7 +289,9 @@ export default class Modal extends Component {
               <div class="modal__body" id="place-for-modal-content">
                 <div class="body__navbar">
                   <ul class="body__navbar-section">
-                    <li class="navbar__item sizes selected" id="navbar-item-0">Размер</li>
+                    <li class="navbar__item sizes ${
+                      this.dataModal.currentPage === 0 ? 'selected' : ''
+                    }" id="navbar-item-0">Размер</li>
                     <li class="navbar__item breads"id="navbar-item-1">Хлеб</li>
                     <li class="navbar__item vegetables"id="navbar-item-2">Овощи</li>
                     <li class="navbar__item sauces"id="navbar-item-3">Соусы</li>
@@ -276,7 +309,7 @@ export default class Modal extends Component {
                 </div>
                 <div class="modal__content" id="content-card-root">
                   <!-- Сюда рендерится новый контент -->
-                  ${this.currArrayOfData !== undefined ? this.currentArrayOfData : ''}
+                  ${this.currentArrayOfData !== undefined ? this.currentArrayOfData : ''}
                 </div>
               </div>
               <div class="modal__footer" id="modal-total-bottom-root">
@@ -320,48 +353,6 @@ export default class Modal extends Component {
   //       basket.removeItem('body__item-' + this.customSubway.id)
   //     }
   //   })
-  // }
-
-  // renderCurrentPage(props) {
-  //   this.id = 'content-card-root'
-  //   switch (this.currentPageValue) {
-  //     case 0:
-  //       this.renderPageContent(props.sizes, this.id)
-  //       this.addListenerModal(undefined, props.sizes, this.customSubway, 'sizes')
-  //       break
-  //     case 1:
-  //       this.renderPageContent(props.breads, this.id)
-  //       this.addListenerModal(undefined, props.breads, this.customSubway, 'breads')
-  //       break
-  //     case 2:
-  //       this.renderPageContent(props.vegetables, this.id)
-  //       this.addListenerModal(
-  //         Object.keys(props.vegetables).length,
-  //         props.vegetables,
-  //         this.customSubway,
-  //         'vegetables'
-  //       )
-  //       break
-  //     case 3:
-  //       this.renderPageContent(props.sauces, this.id)
-  //       this.addListenerModal(3, props.sauces, this.customSubway, 'sauces')
-  //       break
-  //     case 4:
-  //       this.renderPageContent(props.fillings, this.id)
-  //       this.addListenerModal(
-  //         Object.keys(props.fillings).length,
-  //         props.fillings,
-  //         this.customSubway,
-  //         'fillings'
-  //       )
-  //       break
-  //     case 5:
-  //       this.renderSummaryContent(this.id)
-  //       this.addListenerModal()
-  //       break
-  //     default:
-  //       break
-  //   }
   // }
 
   // addListenerModal(maxSelectedItem = 1, props, customSub, typeOfProp) {
