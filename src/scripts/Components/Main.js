@@ -45,45 +45,6 @@ class Main extends Component {
     this.renderComp(this.getContent, document.getElementById(this.id))
     this.transformedArrayOfProducts = this.initContent()
 
-    this.emitter.subscribe('onProductQuantityChange', (array) => {
-      console.log('Subscribe onProductQuantityChange SET')
-      const mainContentBlock = document.getElementById('root')
-      mainContentBlock.addEventListener('click', (e) => {
-        //Изменение кол-ва бутербродов
-        const currProductId = e.target.closest('.subway__block').id
-        const currProductBlock = document.getElementById(currProductId)
-        const currProductObj = array.find((el) => {
-          if (el.id === currProductId) {
-            return el
-          }
-        })
-        if (
-          e.target.closest('.subway__block') === currProductBlock.querySelector('.fa-minus') ||
-          currProductBlock.querySelector('.fa-plus') ||
-          currProductBlock.querySelector('.btns-list__btn')
-        ) {
-          if (e.target === currProductBlock.querySelector('.fa-minus')) {
-            if (currProductObj.dataProduct.quantity === 0) {
-            } else {
-              currProductObj.destroy('content-' + currProductObj.id)
-              currProductObj.dataProduct.quantity = -1
-            }
-          }
-          if (e.target === currProductBlock.querySelector('.fa-plus')) {
-            currProductObj.destroy('content-' + currProductObj.id)
-            currProductObj.dataProduct.quantity = 1
-          }
-        }
-        // //Added subway to basket
-        if (e.target === currProductBlock.querySelector('.btn-to-basket__btn')) {
-          if (currProductObj.dataProduct.quantity != 0) {
-            emitter.emit('sendObjToBasket', currProductObj.getObjForBasket)
-          } else {
-            alert('Укажите кол-во товара, чтобы добавить')
-          }
-        }
-      })
-    })
     this.emitter.subscribe('onCategoryChanged', (lastMenuItemId) => {
       // console.log("emmiter, yes it's main")
       const navbarMenu = document.querySelector('.navbar__menu')
@@ -106,6 +67,11 @@ class Main extends Component {
         }
       })
     })
+    this.emitter.emit(
+      'onProductQuantityChange',
+      this.transformedArrayOfProducts,
+      console.log('GOT on RE-RENDER by Menu onProductQuantityChange')
+    )
     this.emitter.emit('btnModalOpen')
   }
   get getContent() {

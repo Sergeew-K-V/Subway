@@ -167,7 +167,7 @@ export default class Modal extends Component {
         console.log('props.fillings', props.fillings)
         return props.fillings
       case 5:
-        console.log('last')
+        console.log('customSub', this.customSubway)
         break
     }
   }
