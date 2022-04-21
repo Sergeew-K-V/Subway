@@ -40,24 +40,7 @@ emitter.subscribe('btnModalOpen', () => {
 
     // move to modal
     //Переключение страниц && //Анимация вернего nabvar item
-    emitter.subscribe('onBtnBack', () => {
-      const btnBack = document.getElementById('btn-back')
-      btnBack.addEventListener('click', () => {
-        if (modal.currentPageValue === 0) {
-        } else {
-          //Решил не делать из этих 5 строк метод, тк это будет менее читабельно в классе, чем непосредственно здесь
-          const selectedNavbar = document.getElementById(`navbar-item-${modal.currentPageValue}`)
-          selectedNavbar.classList.remove('selected')
-          modal.currentPageValue = modal.currentPageValue - 1
-          const selectedNextNavbar = document.getElementById(
-            `navbar-item-${modal.currentPageValue}`
-          )
-          selectedNextNavbar.classList.add('selected')
-          modal.renderCurrentPage(dataForModal)
-        }
-        modal.listenerForBtnBack()
-      })
-    })
+    emitter.subscribe('onBtnBack', () => {})
     //Переключение страниц && //Анимация вернего nabvar item
 
     //Переключение по navbar-item

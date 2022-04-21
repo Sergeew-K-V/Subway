@@ -6,18 +6,6 @@ export default class Modal extends Component {
     this.id = 'modal-root'
     // this.currentPage = 0
     this.emitter = emitter
-    this.dataModal = new Proxy(
-      {
-        currentPage: 0,
-      },
-      {
-        set: (target, key, value) => {
-          console.log("it's setter of dataModal - currPage")
-          return true
-        },
-      }
-    )
-    this.currentNavbar = 'navbar-item-' + 0
     this.customSubway = {
       id: 'customSubway-' + `${Date.now()}`,
       name: 'Subway-' + `${Date.now()}`.slice(7, 14),
@@ -35,6 +23,23 @@ export default class Modal extends Component {
       saucesId: [],
       fillingsId: [],
     }
+    this.dataModal = new Proxy(
+      {
+        currentPage: 0,
+        price: this.customSubway.price,
+        quantity: this.customSubway.quantity,
+      },
+      {
+        set: (target, key, value) => {
+          console.log("it's setter of dataModal - currPage")
+          target[key] = value
+          console.log(target[key])
+          return true
+        },
+      }
+    )
+    this.currentNavbar = 'navbar-item-' + 0
+
     this.renderComp(this.getContent, document.getElementById(this.id)) //modalRoot - место рендеринга модального окна
     this.arrayOfSize = this.initData(props.sizes)
 
@@ -44,9 +49,10 @@ export default class Modal extends Component {
         this.destroy('modal-overlay')
       })
     })
-    this.emitter.subscribe('onBtnNext', () => {
+    this.emitter.subscribe('onBtnNextAndBack', () => {
       const btnNext = document.getElementById('btn-next')
       btnNext.addEventListener('click', () => {
+        console.log('btnNext')
         if (this.dataModal.currentPage >= 5) {
         } else {
           //Решил не делать из этих 5 строк метод, тк это будет менее читабельно в классе, чем непосредственно здесь
@@ -54,20 +60,37 @@ export default class Modal extends Component {
             `navbar-item-${this.dataModal.currentPage}`
           )
           selectedNavbar.classList.remove('selected')
-          this.dataModal.currentPage = this.dataModal.currentPage + 1
+          this.dataModal.currentPage = +1
           const selectedNextNavbar = document.getElementById(
             `navbar-item-${this.dataModal.currentPage}`
           )
           selectedNextNavbar.classList.add('selected')
-          this.destroy('modal-overlay')
-          this.renderComp(this.getContent, document.getElementById(this.id))
-          this.currentArrayOfData = this.initData(props.breads)
-          this.emitter.emit('btnModalClose')
+          // this.destroy('modal-overlay')
+          // this.renderComp(this.getContent, document.getElementById(this.id))
+          // this.currentArrayOfData = this.initData(props.breads)
         }
       })
+      const btnBack = document.getElementById('btn-back')
+      btnBack.addEventListener('click', () => {
+        console.log('btnBack')
+        if (this.dataModal.currentPage === 0) {
+        } else {
+          //Решил не делать из этих 5 строк метод, тк это будет менее читабельно в классе, чем непосредственно здесь
+          const selectedNavbar = document.getElementById(
+            `navbar-item-${this.dataModal.currentPage}`
+          )
+          selectedNavbar.classList.remove('selected')
+          this.dataModal.currentPage = this.dataModal.currentPage - 1
+          const selectedNextNavbar = document.getElementById(
+            `navbar-item-${this.dataModal.currentPage}`
+          )
+          selectedNextNavbar.classList.add('selected')
+        }
+      })
+      this.emitter.emit('btnModalClose')
     })
 
-    this.emitter.emit('onBtnNext')
+    this.emitter.emit('onBtnNextAndBack')
   }
   initData(props) {
     const array = []
@@ -218,19 +241,6 @@ export default class Modal extends Component {
       </div>`)
     }
   }
-  get priceValue() {
-    return this.customSubway.price
-  }
-  set priceValue(value) {
-    this.customSubway.price += value
-  }
-  get quantityValue() {
-    return this.customSubway.quantity
-  }
-  set quantityValue(value) {
-    this.customSubway.quantity = value
-  }
-
   // listenerForBtnBack() {
   //   const btnBack = document.getElementById('btn-back')
   //   const btnNext = document.getElementById('btn-next')
