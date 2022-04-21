@@ -43,6 +43,12 @@ export default class Modal extends Component {
           this.emitter.emit('onBtnNextAndBack')
           this.emitter.emit('onNavbarItem')
           this.emitter.emit('animationModalBtn')
+
+          const modalClose = document.querySelector('.modal__close')
+          modalClose.addEventListener('click', () => {
+            this.destroy('modal-overlay')
+          })
+
           return true
         },
       }
@@ -182,38 +188,41 @@ export default class Modal extends Component {
     return array
   }
   get getContent() {
+    this.content = `
+    <div class="modal-overlay" id="modal-overlay">
+    <div class="modal">
+      <div class="container-modal">
+        <div class="modal__block" id="modal-block">
+          <div class="modal__header">
+            <span>Выберите размер сендвича</span>
+            <div class="modal__close">
+              <span></span>
+            </div>
+          </div>
+          <div class="modal__body" id="place-for-modal-content">
+            <div class="body__navbar">
+              <ul class="body__navbar-section">
+                <li class="navbar__item sizes ${
+                  this.dataModal.currentPage === 0 ? 'selected' : ''
+                }" id="navbar-item-0">Размер</li>
+                <li class="navbar__item breads"id="navbar-item-1">Хлеб</li>
+                <li class="navbar__item vegetables"id="navbar-item-2">Овощи</li>
+                <li class="navbar__item sauces"id="navbar-item-3">Соусы</li>
+                <li class="navbar__item fillings"id="navbar-item-4">Начинка</li>
+                <li class="navbar__item total"id="navbar-item-5">Готово!</li>
+              </ul>
+            </div>
+            <div class="modal__btn-list">
+              <button class="modal__btn"id="btn-back">
+                <i class="fa-solid fa-chevron-left" ></i><span>Назад</span>
+              </button>
+              <button class="modal__btn"id="btn-next">
+                <span>Вперед</span><i class="fa-solid fa-angle-right"></i>
+              </button>
+            </div>
+            <div class="modal__content" id="content-card-root">`
     if (this.dataModal.currentPage === 5) {
-      return (this.content = `
-      <div class="modal-overlay" id="modal-overlay">
-        <div class="modal">
-          <div class="container-modal">
-            <div class="modal__block" id="modal-block">
-              <div class="modal__header">
-                <span>Выберите размер сендвича</span>
-                <div class="modal__close">
-                  <span></span>
-                </div>
-              </div>
-              <div class="modal__body" id="place-for-modal-content">
-                <div class="body__navbar">
-                  <ul class="body__navbar-section">
-                    <li class="navbar__item sizes" id="navbar-item-0">Размер</li>
-                    <li class="navbar__item breads"id="navbar-item-1">Хлеб</li>
-                    <li class="navbar__item vegetables"id="navbar-item-2">Овощи</li>
-                    <li class="navbar__item sauces"id="navbar-item-3">Соусы</li>
-                    <li class="navbar__item fillings"id="navbar-item-4">Начинка</li>
-                    <li class="navbar__item total"id="navbar-item-5">Готово!</li>
-                  </ul>
-                </div>
-                <div class="modal__btn-list">
-                  <button class="modal__btn"id="btn-back">
-                    <i class="fa-solid fa-chevron-left" ></i><span>Назад</span>
-                  </button>
-                  <button class="modal__btn"id="btn-next">
-                    <span>Вперед</span><i class="fa-solid fa-angle-right"></i>
-                  </button>
-                </div>
-                <div class="modal__content" id="content-card-root">
+      return `${this.content}
                   <!-- Сюда рендерится новый контент -->
                   <div class="modal__content-total" id="modal-summary">
                       <div class="content-total__block">
@@ -258,7 +267,7 @@ export default class Modal extends Component {
                   <div class="modal-block__text">Количество</div>
                     <div class="modal-block__btns-list">
                       <button class="btns-modal__btn"><i class="fa-solid fa-minus"></i></button>
-                      <input type="number" class="btns-modal__btn modal-input" value="${this.quantityValue}" />
+                      <input type="number" class="btns-modal__btn modal-input" value="${this.dataModal.quantity}" />
                       <button class="btns-modal__btn"><i class="fa-solid fa-plus"></i></button>
                     </div>
                   </div>
@@ -273,41 +282,9 @@ export default class Modal extends Component {
             </div>
           </div>
         </div>
-      </div>`)
+      </div>`
     } else {
-      return (this.content = `
-      <div class="modal-overlay" id="modal-overlay">
-        <div class="modal">
-          <div class="container-modal">
-            <div class="modal__block" id="modal-block">
-              <div class="modal__header">
-                <span>Выберите размер сендвича</span>
-                <div class="modal__close">
-                  <span></span>
-                </div>
-              </div>
-              <div class="modal__body" id="place-for-modal-content">
-                <div class="body__navbar">
-                  <ul class="body__navbar-section">
-                    <li class="navbar__item sizes ${
-                      this.dataModal.currentPage === 0 ? 'selected' : ''
-                    }" id="navbar-item-0">Размер</li>
-                    <li class="navbar__item breads"id="navbar-item-1">Хлеб</li>
-                    <li class="navbar__item vegetables"id="navbar-item-2">Овощи</li>
-                    <li class="navbar__item sauces"id="navbar-item-3">Соусы</li>
-                    <li class="navbar__item fillings"id="navbar-item-4">Начинка</li>
-                    <li class="navbar__item total"id="navbar-item-5">Готово!</li>
-                  </ul>
-                </div>
-                <div class="modal__btn-list">
-                  <button class="modal__btn"id="btn-back">
-                    <i class="fa-solid fa-chevron-left" ></i><span>Назад</span>
-                  </button>
-                  <button class="modal__btn"id="btn-next">
-                    <span>Вперед</span><i class="fa-solid fa-angle-right"></i>
-                  </button>
-                </div>
-                <div class="modal__content" id="content-card-root">
+      return `${this.content}
                   <!-- Сюда рендерится новый контент -->
                   ${this.currentArrayOfData !== undefined ? this.currentArrayOfData : ''}
                 </div>
@@ -320,7 +297,7 @@ export default class Modal extends Component {
             </div>
           </div>
         </div>
-      </div>`)
+      </div>`
     }
   }
 
