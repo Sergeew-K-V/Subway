@@ -77,7 +77,7 @@ class Main extends Component {
         // //Added subway to basket
         if (e.target === currProductBlock.querySelector('.btn-to-basket__btn')) {
           if (currProductObj.dataProduct.quantity != 0) {
-            emitter.emit('sendObjToBasket', currProductObj.getObjForBasket)
+            this.emitter.emit('sendObjToBasket', currProductObj.getObjForBasket)
           } else {
             alert('Укажите кол-во товара, чтобы добавить')
           }

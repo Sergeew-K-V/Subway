@@ -32,6 +32,7 @@ export default class Modal extends Component {
         set: (target, key, value) => {
           console.log("it's setter of dataModal -", key, target[key])
           target.currentPage = value
+
           const data = this.currentData(props)
 
           this.destroy('modal-overlay')
