@@ -15,6 +15,57 @@ emitter.subscribe('onModalClose', (modal) => {
     emitter.unsubscribe('onModalClose')
   })
 })
+
+emitter.subscribe('onBtnNextAndBack', (modal) => {
+  const btnNext = document.getElementById('btn-next')
+  btnNext.addEventListener('click', () => {
+    console.log('btnNext')
+    if (modal.dataModal.currentPage >= 5) {
+    } else {
+      const selectedNavbar = document.getElementById(`navbar-item-${modal.dataModal.currentPage}`)
+      selectedNavbar.classList.remove('selected')
+      modal.dataModal.currentPage = modal.dataModal.currentPage + 1
+      const selectedNextNavbar = document.getElementById(
+        `navbar-item-${modal.dataModal.currentPage}`
+      )
+      selectedNextNavbar.classList.add('selected')
+      // this.destroy('modal-overlay')
+      // this.renderComp(this.getContent, document.getElementById(this.id))
+      // this.currentArrayOfData = this.initData(props.breads)
+    }
+  })
+  const btnBack = document.getElementById('btn-back')
+  btnBack.addEventListener('click', () => {
+    console.log('btnBack')
+    if (modal.dataModal.currentPage === 0) {
+    } else {
+      const selectedNavbar = document.getElementById(`navbar-item-${modal.dataModal.currentPage}`)
+      selectedNavbar.classList.remove('selected')
+      modal.dataModal.currentPage = modal.dataModal.currentPage - 1
+      const selectedNextNavbar = document.getElementById(
+        `navbar-item-${modal.dataModal.currentPage}`
+      )
+      selectedNextNavbar.classList.add('selected')
+    }
+  })
+})
+emitter.subscribe('onNavbarItem', (modal) => {
+  const navbarList = document.querySelector('.body__navbar-section')
+  navbarList.addEventListener('click', (e) => {
+    if (e.target.closest('.navbar__item')) {
+      const currNavbarId = e.target.closest('.navbar__item').id
+      if (currNavbarId !== `navbar-item-${modal.dataModal.currentPage}`) {
+        const selectedNavbar = document.getElementById(`navbar-item-${modal.dataModal.currentPage}`)
+        selectedNavbar.classList.remove('selected')
+        modal.dataModal.currentPage = +currNavbarId.slice(-1)
+        const selectedNextNavbar = document.getElementById(
+          `navbar-item-${modal.dataModal.currentPage}`
+        )
+        selectedNextNavbar.classList.add('selected')
+      }
+    }
+  })
+})
 emitter.subscribe('btnModalOpen', () => {
   // console.log('You are opening modal emitter')
   const btnCustom = document.getElementById('btn-custom')
@@ -42,28 +93,8 @@ emitter.subscribe('btnModalOpen', () => {
     /////////////// 1 ///////////////
 
     emitter.emit('onModalClose', modal)
-    //Закрытие модального окна
-
-    //Переключение по navbar-item
-    // emitter.subscribe('onNavbarItem', () => {
-    //   const navbarList = document.querySelector('.body__navbar-section')
-    //   navbarList.addEventListener('click', (e) => {
-    //     if (e.target.closest('.navbar__item')) {
-    //       const currNavbarId = e.target.closest('.navbar__item').id
-    //       if (currNavbarId !== `navbar-item-${modal.currentPageValue}`) {
-    //         const selectedNavbar = document.getElementById(`navbar-item-${modal.currentPageValue}`)
-    //         selectedNavbar.classList.remove('selected')
-    //         modal.currentPage = +currNavbarId.slice(-1)
-    //         const selectedNextNavbar = document.getElementById(
-    //           `navbar-item-${modal.currentPageValue}`
-    //         )
-    //         selectedNextNavbar.classList.add('selected')
-    //         modal.renderCurrentPage(dataForModal)
-    //       }
-    //       modal.listenerForBtnBack()
-    //     }
-    //   })
-    // })
+    emitter.emit('onBtnNextAndBack', modal)
+    emitter.emit('onNavbarItem', modal)
   })
 })
 

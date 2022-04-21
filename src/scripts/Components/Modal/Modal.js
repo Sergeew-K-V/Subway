@@ -5,6 +5,11 @@ export default class Modal extends Component {
     super()
     this.id = 'modal-root'
     this.emitter = emitter
+    for (let key in this.emitter.events) {
+      if (key === 'onBtnNextAndBack') {
+        this.emitter.unsubscribe('onBtnNextAndBack')
+      }
+    }
     this.customSubway = {
       id: 'customSubway-' + `${Date.now()}`,
       name: 'Subway-' + `${Date.now()}`.slice(7, 14),
@@ -31,7 +36,7 @@ export default class Modal extends Component {
       {
         set: (target, key, value) => {
           console.log("it's setter of dataModal - ", key)
-          target.currentPage += value
+          target.currentPage = value
           console.log(target[key])
           return true
         },
@@ -44,46 +49,6 @@ export default class Modal extends Component {
 
     this.renderComp(this.getContent, document.getElementById(this.id)) //modalRoot - место рендеринга модального окна
     this.arrayOfSize = this.initData(props.sizes)
-
-    this.emitter.subscribe('onBtnNextAndBack', () => {
-      const btnNext = document.getElementById('btn-next')
-      btnNext.addEventListener('click', () => {
-        console.log('btnNext')
-        if (this.dataModal.currentPage >= 5) {
-        } else {
-          const selectedNavbar = document.getElementById(
-            `navbar-item-${this.dataModal.currentPage}`
-          )
-          selectedNavbar.classList.remove('selected')
-          this.dataModal.currentPage = +1
-          const selectedNextNavbar = document.getElementById(
-            `navbar-item-${this.dataModal.currentPage}`
-          )
-          selectedNextNavbar.classList.add('selected')
-          // this.destroy('modal-overlay')
-          // this.renderComp(this.getContent, document.getElementById(this.id))
-          // this.currentArrayOfData = this.initData(props.breads)
-        }
-      })
-      const btnBack = document.getElementById('btn-back')
-      btnBack.addEventListener('click', () => {
-        console.log('btnBack')
-        if (this.dataModal.currentPage === 0) {
-        } else {
-          const selectedNavbar = document.getElementById(
-            `navbar-item-${this.dataModal.currentPage}`
-          )
-          selectedNavbar.classList.remove('selected')
-          this.dataModal.currentPage = -1
-          const selectedNextNavbar = document.getElementById(
-            `navbar-item-${this.dataModal.currentPage}`
-          )
-          selectedNextNavbar.classList.add('selected')
-        }
-      })
-    })
-
-    this.emitter.emit('onBtnNextAndBack')
   }
   initData(props) {
     const array = []
