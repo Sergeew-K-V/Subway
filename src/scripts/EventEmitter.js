@@ -19,6 +19,10 @@ export default class EventEmitter {
     )
   }
 
+  unsubscribeTargetArray(eventName) {
+    this.events[eventName] = []
+  }
+
   // @param {string} eventName
   // @param {any} args
   emit(eventName, args) {

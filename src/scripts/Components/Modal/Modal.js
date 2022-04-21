@@ -5,11 +5,6 @@ export default class Modal extends Component {
     super()
     this.id = 'modal-root'
     this.emitter = emitter
-    for (let key in this.emitter.events) {
-      if (key === 'onBtnNextAndBack') {
-        this.emitter.unsubscribe('onBtnNextAndBack')
-      }
-    }
     this.customSubway = {
       id: 'customSubway-' + `${Date.now()}`,
       name: 'Subway-' + `${Date.now()}`.slice(7, 14),
@@ -35,20 +30,112 @@ export default class Modal extends Component {
       },
       {
         set: (target, key, value) => {
-          console.log("it's setter of dataModal - ", key)
+          console.log("it's setter of dataModal -", key, target[key])
           target.currentPage = value
-          console.log(target[key])
+          this.emitter.emit('animationModalBtn', this)
+
           return true
-        },
-        get: (target, key) => {
-          console.log('getter dataModal', key, target[key])
-          return target[key]
         },
       }
     )
 
     this.renderComp(this.getContent, document.getElementById(this.id)) //modalRoot - место рендеринга модального окна
     this.arrayOfSize = this.initData(props.sizes)
+    console.log(emitter.events)
+
+    this.subscribeCheck()
+    this.emitter.subscribe('animationModalBtn', () => {
+      const btnBack = document.getElementById('btn-back')
+      const btnNext = document.getElementById('btn-next')
+      const btnList = document.querySelector('.modal__btn-list')
+      if (this.dataModal.currentPage === 0) {
+        btnBack.classList.add('hidden')
+        btnList.classList.add('hiddenBack')
+      } else {
+        btnBack.classList.remove('hidden')
+        btnList.classList.remove('hiddenBack')
+      }
+      if (this.dataModal.currentPage === 5) {
+        btnNext.classList.add('hidden')
+        btnList.classList.add('hiddenNext')
+      } else {
+        btnNext.classList.remove('hidden')
+        btnList.classList.remove('hiddenNext')
+      }
+    })
+    // this.emitter.subscribe('onModalClose', () => {
+    const modalClose = document.querySelector('.modal__close')
+    modalClose.addEventListener('click', () => {
+      this.destroy('modal-overlay')
+    })
+    // })
+    this.emitter.subscribe('onBtnNextAndBack', () => {
+      const btnNext = document.getElementById('btn-next')
+      btnNext.addEventListener('click', () => {
+        console.log('btnNext')
+        if (this.dataModal.currentPage >= 5) {
+        } else {
+          const selectedNavbar = document.getElementById(
+            `navbar-item-${this.dataModal.currentPage}`
+          )
+          selectedNavbar.classList.remove('selected')
+          this.dataModal.currentPage = this.dataModal.currentPage + 1
+          const selectedNextNavbar = document.getElementById(
+            `navbar-item-${this.dataModal.currentPage}`
+          )
+          selectedNextNavbar.classList.add('selected')
+          // this.destroy('modal-overlay')s
+          // this.renderComp(this.getContent, document.getElementById(this.id))
+          // this.currentArrayOfData = this.initData(props.breads)
+        }
+      })
+      const btnBack = document.getElementById('btn-back')
+      btnBack.addEventListener('click', () => {
+        console.log('btnBack')
+        if (this.dataModal.currentPage === 0) {
+        } else {
+          const selectedNavbar = document.getElementById(
+            `navbar-item-${this.dataModal.currentPage}`
+          )
+          selectedNavbar.classList.remove('selected')
+          this.dataModal.currentPage = this.dataModal.currentPage - 1
+          const selectedNextNavbar = document.getElementById(
+            `navbar-item-${this.dataModal.currentPage}`
+          )
+          selectedNextNavbar.classList.add('selected')
+        }
+      })
+    })
+    this.emitter.subscribe('onNavbarItem', () => {
+      const navbarList = document.querySelector('.body__navbar-section')
+      navbarList.addEventListener('click', (e) => {
+        if (e.target.closest('.navbar__item')) {
+          const currNavbarId = e.target.closest('.navbar__item').id
+          if (currNavbarId !== `navbar-item-${this.dataModal.currentPage}`) {
+            const selectedNavbar = document.getElementById(
+              `navbar-item-${this.dataModal.currentPage}`
+            )
+            selectedNavbar.classList.remove('selected')
+            this.dataModal.currentPage = +currNavbarId.slice(-1)
+            const selectedNextNavbar = document.getElementById(
+              `navbar-item-${this.dataModal.currentPage}`
+            )
+            selectedNextNavbar.classList.add('selected')
+          }
+        }
+      })
+    })
+    // this.emitter.emit('onModalClose')
+    this.emitter.emit('onBtnNextAndBack')
+    this.emitter.emit('onNavbarItem')
+    this.emitter.emit('animationModalBtn')
+  }
+  subscribeCheck() {
+    for (let key in this.emitter.events) {
+      if (key === 'animationModalBtn' || key === 'onBtnNextAndBack' || key === 'onNavbarItem') {
+        this.emitter.unsubscribeTargetArray(key)
+      }
+    }
   }
   initData(props) {
     const array = []
@@ -199,25 +286,6 @@ export default class Modal extends Component {
       </div>`)
     }
   }
-  // listenerForBtnBack() {
-  //   const btnBack = document.getElementById('btn-back')
-  //   const btnNext = document.getElementById('btn-next')
-  //   const btnList = document.querySelector('.modal__btn-list')
-  //   if (this.currentPageValue === 0) {
-  //     btnBack.classList.add('hidden')
-  //     btnList.classList.add('hiddenBack')
-  //   } else {
-  //     btnBack.classList.remove('hidden')
-  //     btnList.classList.remove('hiddenBack')
-  //   }
-  //   if (this.currentPageValue === 5) {
-  //     btnNext.classList.add('hidden')
-  //     btnList.classList.add('hiddenNext')
-  //   } else {
-  //     btnNext.classList.remove('hidden')
-  //     btnList.classList.remove('hiddenNext')
-  //   }
-  // }
 
   // listenerFotQuantityBtn() {
   //   const modalFooter = document.getElementById('modal-total-bottom-root')
