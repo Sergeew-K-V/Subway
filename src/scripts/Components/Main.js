@@ -8,6 +8,13 @@ import EventEmitter from '../EventEmitter'
 const emitter = new EventEmitter()
 console.log(emitter)
 
+emitter.subscribe('onModalClose', (modal) => {
+  const modalClose = document.querySelector('.modal__close')
+  modalClose.addEventListener('click', () => {
+    modal.destroy('modal-overlay')
+    emitter.unsubscribe('onModalClose')
+  })
+})
 emitter.subscribe('btnModalOpen', () => {
   // console.log('You are opening modal emitter')
   const btnCustom = document.getElementById('btn-custom')
@@ -34,35 +41,29 @@ emitter.subscribe('btnModalOpen', () => {
     const modal = new Modal(dataForModal, emitter)
     /////////////// 1 ///////////////
 
-    // modal.listenerForBtnBack()
+    emitter.emit('onModalClose', modal)
     //Закрытие модального окна
-    emitter.emit('btnModalClose')
-
-    // move to modal
-    //Переключение страниц && //Анимация вернего nabvar item
-    emitter.subscribe('onBtnBack', () => {})
-    //Переключение страниц && //Анимация вернего nabvar item
 
     //Переключение по navbar-item
-    emitter.subscribe('onNavbarItem', () => {
-      const navbarList = document.querySelector('.body__navbar-section')
-      navbarList.addEventListener('click', (e) => {
-        if (e.target.closest('.navbar__item')) {
-          const currNavbarId = e.target.closest('.navbar__item').id
-          if (currNavbarId !== `navbar-item-${modal.currentPageValue}`) {
-            const selectedNavbar = document.getElementById(`navbar-item-${modal.currentPageValue}`)
-            selectedNavbar.classList.remove('selected')
-            modal.currentPage = +currNavbarId.slice(-1)
-            const selectedNextNavbar = document.getElementById(
-              `navbar-item-${modal.currentPageValue}`
-            )
-            selectedNextNavbar.classList.add('selected')
-            modal.renderCurrentPage(dataForModal)
-          }
-          modal.listenerForBtnBack()
-        }
-      })
-    })
+    // emitter.subscribe('onNavbarItem', () => {
+    //   const navbarList = document.querySelector('.body__navbar-section')
+    //   navbarList.addEventListener('click', (e) => {
+    //     if (e.target.closest('.navbar__item')) {
+    //       const currNavbarId = e.target.closest('.navbar__item').id
+    //       if (currNavbarId !== `navbar-item-${modal.currentPageValue}`) {
+    //         const selectedNavbar = document.getElementById(`navbar-item-${modal.currentPageValue}`)
+    //         selectedNavbar.classList.remove('selected')
+    //         modal.currentPage = +currNavbarId.slice(-1)
+    //         const selectedNextNavbar = document.getElementById(
+    //           `navbar-item-${modal.currentPageValue}`
+    //         )
+    //         selectedNextNavbar.classList.add('selected')
+    //         modal.renderCurrentPage(dataForModal)
+    //       }
+    //       modal.listenerForBtnBack()
+    //     }
+    //   })
+    // })
   })
 })
 

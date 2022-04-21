@@ -4,7 +4,6 @@ export default class Modal extends Component {
   constructor(props, emitter) {
     super()
     this.id = 'modal-root'
-    // this.currentPage = 0
     this.emitter = emitter
     this.customSubway = {
       id: 'customSubway-' + `${Date.now()}`,
@@ -32,7 +31,7 @@ export default class Modal extends Component {
       {
         set: (target, key, value) => {
           console.log("it's setter of dataModal - ", key)
-          target.currentPage = value
+          target.currentPage += value
           console.log(target[key])
           return true
         },
@@ -42,29 +41,21 @@ export default class Modal extends Component {
         },
       }
     )
-    this.currentNavbar = 'navbar-item-' + 0
 
     this.renderComp(this.getContent, document.getElementById(this.id)) //modalRoot - место рендеринга модального окна
     this.arrayOfSize = this.initData(props.sizes)
 
-    this.emitter.subscribe('btnModalClose', () => {
-      const modalClose = document.querySelector('.modal__close')
-      modalClose.addEventListener('click', () => {
-        this.destroy('modal-overlay')
-      })
-    })
     this.emitter.subscribe('onBtnNextAndBack', () => {
       const btnNext = document.getElementById('btn-next')
       btnNext.addEventListener('click', () => {
         console.log('btnNext')
         if (this.dataModal.currentPage >= 5) {
         } else {
-          //Решил не делать из этих 5 строк метод, тк это будет менее читабельно в классе, чем непосредственно здесь
           const selectedNavbar = document.getElementById(
             `navbar-item-${this.dataModal.currentPage}`
           )
           selectedNavbar.classList.remove('selected')
-          this.dataModal.currentPage = this.dataModal.currentPage + 1
+          this.dataModal.currentPage = +1
           const selectedNextNavbar = document.getElementById(
             `navbar-item-${this.dataModal.currentPage}`
           )
@@ -79,19 +70,17 @@ export default class Modal extends Component {
         console.log('btnBack')
         if (this.dataModal.currentPage === 0) {
         } else {
-          //Решил не делать из этих 5 строк метод, тк это будет менее читабельно в классе, чем непосредственно здесь
           const selectedNavbar = document.getElementById(
             `navbar-item-${this.dataModal.currentPage}`
           )
           selectedNavbar.classList.remove('selected')
-          this.dataModal.currentPage = this.dataModal.currentPage - 1
+          this.dataModal.currentPage = -1
           const selectedNextNavbar = document.getElementById(
             `navbar-item-${this.dataModal.currentPage}`
           )
           selectedNextNavbar.classList.add('selected')
         }
       })
-      this.emitter.emit('btnModalClose')
     })
 
     this.emitter.emit('onBtnNextAndBack')
