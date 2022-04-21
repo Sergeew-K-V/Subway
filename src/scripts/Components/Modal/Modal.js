@@ -31,10 +31,14 @@ export default class Modal extends Component {
       },
       {
         set: (target, key, value) => {
-          console.log("it's setter of dataModal - currPage")
-          target[key] = value
+          console.log("it's setter of dataModal - ", key)
+          target.currentPage = value
           console.log(target[key])
           return true
+        },
+        get: (target, key) => {
+          console.log('getter dataModal', key, target[key])
+          return target[key]
         },
       }
     )
@@ -60,7 +64,7 @@ export default class Modal extends Component {
             `navbar-item-${this.dataModal.currentPage}`
           )
           selectedNavbar.classList.remove('selected')
-          this.dataModal.currentPage = +1
+          this.dataModal.currentPage = this.dataModal.currentPage + 1
           const selectedNextNavbar = document.getElementById(
             `navbar-item-${this.dataModal.currentPage}`
           )
@@ -183,7 +187,7 @@ export default class Modal extends Component {
                     </div>
                   </div>
                   <div class="modal__total-price">
-                    <span>Цена: ${this.customSubway.price} руб.</span>
+                    <span>Цена: ${this.dataModal.price} руб.</span>
                     <div class="modal__btn-to-basket">
                       <button class="btn-to-basket__btn">В корзину</button>
                     </div>
@@ -232,7 +236,7 @@ export default class Modal extends Component {
               </div>
               <div class="modal__footer" id="modal-total-bottom-root">
                 <div class="modal__total-price">
-                  <span>Итого: ${this.priceValue} руб.</span>
+                  <span>Итого: ${this.dataModal.price} руб.</span>
                 </div>
               </div>
             </div>
