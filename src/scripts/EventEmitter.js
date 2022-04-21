@@ -19,7 +19,7 @@ export default class EventEmitter {
     )
   }
 
-  unsubscribeTargetArray(eventName) {
+  unsubscribeTargetEventName(eventName) {
     this.events[eventName] = []
   }
 

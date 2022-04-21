@@ -41,7 +41,6 @@ export default class Modal extends Component {
 
     this.renderComp(this.getContent, document.getElementById(this.id)) //modalRoot - место рендеринга модального окна
     this.arrayOfSize = this.initData(props.sizes)
-    console.log(emitter.events)
 
     this.subscribeCheck()
     this.emitter.subscribe('animationModalBtn', () => {
@@ -63,12 +62,6 @@ export default class Modal extends Component {
         btnList.classList.remove('hiddenNext')
       }
     })
-    // this.emitter.subscribe('onModalClose', () => {
-    const modalClose = document.querySelector('.modal__close')
-    modalClose.addEventListener('click', () => {
-      this.destroy('modal-overlay')
-    })
-    // })
     this.emitter.subscribe('onBtnNextAndBack', () => {
       const btnNext = document.getElementById('btn-next')
       btnNext.addEventListener('click', () => {
@@ -125,15 +118,26 @@ export default class Modal extends Component {
         }
       })
     })
+    // this.emitter.subscribe('onModalClose', () => {
+    // const modalClose = document.querySelector('.modal__close')
+    // modalClose.addEventListener('click', () => {
+    //   this.destroy('modal-overlay')
+    // })
+    // })
     // this.emitter.emit('onModalClose')
     this.emitter.emit('onBtnNextAndBack')
     this.emitter.emit('onNavbarItem')
     this.emitter.emit('animationModalBtn')
+
+    const modalClose = document.querySelector('.modal__close')
+    modalClose.addEventListener('click', () => {
+      this.destroy('modal-overlay')
+    })
   }
   subscribeCheck() {
     for (let key in this.emitter.events) {
       if (key === 'animationModalBtn' || key === 'onBtnNextAndBack' || key === 'onNavbarItem') {
-        this.emitter.unsubscribeTargetArray(key)
+        this.emitter.unsubscribeTargetEventName(key)
       }
     }
   }
@@ -287,31 +291,6 @@ export default class Modal extends Component {
     }
   }
 
-  // listenerFotQuantityBtn() {
-  //   const modalFooter = document.getElementById('modal-total-bottom-root')
-  //   modalFooter.addEventListener('click', (e) => {
-  //     //Изменение кол-ва бутербродов
-  //     if (
-  //       e.target === modalFooter.querySelector('.fa-minus') ||
-  //       modalFooter.querySelector('.fa-plus') ||
-  //       modalFooter.querySelector('.btns-modal__btn')
-  //     ) {
-  //       if (e.target === modalFooter.querySelector('.fa-minus')) {
-  //         if (this.quantityValue === 0) {
-  //         } else {
-  //           this.quantityValue = this.quantityValue - 1
-  //           this.renderPrice(true)
-  //           this.listenerForBtnToBasket(this.basket)
-  //         }
-  //       }
-  //       if (e.target === modalFooter.querySelector('.fa-plus')) {
-  //         this.quantityValue = this.quantityValue + 1
-  //         this.renderPrice(true)
-  //         this.listenerForBtnToBasket(this.basket)
-  //       }
-  //     }
-  //   })
-  // }
   // actualPrice(props, curContCardId, action = 'minus') {
   //   if (action === 'plus') {
   //     for (let el in props) {

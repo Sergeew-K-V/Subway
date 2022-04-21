@@ -108,12 +108,6 @@ emitter.subscribe('btnModalOpen', () => {
       }
     }
     const modal = new Modal(dataForModal, emitter)
-    /////////////// 1 ///////////////
-
-    // emitter.emit('onModalClose', modal)
-    // emitter.emit('onBtnNextAndBack', modal)
-    // emitter.emit('onNavbarItem', modal)
-    // emitter.emit('animationModalBtn', modal)
   })
 })
 
@@ -166,11 +160,6 @@ class Main extends Component {
         }
       })
     })
-    this.emitter.emit(
-      'onProductQuantityChange',
-      this.transformedArrayOfProducts,
-      console.log('GOT on INIT onProductQuantityChange')
-    )
     this.emitter.subscribe('onCategoryChanged', (lastMenuItemId) => {
       // console.log("emmiter, yes it's main")
       const navbarMenu = document.querySelector('.navbar__menu')
