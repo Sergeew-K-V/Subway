@@ -45,45 +45,7 @@ class Main extends Component {
     this.renderComp(this.getContent, document.getElementById(this.id))
     this.transformedArrayOfProducts = this.initContent()
 
-    this.emitter.subscribe('onProductQuantityChange', (array) => {
-      console.log('Subscribe onProductQuantityChange SET')
-      const mainContentBlock = document.getElementById('root')
-      mainContentBlock.addEventListener('click', (e) => {
-        //Изменение кол-ва бутербродов
-        const currProductId = e.target.closest('.subway__block').id
-        const currProductBlock = document.getElementById(currProductId)
-        const currProductObj = array.find((el) => {
-          if (el.id === currProductId) {
-            return el
-          }
-        })
-        if (
-          e.target.closest('.subway__block') === currProductBlock.querySelector('.fa-minus') ||
-          currProductBlock.querySelector('.fa-plus') ||
-          currProductBlock.querySelector('.btns-list__btn')
-        ) {
-          if (e.target === currProductBlock.querySelector('.fa-minus')) {
-            if (currProductObj.dataProduct.quantity === 0) {
-            } else {
-              currProductObj.destroy('content-' + currProductObj.id)
-              currProductObj.dataProduct.quantity = -1
-            }
-          }
-          if (e.target === currProductBlock.querySelector('.fa-plus')) {
-            currProductObj.destroy('content-' + currProductObj.id)
-            currProductObj.dataProduct.quantity = 1
-          }
-        }
-        // //Added subway to basket
-        if (e.target === currProductBlock.querySelector('.btn-to-basket__btn')) {
-          if (currProductObj.dataProduct.quantity != 0) {
-            this.emitter.emit('sendObjToBasket', currProductObj.getObjForBasket)
-          } else {
-            alert('Укажите кол-во товара, чтобы добавить')
-          }
-        }
-      })
-    })
+    this.emitter.subscribe('onProductQuantityChange', (array) => {})
     this.emitter.subscribe('onCategoryChanged', (menuData) => {
       // console.log("emmiter, yes it's main")
       const navbarMenu = document.querySelector('.navbar__menu')
@@ -106,21 +68,52 @@ class Main extends Component {
 
             this.arrayOfProduct = props.data.menu.filter((el) => el.category === categoryId)
             this.transformedArrayOfProducts = this.initContent()
-            this.emitter.emit(
-              'onProductQuantityChange',
-              this.transformedArrayOfProducts,
-              console.log('GOT on RE-RENDER by Menu onProductQuantityChange')
-            )
+            this.listenerQuantityProduct()
           }
         }
       })
     })
-    this.emitter.emit(
-      'onProductQuantityChange',
-      this.transformedArrayOfProducts,
-      console.log('GOT on RE-RENDER by Menu onProductQuantityChange')
-    )
+    this.listenerQuantityProduct()
     this.emitter.emit('btnModalOpen')
+  }
+  listenerQuantityProduct() {
+    console.log('Subscribe onProductQuantityChange SET')
+    const mainContentBlock = document.getElementById('root')
+    mainContentBlock.addEventListener('click', (e) => {
+      //Изменение кол-ва бутербродов
+      const currProductId = e.target.closest('.subway__block').id
+      const currProductBlock = document.getElementById(currProductId)
+      const currProductObj = this.transformedArrayOfProducts.find((el) => {
+        if (el.id === currProductId) {
+          return el
+        }
+      })
+      if (
+        e.target.closest('.subway__block') === currProductBlock.querySelector('.fa-minus') ||
+        currProductBlock.querySelector('.fa-plus') ||
+        currProductBlock.querySelector('.btns-list__btn')
+      ) {
+        if (e.target === currProductBlock.querySelector('.fa-minus')) {
+          if (currProductObj.dataProduct.quantity === 0) {
+          } else {
+            currProductObj.destroy('content-' + currProductObj.id)
+            currProductObj.dataProduct.quantity = -1
+          }
+        }
+        if (e.target === currProductBlock.querySelector('.fa-plus')) {
+          currProductObj.destroy('content-' + currProductObj.id)
+          currProductObj.dataProduct.quantity = 1
+        }
+      }
+      // //Added subway to basket
+      if (e.target === currProductBlock.querySelector('.btn-to-basket__btn')) {
+        if (currProductObj.dataProduct.quantity != 0) {
+          this.emitter.emit('sendObjToBasket', currProductObj.getObjForBasket)
+        } else {
+          alert('Укажите кол-во товара, чтобы добавить')
+        }
+      }
+    })
   }
   get getContent() {
     return (this.content = `<div class="main__content" id="root-subMain-right">
