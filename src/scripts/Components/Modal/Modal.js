@@ -1,5 +1,7 @@
 import Component from '../Component'
 import ModalCard from './ModalCard'
+
+//
 export default class Modal extends Component {
   constructor(props, emitter) {
     super()
@@ -292,56 +294,56 @@ export default class Modal extends Component {
             }
           }
 
-          // switch (type) {
-          //   case 'vegetables':
-          //     if (selected.length !== 0) {
-          //       this.customSubway.vegetables = []
-          //       for (let el in props) {
-          //         if (!this.customSubway.vegetables.includes(' ' + props[el].name)) {
-          //           if (selected.includes(props[el].id)) {
-          //             this.customSubway.vegetables.push(' ' + props[el].name)
-          //           }
-          //         }
-          //       }
-          //       this.customSubway.vegetablesId = [...selected] //Or slice
-          //     } else {
-          //       this.customSubway.vegetables = []
-          //       alert('empty vegetables')
-          //     }
-          //     break
-          //   case 'sauces':
-          //     if (selected.length !== 0) {
-          //       this.customSubway.sauces = []
-          //       for (let el in props) {
-          //         if (!this.customSubway.sauces.includes(' ' + props[el].name)) {
-          //           if (selected.includes(props[el].id)) {
-          //             this.customSubway.sauces.push(' ' + props[el].name)
-          //           }
-          //         }
-          //       }
-          //       this.customSubway.saucesId = [...selected]
-          //     } else {
-          //       this.customSubway.sauces = []
-          //       alert('empty sauces')
-          //     }
-          //     break
-          //   case 'fillings':
-          //     if (selected.length !== 0) {
-          //       this.customSubway.fillings = []
-          //       for (let el in props) {
-          //         if (!this.customSubway.fillings.includes(' ' + props[el].name)) {
-          //           if (selected.includes(props[el].id)) {
-          //             this.customSubway.fillings.push(' ' + props[el].name)
-          //           }
-          //         }
-          //       }
-          //       this.customSubway.fillingsId = [...selected]
-          //     } else {
-          //       this.customSubway.fillings = []
-          //       alert('empty fillings')
-          //     }
-          //     break
-          // }
+          switch (type) {
+            case 'vegetables':
+              if (selected.length !== 0) {
+                this.customSubway.vegetables = []
+                for (let el in props) {
+                  if (!this.customSubway.vegetables.includes(' ' + props[el].name)) {
+                    if (selected.includes(props[el].id)) {
+                      this.customSubway.vegetables.push(' ' + props[el].name)
+                    }
+                  }
+                }
+                this.customSubway.vegetablesId = [...selected] //Or slice
+              } else {
+                this.customSubway.vegetables = []
+                alert('empty vegetables')
+              }
+              break
+            case 'sauces':
+              if (selected.length !== 0) {
+                this.customSubway.sauces = []
+                for (let el in props) {
+                  if (!this.customSubway.sauces.includes(' ' + props[el].name)) {
+                    if (selected.includes(props[el].id)) {
+                      this.customSubway.sauces.push(' ' + props[el].name)
+                    }
+                  }
+                }
+                this.customSubway.saucesId = [...selected]
+              } else {
+                this.customSubway.sauces = []
+                alert('empty sauces')
+              }
+              break
+            case 'fillings':
+              if (selected.length !== 0) {
+                this.customSubway.fillings = []
+                for (let el in props) {
+                  if (!this.customSubway.fillings.includes(' ' + props[el].name)) {
+                    if (selected.includes(props[el].id)) {
+                      this.customSubway.fillings.push(' ' + props[el].name)
+                    }
+                  }
+                }
+                this.customSubway.fillingsId = [...selected]
+              } else {
+                this.customSubway.fillings = []
+                alert('empty fillings')
+              }
+              break
+          }
         })
       }
     })
@@ -385,6 +387,8 @@ export default class Modal extends Component {
           maxSelect: Object.keys(props.fillings),
           type: Object.keys(props).includes('fillings') ? 'fillings' : new Error('not type'),
         }
+      case 5:
+        return {}
     }
   }
   subscribeCheck() {
