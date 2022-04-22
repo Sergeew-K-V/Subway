@@ -84,7 +84,7 @@ class Main extends Component {
         }
       })
     })
-    this.emitter.subscribe('onCategoryChanged', (lastMenuItemId) => {
+    this.emitter.subscribe('onCategoryChanged', (menuData) => {
       // console.log("emmiter, yes it's main")
       const navbarMenu = document.querySelector('.navbar__menu')
       navbarMenu.addEventListener('click', (e) => {
@@ -92,17 +92,17 @@ class Main extends Component {
           const categoryId = e.target.closest('.menu__item').id
           const currMenuItem = document.getElementById(categoryId)
           currMenuItem.classList.add('selected')
-          if (categoryId === lastMenuItemId) {
+          if (categoryId === menuData.category) {
             alert('Already opened')
           } else {
-            if (lastMenuItemId !== null) {
-              const lastMenuItem = document.getElementById(lastMenuItemId)
+            if (menuData.category !== null) {
+              const lastMenuItem = document.getElementById(menuData.category)
               lastMenuItem.classList.remove('selected')
             }
             this.destroy('root-subMain-right')
             this.renderComp(this.getContent, document.getElementById(this.id))
 
-            lastMenuItemId = categoryId
+            menuData.category = categoryId
 
             this.arrayOfProduct = props.data.menu.filter((el) => el.category === categoryId)
             this.transformedArrayOfProducts = this.initContent()

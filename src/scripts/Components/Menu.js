@@ -29,16 +29,14 @@ export default class Menu extends Component {
           target.category = value
           this.renderComp(this.getContent, document.getElementById(this.id))
           this.created = true
-          this.lastMenuItemId = this.data.category
-          this.emitter.emit('onCategoryChanged', this.lastMenuItemId)
+          this.emitter.emit('onCategoryChanged', this.data)
           return true
         },
       }
     )
-    this.lastMenuItemId = this.data.category
 
     this.renderComp(this.getContent, document.getElementById(this.id))
-    this.emitter.emit('onCategoryChanged', this.lastMenuItemId)
+    this.emitter.emit('onCategoryChanged', this.data)
   }
 
   get getContent() {
