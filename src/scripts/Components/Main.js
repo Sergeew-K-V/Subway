@@ -101,7 +101,16 @@ class Main extends Component {
             }
             this.destroy('root-subMain-right')
             this.renderComp(this.getContent, document.getElementById(this.id))
-            this.emitter.emit('categoryChanging', categoryId)
+
+            lastMenuItemId = categoryId
+
+            this.arrayOfProduct = props.data.menu.filter((el) => el.category === categoryId)
+            this.transformedArrayOfProducts = this.initContent()
+            this.emitter.emit(
+              'onProductQuantityChange',
+              this.transformedArrayOfProducts,
+              console.log('GOT on RE-RENDER by Menu onProductQuantityChange')
+            )
           }
         }
       })

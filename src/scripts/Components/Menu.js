@@ -1,6 +1,4 @@
 import Component from './Component'
-import dataJSON from '../../../data.json'
-import Product from './Product'
 
 export default class Menu extends Component {
   constructor(props) {
@@ -31,6 +29,7 @@ export default class Menu extends Component {
           target.category = value
           this.renderComp(this.getContent, document.getElementById(this.id))
           this.created = true
+          this.lastMenuItemId = this.data.category
           this.emitter.emit('onCategoryChanged', this.lastMenuItemId)
           return true
         },
@@ -40,21 +39,6 @@ export default class Menu extends Component {
 
     this.renderComp(this.getContent, document.getElementById(this.id))
     this.emitter.emit('onCategoryChanged', this.lastMenuItemId)
-
-    this.emitter.subscribe('categoryChanging', (categoryId) => {
-      this.lastMenuItemId = categoryId
-      this.data.category = categoryId
-      const arrayOfProducts = dataJSON.menu.filter((el) => el.category === this.data.category)
-      const convertedArrayOfProducts = arrayOfProducts.map((el) => {
-        const product = new Product(el, this.emitter)
-        return product
-      })
-      this.emitter.emit(
-        'onProductQuantityChange',
-        convertedArrayOfProducts,
-        console.log('GOT on RE-RENDER by Menu onProductQuantityChange')
-      )
-    })
   }
 
   get getContent() {
