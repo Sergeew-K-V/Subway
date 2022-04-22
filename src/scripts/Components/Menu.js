@@ -21,7 +21,6 @@ export default class Menu extends Component {
       },
       {
         set: (target, key, value) => {
-          console.log('we are in proxy data')
           if (this.created) {
             this.destroy('menu__subRoot')
             this.created = false

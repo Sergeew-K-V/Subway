@@ -119,7 +119,6 @@ export default class Basket extends Component {
     this.priceValue = getTotalPrice(this.arrayOfGoods, this.priceValue)
     this.destroy()
     this.basketRender()
-    // console.log('arrayofgoods', this.arrayOfGoods)
   }
 
   removeItem(sendedId) {
@@ -129,7 +128,6 @@ export default class Basket extends Component {
     this.basketRender()
     this.priceValue -= removingItem.price * removingItem.quantity
     this.reRenderPrice()
-    // console.log('removing item from basket', removingItem)
   }
 }
 function getTotalPrice(array, price) {

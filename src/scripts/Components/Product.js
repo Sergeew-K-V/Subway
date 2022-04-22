@@ -14,13 +14,11 @@ export default class Product extends Component {
       },
       {
         set: (target, key, value) => {
-          console.log("it's proxy of product - SETTER")
           target.quantity += value
           this.renderComp(this.getContent, document.getElementById(this.id))
           return true
         },
         get: (target, key) => {
-          console.log("it's proxy of product - GETTER(No re-render)")
           return target.quantity
         },
       }

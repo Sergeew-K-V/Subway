@@ -6,10 +6,8 @@ import Component from './Component'
 import Menu from './Menu'
 import EventEmitter from '../EventEmitter'
 const emitter = new EventEmitter()
-console.log(emitter)
 
 emitter.subscribe('btnModalOpen', () => {
-  // console.log('You are opening modal emitter')
   const btnCustom = document.getElementById('btn-custom')
   let idChanged = false
   btnCustom.addEventListener('click', () => {
@@ -26,7 +24,6 @@ emitter.subscribe('btnModalOpen', () => {
       for (let key in dataForModal) {
         for (let secKey in dataForModal[key]) {
           dataForModal[key][secKey].id = 'modal-' + dataForModal[key][secKey].id
-          // console.log(dataForModal[key][secKey].id)
         }
         idChanged = true
       }
@@ -47,7 +44,6 @@ class Main extends Component {
 
     this.emitter.subscribe('onProductQuantityChange', (array) => {})
     this.emitter.subscribe('onCategoryChanged', (menuData) => {
-      // console.log("emmiter, yes it's main")
       const navbarMenu = document.querySelector('.navbar__menu')
       navbarMenu.addEventListener('click', (e) => {
         if (e.target.closest('.menu__item')) {
@@ -77,7 +73,6 @@ class Main extends Component {
     this.emitter.emit('btnModalOpen')
   }
   listenerQuantityProduct() {
-    console.log('Subscribe onProductQuantityChange SET')
     const mainContentBlock = document.getElementById('root')
     mainContentBlock.addEventListener('click', (e) => {
       //Изменение кол-ва бутербродов

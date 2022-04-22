@@ -12,14 +12,12 @@ export default class Basket extends Component {
       },
       {
         set: (target, key, value) => {
-          console.log('Proxy from basket - SETTER')
           target.price = getTotalPrice(this.arrayOfGoods, this.dataBasket.price)
           this.renderComp(this.getContent, document.getElementById(this.id))
           this.emitter.emit('faTrashClick')
           return true
         },
         get: (target, key) => {
-          console.log("it's proxy of basket - GETTER(No re-render)")
           return target.price
         },
       }
@@ -28,12 +26,10 @@ export default class Basket extends Component {
     this.emitter.emit('faTrashClick')
 
     this.emitter.subscribe('sendObjToBasket', (data) => {
-      console.log('sendObjToBasket is now')
       this.addItem(data)
     })
 
     this.emitter.subscribe('faTrashClick', () => {
-      console.log('emitter faTrash')
       const basketBody = document.getElementById('place-for-body-item')
       basketBody.addEventListener('click', (e) => {
         if (e.target.closest('.fa-trash-can')) {

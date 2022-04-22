@@ -124,7 +124,6 @@ btnCustom.addEventListener('click', () => {
     for (let key in dataForModal) {
       for (let secKey in dataForModal[key]) {
         dataForModal[key][secKey].id = 'modal-' + dataForModal[key][secKey].id
-        // console.log(dataForModal[key][secKey].id)
       }
       idChanged = true
     }
