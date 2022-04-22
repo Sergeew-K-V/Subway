@@ -21,6 +21,7 @@ export default class Modal extends Component {
       vegetablesId: [],
       saucesId: [],
       fillingsId: [],
+      // lastSelectedObj: '',
     }
     this.dataModal = new Proxy(
       {
@@ -30,25 +31,22 @@ export default class Modal extends Component {
       },
       {
         set: (target, key, value) => {
-          console.log("it's setter of dataModal -", key, target[key])
           target.currentPage = value
+          console.log("it's setter of dataModal -", key, target[key])
 
           const data = this.currentData(props)
-
           this.destroy('modal-overlay')
           this.currentArrayOfData = []
 
           this.renderComp(this.getContent, document.getElementById(this.id)) //modalRoot - место рендеринга модального окна
-          this.currentArrayOfData = this.initData(data)
-
+          if (this.dataModal.currentPage !== 5) {
+            this.currentArrayOfData = this.initData(data.props)
+          }
           this.emitter.emit('onBtnNextAndBack')
           this.emitter.emit('onNavbarItem')
           this.emitter.emit('animationModalBtn')
-
-          const modalClose = document.querySelector('.modal__close')
-          modalClose.addEventListener('click', () => {
-            this.destroy('modal-overlay')
-          })
+          this.emitter.emit('onSelectCard', data, this.customSubway)
+          this.listenerModalClose()
 
           return true
         },
@@ -93,9 +91,6 @@ export default class Modal extends Component {
             `navbar-item-${this.dataModal.currentPage}`
           )
           selectedNextNavbar.classList.add('selected')
-          // this.destroy('modal-overlay')s
-          // this.renderComp(this.getContent, document.getElementById(this.id))
-          // this.currentArrayOfData = this.initData(props.breads)
         }
       })
       const btnBack = document.getElementById('btn-back')
@@ -134,41 +129,482 @@ export default class Modal extends Component {
         }
       })
     })
-    // this.emitter.subscribe('onModalClose', () => {
-    // const modalClose = document.querySelector('.modal__close')
-    // modalClose.addEventListener('click', () => {
-    //   this.destroy('modal-overlay')
-    // })
-    // })
-    // this.emitter.emit('onModalClose')
-    this.emitter.emit('onBtnNextAndBack')
-    this.emitter.emit('onNavbarItem')
-    this.emitter.emit('animationModalBtn')
+    this.listenerModalClose()
+    this.emitter.subscribe(
+      'onSelectCard',
+      ({ maxSelectedItem = 1, props, typeOfProp }, customSub) => {
+        const modalContent = document.getElementById('content-card-root')
+        if (maxSelectedItem === 1) {
+          let selected = false
+          let selectedId
+          let lastClickObjId
 
-    const modalClose = document.querySelector('.modal__close')
-    modalClose.addEventListener('click', () => {
-      this.destroy('modal-overlay')
-    })
+          switch (typeOfProp) {
+            case 'sizes':
+              if (customSub.sizeId !== '') {
+                const alreadySelected = document.getElementById(customSub.sizeId)
+                alreadySelected.classList.add('select')
+                selected = true
+                selectedId = customSub.sizeId
+                customSub.lastSelectedObj = customSub.sizeId
+              }
+              break
+            case 'breads':
+              if (customSub.breadId !== '') {
+                const alreadySelected = document.getElementById(customSub.breadId)
+                alreadySelected.classList.add('select')
+                selected = true
+                selectedId = customSub.breadId
+                customSub.lastSelectedObj = customSub.breadId
+              }
+              break
+          }
+          modalContent.addEventListener('click', (e) => {
+            if (e.target.closest('.modal__content-card')) {
+              const currId = e.target.closest('.modal__content-card').id
+              const currContentCard = document.getElementById(currId)
+              if (selected) {
+                debugger
+                if (
+                  lastClickObjId === e.target.closest('.modal__content-card').id ||
+                  lastClickObjId === customSub.lastSelectedObj
+                ) {
+                  currContentCard.classList.toggle('select')
+                  selected = false
+                  selectedId = null
+                  if (typeOfProp === 'sizes') {
+                    customSub.size = 'Not selected'
+                    customSub.sizeId = ''
+
+                    this.actualPrice(props, currId)
+                  }
+                  if (typeOfProp === 'breads') {
+                    customSub.bread = 'Not selected'
+                    customSub.breadId = ''
+                    this.actualPrice(props, currId)
+                  }
+                  lastClickObjId = e.target.closest('.modal__content-card').id
+                } else {
+                  const removeToggleNode = document.getElementById(
+                    lastClickObjId || customSub.lastSelectedObj
+                  )
+                  removeToggleNode.classList.toggle('select')
+                  this.actualPrice(props, removeToggleNode.id, this.priceValue)
+                  currContentCard.classList.toggle('select')
+                  this.actualPrice(props, currId, 'plus')
+                  selectedId = currId
+                  lastClickObjId = e.target.closest('.modal__content-card').id
+                }
+              } else {
+                currContentCard.classList.toggle('select')
+                selected = true
+                selectedId = currId
+                this.actualPrice(props, currId, 'plus')
+                lastClickObjId = e.target.closest('.modal__content-card').id
+              }
+            }
+
+            switch (typeOfProp) {
+              case 'sizes':
+                if (selectedId !== null) {
+                  for (let el in props) {
+                    if (selectedId === props[el].id) {
+                      customSub.size = props[el].name
+                    }
+                  }
+                  customSub.sizeId = selectedId
+                }
+                break
+              case 'breads':
+                if (selectedId !== null) {
+                  for (let el in props) {
+                    if (selectedId === props[el].id) {
+                      customSub.bread = props[el].name
+                    }
+                  }
+                  customSub.breadId = selectedId
+                }
+                break
+            }
+          })
+        } else {
+          let currentSelectedItem = 0
+          let selected = []
+
+          //check exist selected item or not
+          // switch (typeOfProp) {
+          //   case 'vegetables':
+          //     if (customSub.vegetablesId.length !== 0) {
+          //       customSub.vegetablesId.forEach((element) => {
+          //         const alreadySelected = document.getElementById(element)
+          //         alreadySelected.classList.add('select')
+          //         currentSelectedItem++
+          //       })
+          //       selected = [...customSub.vegetablesId]
+          //     }
+          //     break
+          //   case 'sauces':
+          //     if (customSub.saucesId.length !== 0) {
+          //       customSub.saucesId.forEach((element) => {
+          //         const alreadySelected = document.getElementById(element)
+          //         alreadySelected.classList.add('select')
+          //         currentSelectedItem++
+          //       })
+          //       selected = [...customSub.saucesId]
+          //     }
+          //     break
+          //   case 'fillings':
+          //     if (customSub.fillingsId.length !== 0) {
+          //       customSub.fillingsId.forEach((element) => {
+          //         const alreadySelected = document.getElementById(element)
+          //         alreadySelected.classList.add('select')
+          //         currentSelectedItem++
+          //       })
+          //       selected = [...customSub.fillingsId]
+          //     }
+          //     break
+          // }
+
+          modalContent.addEventListener('click', (e) => {
+            if (e.target.closest('.modal__content-card')) {
+              const currId = e.target.closest('.modal__content-card').id
+              const currContentCard = document.getElementById(currId)
+              if (selected.includes(currId) && currentSelectedItem === maxSelectedItem) {
+                selected = selected.filter((el) => el != currId)
+                --currentSelectedItem
+                // this.actualPrice(props, currId)
+                currContentCard.classList.toggle('select')
+              } else {
+                if (currentSelectedItem === maxSelectedItem) {
+                  alert('You have made maximum choices')
+                } else {
+                  if (selected.includes(currId)) {
+                    selected = selected.filter((el) => el != currId)
+                    --currentSelectedItem
+                    // this.actualPrice(props, currId)
+                    currContentCard.classList.toggle('select')
+                  } else {
+                    currContentCard.classList.toggle('select')
+                    selected.push(currId)
+                    ++currentSelectedItem
+                    // this.actualPrice(props, currId, 'plus')
+                  }
+                }
+              }
+            }
+
+            // switch (typeOfProp) {
+            //   case 'vegetables':
+            //     if (selected.length !== 0) {
+            //       customSub.vegetables = []
+            //       for (let el in props) {
+            //         if (!customSub.vegetables.includes(' ' + props[el].name)) {
+            //           if (selected.includes(props[el].id)) {
+            //             customSub.vegetables.push(' ' + props[el].name)
+            //           }
+            //         }
+            //       }
+            //       customSub.vegetablesId = [...selected] //Or slice
+            //     } else {
+            //       customSub.vegetables = []
+            //       alert('empty vegetables')
+            //     }
+            //     break
+            //   case 'sauces':
+            //     if (selected.length !== 0) {
+            //       customSub.sauces = []
+            //       for (let el in props) {
+            //         if (!customSub.sauces.includes(' ' + props[el].name)) {
+            //           if (selected.includes(props[el].id)) {
+            //             customSub.sauces.push(' ' + props[el].name)
+            //           }
+            //         }
+            //       }
+            //       customSub.saucesId = [...selected]
+            //     } else {
+            //       customSub.sauces = []
+            //       alert('empty sauces')
+            //     }
+            //     break
+            //   case 'fillings':
+            //     if (selected.length !== 0) {
+            //       customSub.fillings = []
+            //       for (let el in props) {
+            //         if (!customSub.fillings.includes(' ' + props[el].name)) {
+            //           if (selected.includes(props[el].id)) {
+            //             customSub.fillings.push(' ' + props[el].name)
+            //           }
+            //         }
+            //       }
+            //       customSub.fillingsId = [...selected]
+            //     } else {
+            //       customSub.fillings = []
+            //       alert('empty fillings')
+            //     }
+            //     break
+            // }
+          })
+        }
+      }
+    )
+    this.dataModal.currentPage = 0
   }
+  // addListenerModal(maxSelectedItem = 1, props, customSub, typeOfProp) {
+  //   //Добавление анимации выбора
+  //   const modalContent = document.getElementById('content-card-root')
+  //   if (maxSelectedItem === 1) {
+  //     let selected = false // animation only
+  //     let selectedId
+  //     let lastClickObjId
+
+  //     //check exist selected item or not
+  //     // switch (typeOfProp) {
+  //     //   case 'sizes':
+  //     //     if (customSub.sizeId !== '') {
+  //     //       const alreadySelected = document.getElementById(customSub.sizeId)
+  //     //       alreadySelected.classList.add('select')
+  //     //       selected = true
+  //     //       selectedId = customSub.sizeId
+  //     //       customSub.lastSelectedObj = customSub.sizeId
+  //     //     }
+  //     //     break
+  //     //   case 'breads':
+  //     //     if (customSub.breadId !== '') {
+  //     //       const alreadySelected = document.getElementById(customSub.breadId)
+  //     //       alreadySelected.classList.add('select')
+  //     //       selected = true
+  //     //       selectedId = customSub.breadId
+  //     //       customSub.lastSelectedObj = customSub.breadId
+  //     //     }
+  //     //     break
+  //     // }
+
+  //     modalContent.addEventListener('click', (e) => {
+  //       if (e.target.closest('.modal__content-card')) {
+  //         const currId = e.target.closest('.modal__content-card').id
+  //         const currContentCard = document.getElementById(currId)
+  //         if (selected) {
+  //           if (
+  //             lastClickObjId === e.target.closest('.modal__content-card').id ||
+  //             lastClickObjId === customSub.lastSelectedObj
+  //           ) {
+  //             currContentCard.classList.toggle('select')
+  //             selected = false
+  //             selectedId = null
+  //             if (typeOfProp === 'sizes') {
+  //               customSub.size = 'Not selected'
+  //               customSub.sizeId = ''
+
+  //               // this.actualPrice(props, currId)
+  //             }
+  //             if (typeOfProp === 'breads') {
+  //               customSub.bread = 'Not selected'
+  //               customSub.breadId = ''
+  //               // this.actualPrice(props, currId)
+  //             }
+  //             lastClickObjId = e.target.closest('.modal__content-card').id
+  //           } else {
+  //             const removeToggleNode = document.getElementById(
+  //               lastClickObjId || customSub.lastSelectedObj
+  //             )
+  //             removeToggleNode.classList.toggle('select')
+  //             this.actualPrice(props, removeToggleNode.id, this.priceValue)
+  //             currContentCard.classList.toggle('select')
+  //             this.actualPrice(props, currId, 'plus')
+  //             selectedId = currId
+  //             lastClickObjId = e.target.closest('.modal__content-card').id
+  //           }
+  //         } else {
+  //           currContentCard.classList.toggle('select')
+  //           selected = true
+  //           selectedId = currId
+  //           this.actualPrice(props, currId, 'plus')
+  //           lastClickObjId = e.target.closest('.modal__content-card').id
+  //         }
+  //       }
+
+  //       switch (typeOfProp) {
+  //         case 'sizes':
+  //           if (selectedId !== null) {
+  //             for (let el in props) {
+  //               if (selectedId === props[el].id) {
+  //                 customSub.size = props[el].name
+  //               }
+  //             }
+  //             customSub.sizeId = selectedId
+  //           }
+  //           break
+  //         case 'breads':
+  //           if (selectedId !== null) {
+  //             for (let el in props) {
+  //               if (selectedId === props[el].id) {
+  //                 customSub.bread = props[el].name
+  //               }
+  //             }
+  //             customSub.breadId = selectedId
+  //           }
+  //           break
+  //       }
+  //     })
+  //   } else {
+  //     let currentSelectedItem = 0
+  //     let selected = []
+
+  //     //check exist selected item or not
+  //     switch (typeOfProp) {
+  //       case 'vegetables':
+  //         if (customSub.vegetablesId.length !== 0) {
+  //           customSub.vegetablesId.forEach((element) => {
+  //             const alreadySelected = document.getElementById(element)
+  //             alreadySelected.classList.add('select')
+  //             currentSelectedItem++
+  //           })
+  //           selected = [...customSub.vegetablesId]
+  //         }
+  //         break
+  //       case 'sauces':
+  //         if (customSub.saucesId.length !== 0) {
+  //           customSub.saucesId.forEach((element) => {
+  //             const alreadySelected = document.getElementById(element)
+  //             alreadySelected.classList.add('select')
+  //             currentSelectedItem++
+  //           })
+  //           selected = [...customSub.saucesId]
+  //         }
+  //         break
+  //       case 'fillings':
+  //         if (customSub.fillingsId.length !== 0) {
+  //           customSub.fillingsId.forEach((element) => {
+  //             const alreadySelected = document.getElementById(element)
+  //             alreadySelected.classList.add('select')
+  //             currentSelectedItem++
+  //           })
+  //           selected = [...customSub.fillingsId]
+  //         }
+  //         break
+  //     }
+
+  //     modalContent.addEventListener('click', (e) => {
+  //       if (e.target.closest('.modal__content-card')) {
+  //         const currId = e.target.closest('.modal__content-card').id
+  //         const currContentCard = document.getElementById(currId)
+  //         if (selected.includes(currId) && currentSelectedItem === maxSelectedItem) {
+  //           selected = selected.filter((el) => el != currId)
+  //           --currentSelectedItem
+  //           // this.actualPrice(props, currId)
+  //           currContentCard.classList.toggle('select')
+  //         } else {
+  //           if (currentSelectedItem === maxSelectedItem) {
+  //             alert('You have made maximum choices')
+  //           } else {
+  //             if (selected.includes(currId)) {
+  //               selected = selected.filter((el) => el != currId)
+  //               --currentSelectedItem
+  //               // this.actualPrice(props, currId)
+  //               currContentCard.classList.toggle('select')
+  //             } else {
+  //               currContentCard.classList.toggle('select')
+  //               selected.push(currId)
+  //               ++currentSelectedItem
+  //               this.actualPrice(props, currId, 'plus')
+  //             }
+  //           }
+  //         }
+  //       }
+
+  //       switch (typeOfProp) {
+  //         case 'vegetables':
+  //           if (selected.length !== 0) {
+  //             customSub.vegetables = []
+  //             for (let el in props) {
+  //               if (!customSub.vegetables.includes(' ' + props[el].name)) {
+  //                 if (selected.includes(props[el].id)) {
+  //                   customSub.vegetables.push(' ' + props[el].name)
+  //                 }
+  //               }
+  //             }
+  //             customSub.vegetablesId = [...selected] //Or slice
+  //           } else {
+  //             customSub.vegetables = []
+  //             alert('empty vegetables')
+  //           }
+  //           break
+  //         case 'sauces':
+  //           if (selected.length !== 0) {
+  //             customSub.sauces = []
+  //             for (let el in props) {
+  //               if (!customSub.sauces.includes(' ' + props[el].name)) {
+  //                 if (selected.includes(props[el].id)) {
+  //                   customSub.sauces.push(' ' + props[el].name)
+  //                 }
+  //               }
+  //             }
+  //             customSub.saucesId = [...selected]
+  //           } else {
+  //             customSub.sauces = []
+  //             alert('empty sauces')
+  //           }
+  //           break
+  //         case 'fillings':
+  //           if (selected.length !== 0) {
+  //             customSub.fillings = []
+  //             for (let el in props) {
+  //               if (!customSub.fillings.includes(' ' + props[el].name)) {
+  //                 if (selected.includes(props[el].id)) {
+  //                   customSub.fillings.push(' ' + props[el].name)
+  //                 }
+  //               }
+  //             }
+  //             customSub.fillingsId = [...selected]
+  //           } else {
+  //             customSub.fillings = []
+  //             alert('empty fillings')
+  //           }
+  //           break
+  //       }
+  //     })
+  //   }
+  // }
+
   currentData(props) {
     switch (this.dataModal.currentPage) {
       case 0:
         console.log('props.sizes', props.sizes)
-        return props.sizes
+        return {
+          props: props.sizes,
+          maxSelect: 1,
+          type: Object.keys(props).includes('sizes') ? 'sizes' : new Error('not type'),
+        }
       case 1:
         console.log('props.breads', props.breads)
-        return props.breads
+        return {
+          props: props.breads,
+          maxSelect: 1,
+          type: Object.keys(props).includes('breads') ? 'breads' : new Error('not type'),
+        }
       case 2:
         console.log('props.vegetables', props.vegetables)
-        return props.vegetables
+        return {
+          props: props.vegetables,
+          maxSelect: Object.keys(props.vegetables),
+          type: Object.keys(props).includes('vegetables') ? 'vegetables' : new Error('not type'),
+        }
       case 3:
         console.log('props.sauces', props.sauces)
-        return props.sauces
+        return {
+          props: props.sauces,
+          maxSelect: 3,
+          type: Object.keys(props).includes('sauces') ? 'sauces' : new Error('not type'),
+        }
       case 4:
         console.log('props.fillings', props.fillings)
-        return props.fillings
+        return {
+          props: props.fillings,
+          maxSelect: Object.keys(props.fillings),
+          type: Object.keys(props).includes('fillings') ? 'fillings' : new Error('not type'),
+        }
       case 5:
-        console.log('customSub', this.customSubway)
+        // console.log('customSub', this.customSubway)
         break
     }
   }
@@ -301,22 +737,27 @@ export default class Modal extends Component {
       </div>`
     }
   }
-
-  // actualPrice(props, curContCardId, action = 'minus') {
-  //   if (action === 'plus') {
-  //     for (let el in props) {
-  //       if (curContCardId === props[el].id) {
-  //         this.priceValue = +props[el].price
-  //       }
-  //     }
-  //   } else {
-  //     for (let el in props) {
-  //       if (curContCardId === props[el].id) {
-  //         this.priceValue = -props[el].price
-  //       }
-  //     }
-  //   }
-  // }
+  listenerModalClose() {
+    const modalClose = document.querySelector('.modal__close')
+    modalClose.addEventListener('click', () => {
+      this.destroy('modal-overlay')
+    })
+  }
+  actualPrice(props, curContCardId, action = 'minus') {
+    if (action === 'plus') {
+      for (let el in props) {
+        if (curContCardId === props[el].id) {
+          this.priceValue = +props[el].price
+        }
+      }
+    } else {
+      for (let el in props) {
+        if (curContCardId === props[el].id) {
+          this.priceValue = -props[el].price
+        }
+      }
+    }
+  }
 
   // listenerForBtnToBasket() {
   //   const modalFooter = document.getElementById('modal-total-bottom-root')
@@ -331,222 +772,5 @@ export default class Modal extends Component {
   //       basket.removeItem('body__item-' + this.customSubway.id)
   //     }
   //   })
-  // }
-
-  // addListenerModal(maxSelectedItem = 1, props, customSub, typeOfProp) {
-  //   //Добавление анимации выбора
-  //   const modalContent = document.getElementById('content-card-root')
-  //   if (maxSelectedItem === 1) {
-  //     let selected = false // animation only
-  //     let selectedId
-  //     let lastClickObjId
-
-  //     //check exist selected item or not
-  //     switch (typeOfProp) {
-  //       case 'sizes':
-  //         if (customSub.sizeId !== '') {
-  //           const alreadySelected = document.getElementById(customSub.sizeId)
-  //           alreadySelected.classList.add('select')
-  //           selected = true
-  //           selectedId = customSub.sizeId
-  //           customSub.lastSelectedObj = customSub.sizeId
-  //         }
-  //         break
-  //       case 'breads':
-  //         if (customSub.breadId !== '') {
-  //           const alreadySelected = document.getElementById(customSub.breadId)
-  //           alreadySelected.classList.add('select')
-  //           selected = true
-  //           selectedId = customSub.breadId
-  //           customSub.lastSelectedObj = customSub.breadId
-  //         }
-  //         break
-  //     }
-
-  //     modalContent.addEventListener('click', (e) => {
-  //       if (e.target.closest('.modal__content-card')) {
-  //         const currId = e.target.closest('.modal__content-card').id
-  //         const currContentCard = document.getElementById(currId)
-  //         if (selected) {
-  //           if (
-  //             lastClickObjId === e.target.closest('.modal__content-card').id ||
-  //             lastClickObjId === customSub.lastSelectedObj
-  //           ) {
-  //             currContentCard.classList.toggle('select')
-  //             selected = false
-  //             selectedId = null
-  //             if (typeOfProp === 'sizes') {
-  //               customSub.size = 'Not selected'
-  //               customSub.sizeId = ''
-
-  //               this.actualPrice(props, currId)
-  //             }
-  //             if (typeOfProp === 'breads') {
-  //               customSub.bread = 'Not selected'
-  //               customSub.breadId = ''
-  //               this.actualPrice(props, currId)
-  //             }
-  //             lastClickObjId = e.target.closest('.modal__content-card').id
-  //           } else {
-  //             const removeToggleNode = document.getElementById(
-  //               lastClickObjId || customSub.lastSelectedObj
-  //             )
-  //             removeToggleNode.classList.toggle('select')
-  //             this.actualPrice(props, removeToggleNode.id, this.priceValue)
-  //             currContentCard.classList.toggle('select')
-  //             this.actualPrice(props, currId, 'plus')
-  //             selectedId = currId
-  //             lastClickObjId = e.target.closest('.modal__content-card').id
-  //           }
-  //         } else {
-  //           currContentCard.classList.toggle('select')
-  //           selected = true
-  //           selectedId = currId
-  //           this.actualPrice(props, currId, 'plus')
-  //           lastClickObjId = e.target.closest('.modal__content-card').id
-  //         }
-  //       }
-
-  //       switch (typeOfProp) {
-  //         case 'sizes':
-  //           if (selectedId !== null) {
-  //             for (let el in props) {
-  //               if (selectedId === props[el].id) {
-  //                 customSub.size = props[el].name
-  //               }
-  //             }
-  //             customSub.sizeId = selectedId
-  //           }
-  //           break
-  //         case 'breads':
-  //           if (selectedId !== null) {
-  //             for (let el in props) {
-  //               if (selectedId === props[el].id) {
-  //                 customSub.bread = props[el].name
-  //               }
-  //             }
-  //             customSub.breadId = selectedId
-  //           }
-  //           break
-  //       }
-  //     })
-  //   } else {
-  //     let currentSelectedItem = 0
-  //     let selected = []
-
-  //     //check exist selected item or not
-  //     switch (typeOfProp) {
-  //       case 'vegetables':
-  //         if (customSub.vegetablesId.length !== 0) {
-  //           customSub.vegetablesId.forEach((element) => {
-  //             const alreadySelected = document.getElementById(element)
-  //             alreadySelected.classList.add('select')
-  //             currentSelectedItem++
-  //           })
-  //           selected = [...customSub.vegetablesId]
-  //         }
-  //         break
-  //       case 'sauces':
-  //         if (customSub.saucesId.length !== 0) {
-  //           customSub.saucesId.forEach((element) => {
-  //             const alreadySelected = document.getElementById(element)
-  //             alreadySelected.classList.add('select')
-  //             currentSelectedItem++
-  //           })
-  //           selected = [...customSub.saucesId]
-  //         }
-  //         break
-  //       case 'fillings':
-  //         if (customSub.fillingsId.length !== 0) {
-  //           customSub.fillingsId.forEach((element) => {
-  //             const alreadySelected = document.getElementById(element)
-  //             alreadySelected.classList.add('select')
-  //             currentSelectedItem++
-  //           })
-  //           selected = [...customSub.fillingsId]
-  //         }
-  //         break
-  //     }
-
-  //     modalContent.addEventListener('click', (e) => {
-  //       if (e.target.closest('.modal__content-card')) {
-  //         const currId = e.target.closest('.modal__content-card').id
-  //         const currContentCard = document.getElementById(currId)
-  //         if (selected.includes(currId) && currentSelectedItem === maxSelectedItem) {
-  //           selected = selected.filter((el) => el != currId)
-  //           --currentSelectedItem
-  //           this.actualPrice(props, currId)
-  //           currContentCard.classList.toggle('select')
-  //         } else {
-  //           if (currentSelectedItem === maxSelectedItem) {
-  //             alert('You have made maximum choices')
-  //           } else {
-  //             if (selected.includes(currId)) {
-  //               selected = selected.filter((el) => el != currId)
-  //               --currentSelectedItem
-  //               this.actualPrice(props, currId)
-  //               currContentCard.classList.toggle('select')
-  //             } else {
-  //               currContentCard.classList.toggle('select')
-  //               selected.push(currId)
-  //               ++currentSelectedItem
-  //               this.actualPrice(props, currId, 'plus')
-  //             }
-  //           }
-  //         }
-  //       }
-
-  //       switch (typeOfProp) {
-  //         case 'vegetables':
-  //           if (selected.length !== 0) {
-  //             customSub.vegetables = []
-  //             for (let el in props) {
-  //               if (!customSub.vegetables.includes(' ' + props[el].name)) {
-  //                 if (selected.includes(props[el].id)) {
-  //                   customSub.vegetables.push(' ' + props[el].name)
-  //                 }
-  //               }
-  //             }
-  //             customSub.vegetablesId = [...selected] //Or slice
-  //           } else {
-  //             customSub.vegetables = []
-  //             alert('empty vegetables')
-  //           }
-  //           break
-  //         case 'sauces':
-  //           if (selected.length !== 0) {
-  //             customSub.sauces = []
-  //             for (let el in props) {
-  //               if (!customSub.sauces.includes(' ' + props[el].name)) {
-  //                 if (selected.includes(props[el].id)) {
-  //                   customSub.sauces.push(' ' + props[el].name)
-  //                 }
-  //               }
-  //             }
-  //             customSub.saucesId = [...selected]
-  //           } else {
-  //             customSub.sauces = []
-  //             alert('empty sauces')
-  //           }
-  //           break
-  //         case 'fillings':
-  //           if (selected.length !== 0) {
-  //             customSub.fillings = []
-  //             for (let el in props) {
-  //               if (!customSub.fillings.includes(' ' + props[el].name)) {
-  //                 if (selected.includes(props[el].id)) {
-  //                   customSub.fillings.push(' ' + props[el].name)
-  //                 }
-  //               }
-  //             }
-  //             customSub.fillingsId = [...selected]
-  //           } else {
-  //             customSub.fillings = []
-  //             alert('empty fillings')
-  //           }
-  //           break
-  //       }
-  //     })
-  //   }
   // }
 }

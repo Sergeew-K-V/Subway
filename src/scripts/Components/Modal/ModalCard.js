@@ -17,8 +17,7 @@ export default class ModalCard extends Component {
                             <div class="content-card__price">Цена: ${this.price} руб.</div>
                         </div>
                     </div>`
-    this.id = 'content-card-root'
-    this.renderComp(this.getContent, document.getElementById(this.id))
+    this.renderComp(this.getContent, document.getElementById('content-card-root'))
   }
   get getContent() {
     return (this.content = `<div class="modal__content-card" id="${this.id}">
