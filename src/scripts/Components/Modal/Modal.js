@@ -135,7 +135,6 @@ export default class Modal extends Component {
     })
     this.listenerModalClose()
     this.emitter.subscribe('onSelectCard', ({ maxSelectedItem = 1, props, type }) => {
-      debugger
       const modalContent = document.getElementById('content-card-root')
       if (maxSelectedItem === 1) {
         let selected = false
@@ -177,12 +176,12 @@ export default class Modal extends Component {
                 if (type === 'sizes') {
                   this.customSubway.size = 'Not selected'
                   this.customSubway.sizeId = ''
-                  this.actualPrice(props, currId)
+                  //this.actualPrice(props,currId)
                 }
                 if (type === 'breads') {
                   this.customSubway.bread = 'Not selected'
                   this.customSubway.breadId = ''
-                  this.actualPrice(props, currId)
+                  //this.actualPrice(props,currId)
                 }
                 lastClickObjId = e.target.closest('.modal__content-card').id
               } else {
@@ -190,18 +189,18 @@ export default class Modal extends Component {
                   lastClickObjId || this.customSubway.lastSelectedObj
                 )
                 removeToggleNode.classList.toggle('select')
-                this.actualPrice(props, removeToggleNode.id, this.priceValue)
+                //this.actualPrice(props,removeToggleNode.id, this.priceValue)
                 currContentCard.classList.toggle('select')
                 selectedId = currId
                 lastClickObjId = e.target.closest('.modal__content-card').id
-                this.actualPrice(props, currId, 'plus')
+                //this.actualPrice(props,currId, 'plus')
               }
             } else {
               currContentCard.classList.toggle('select')
               selected = true
               selectedId = currId
               lastClickObjId = e.target.closest('.modal__content-card').id
-              this.actualPrice(props, currId, 'plus')
+              //this.actualPrice(props,currId, 'plus')
             }
           }
 
@@ -272,7 +271,7 @@ export default class Modal extends Component {
             if (selected.includes(currId) && currentSelectedItem === maxSelectedItem) {
               selected = selected.filter((el) => el != currId)
               --currentSelectedItem
-              this.actualPrice(props, currId)
+              //this.actualPrice(props,currId)
               currContentCard.classList.toggle('select')
             } else {
               if (currentSelectedItem === maxSelectedItem) {
@@ -281,13 +280,13 @@ export default class Modal extends Component {
                 if (selected.includes(currId)) {
                   selected = selected.filter((el) => el != currId)
                   --currentSelectedItem
-                  this.actualPrice(props, currId)
+                  //this.actualPrice(props,currId)
                   currContentCard.classList.toggle('select')
                 } else {
                   currContentCard.classList.toggle('select')
                   selected.push(currId)
                   ++currentSelectedItem
-                  this.actualPrice(props, currId, 'plus')
+                  //this.actualPrice(props,currId, 'plus')
                 }
               }
             }
