@@ -369,7 +369,6 @@ export default class Modal extends Component {
       const card = new ModalCard(props[key], this.emitter)
       array.push(card)
     }
-    this.currentArrayOfData = array
     return array
   }
   get getContent() {
@@ -549,21 +548,18 @@ export default class Modal extends Component {
       }
     })
   }
-  convertObjForBasket() {
-    return (this.customSubway = {
-      id: this.customSubway.id,
-      name: this.customSubway.name,
-      price: this.dataModal.price,
-      quantity: this.dataModal.quantity,
-    })
-  }
   listenerForBtnToBasket() {
     const modalFooter = document.getElementById('modal-total-bottom-root')
     const modalBtnToBasket = modalFooter.querySelector('.btn-to-basket__btn')
     modalBtnToBasket.addEventListener('click', () => {
       if (this.dataModal.quantity !== 0) {
         console.log('Sending obj to basket')
-        this.emitter.emit('sendObjToBasket', this.convertObjForBasket())
+        this.emitter.emit('sendObjToBasket', {
+          id: this.customSubway.id,
+          name: this.customSubway.name,
+          price: this.dataModal.price,
+          quantity: this.dataModal.quantity,
+        })
       } else {
         alert('Укажите кол-во товара, чтобы добавить')
       }
