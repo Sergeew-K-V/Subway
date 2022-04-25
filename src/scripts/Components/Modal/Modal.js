@@ -31,13 +31,11 @@ export default class Modal extends Component {
       },
       {
         set: (target, key, value) => {
-          console.log("it's setter of dataModal -", key, target[key])
-
           if (key === 'currentPage') {
             target.currentPage = value
           }
           if (key === 'price') {
-            target.price = value
+            target.price += value
           }
           const data = this.currentData(props)
           this.destroy('modal-overlay')
@@ -47,11 +45,12 @@ export default class Modal extends Component {
           if (this.dataModal.currentPage !== 5) {
             this.currentArrayOfData = this.initData(data.props)
           }
+
           this.emitter.emit('onBtnNextAndBack')
           this.emitter.emit('onNavbarItem')
-          this.emitter.emit('animationModalBtn')
           this.emitter.emit('onSelectCard', data)
-          this.listenerModalClose()
+          this.listenerModalClose(props)
+          console.log("it's setter of dataModal -", key, target[key])
           return true
         },
       }
@@ -61,56 +60,14 @@ export default class Modal extends Component {
     this.currentArrayOfData = this.initData(props.sizes)
 
     this.subscribeCheck()
-    this.emitter.subscribe('animationModalBtn', () => {
-      const btnBack = document.getElementById('btn-back')
-      const btnNext = document.getElementById('btn-next')
-      const btnList = document.querySelector('.modal__btn-list')
-      if (this.dataModal.currentPage === 0) {
-        btnBack.classList.add('hidden')
-        btnList.classList.add('hiddenBack')
-      } else {
-        btnBack.classList.remove('hidden')
-        btnList.classList.remove('hiddenBack')
-      }
-      if (this.dataModal.currentPage === 5) {
-        btnNext.classList.add('hidden')
-        btnList.classList.add('hiddenNext')
-      } else {
-        btnNext.classList.remove('hidden')
-        btnList.classList.remove('hiddenNext')
-      }
-    })
     this.emitter.subscribe('onBtnNextAndBack', () => {
       const btnNext = document.getElementById('btn-next')
       btnNext.addEventListener('click', () => {
-        if (this.dataModal.currentPage >= 5) {
-        } else {
-          const selectedNavbar = document.getElementById(
-            `navbar-item-${this.dataModal.currentPage}`
-          )
-          selectedNavbar.classList.remove('selected')
-          this.dataModal.currentPage = this.dataModal.currentPage + 1
-          const selectedNextNavbar = document.getElementById(
-            `navbar-item-${this.dataModal.currentPage}`
-          )
-          selectedNextNavbar.classList.add('selected')
-        }
+        this.dataModal.currentPage = this.dataModal.currentPage + 1
       })
       const btnBack = document.getElementById('btn-back')
       btnBack.addEventListener('click', () => {
-        console.log('btnBack')
-        if (this.dataModal.currentPage === 0) {
-        } else {
-          const selectedNavbar = document.getElementById(
-            `navbar-item-${this.dataModal.currentPage}`
-          )
-          selectedNavbar.classList.remove('selected')
-          this.dataModal.currentPage = this.dataModal.currentPage - 1
-          const selectedNextNavbar = document.getElementById(
-            `navbar-item-${this.dataModal.currentPage}`
-          )
-          selectedNextNavbar.classList.add('selected')
-        }
+        this.dataModal.currentPage = this.dataModal.currentPage - 1
       })
     })
     this.emitter.subscribe('onNavbarItem', () => {
@@ -119,47 +76,228 @@ export default class Modal extends Component {
         if (e.target.closest('.navbar__item')) {
           const currNavbarId = e.target.closest('.navbar__item').id
           if (currNavbarId !== `navbar-item-${this.dataModal.currentPage}`) {
-            const selectedNavbar = document.getElementById(
-              `navbar-item-${this.dataModal.currentPage}`
-            )
-            selectedNavbar.classList.remove('selected')
             this.dataModal.currentPage = +currNavbarId.slice(-1)
-            const selectedNextNavbar = document.getElementById(
-              `navbar-item-${this.dataModal.currentPage}`
-            )
-            selectedNextNavbar.classList.add('selected')
           }
         }
       })
     })
     this.listenerModalClose()
-    this.emitter.subscribe('onSelectCard', ({ maxSelectedItem = 1, props, type }) => {
+    this.emitter.subscribe('onSelectCard', ({ props, maxSelect = 1, type }) => {
       const modalContent = document.getElementById('content-card-root')
-      if (maxSelectedItem === 1) {
+      if (maxSelect === 1) {
         modalContent.addEventListener('click', (e) => {
           if (e.target.closest('.modal__content-card')) {
             const currId = e.target.closest('.modal__content-card').id
-            this.customSubway.sizeId = currId
-            const currEl = this.currentArrayOfData.find((el) => {
-              if (el.id === currId) {
-                el.selected = !el.selected
-                return el
-              }
-            })
-            for (let key in props) {
-              if (props[key].id === currId) {
-                props[key].selected = !props[key].selected
-              }
-              console.log('props[key]', props[key])
+            switch (type) {
+              case 'sizes':
+                if (this.customSubway.sizeId !== '') {
+                  if (currId === this.customSubway.sizeId) {
+                    this.customSubway.sizeId = null
+                    for (let key in props) {
+                      if (props[key].id === currId) {
+                        props[key].selected = !props[key].selected
+                        this.customSubway.size = 'Not selected'
+                      }
+                    }
+                    this.actualPrice(props, currId)
+                  } else {
+                    for (let key in props) {
+                      if (props[key].id === this.customSubway.sizeId) {
+                        props[key].selected = !props[key].selected
+                        this.customSubway.size = 'Not selected'
+                      }
+                    }
+                    this.actualPrice(props, this.customSubway.sizeId)
+                    this.customSubway.sizeId = currId
+                    for (let key in props) {
+                      if (props[key].id === currId) {
+                        props[key].selected = !props[key].selected
+                        this.customSubway.size = props[key].name
+                      }
+                    }
+                    this.actualPrice(props, currId, 'plus')
+                  }
+                } else {
+                  this.customSubway.sizeId = currId
+                  for (let key in props) {
+                    if (props[key].id === currId) {
+                      props[key].selected = !props[key].selected
+                      this.customSubway.size = props[key].name
+                    }
+                  }
+                  this.actualPrice(props, currId, 'plus')
+                }
+                break
+              case 'breads':
+                if (this.customSubway.breadId !== '') {
+                  if (currId === this.customSubway.breadId) {
+                    this.customSubway.breadId = null
+                    for (let key in props) {
+                      if (props[key].id === currId) {
+                        props[key].selected = !props[key].selected
+                        this.customSubway.bread = 'Not selected'
+                      }
+                    }
+                    this.actualPrice(props, currId)
+                  } else {
+                    for (let key in props) {
+                      if (props[key].id === this.customSubway.breadId) {
+                        props[key].selected = !props[key].selected
+                        this.customSubway.bread = 'Not selected'
+                      }
+                    }
+                    this.actualPrice(props, this.customSubway.breadId)
+                    this.customSubway.breadId = currId
+                    for (let key in props) {
+                      if (props[key].id === currId) {
+                        props[key].selected = !props[key].selected
+                        this.customSubway.bread = props[key].name
+                      }
+                    }
+                    this.actualPrice(props, currId, 'plus')
+                  }
+                } else {
+                  this.customSubway.breadId = currId
+                  for (let key in props) {
+                    if (props[key].id === currId) {
+                      props[key].selected = !props[key].selected
+                      this.customSubway.bread = props[key].name
+                    }
+                  }
+                  this.actualPrice(props, currId, 'plus')
+                }
+                break
             }
-            console.log('props', props)
-
-            console.log('currEl.selected', currEl.selected)
-            this.dataModal.price = currEl.price
-            // console.log(currEl.selected, 'currEl.selected')
           }
         })
       } else {
+        modalContent.addEventListener('click', (e) => {
+          if (e.target.closest('.modal__content-card')) {
+            const currId = e.target.closest('.modal__content-card').id
+            switch (type) {
+              case 'vegetables':
+                if (this.customSubway.vegetablesId.length <= maxSelect) {
+                  if (this.customSubway.vegetablesId !== []) {
+                    if (this.customSubway.vegetablesId.includes(currId)) {
+                      this.customSubway.vegetablesId = this.customSubway.vegetablesId.filter(
+                        (el) => el != currId
+                      )
+                      for (let key in props) {
+                        if (props[key].id === currId) {
+                          props[key].selected = !props[key].selected
+                          this.customSubway.vegetables = this.customSubway.vegetables.filter(
+                            (el) => el != ' ' + props[key].name
+                          )
+                        }
+                      }
+                      this.actualPrice(props, currId)
+                    } else {
+                      this.customSubway.vegetablesId.push(currId)
+                      for (let key in props) {
+                        if (props[key].id === currId) {
+                          props[key].selected = !props[key].selected
+                          this.customSubway.vegetables.push(' ' + props[key].name)
+                        }
+                      }
+                      this.actualPrice(props, currId, 'plus')
+                    }
+                  } else {
+                    this.customSubway.vegetablesId.push(currId)
+                    for (let key in props) {
+                      if (props[key].id === currId) {
+                        props[key].selected = !props[key].selected
+                        this.customSubway.vegetables.push(' ' + props[key].name)
+                      }
+                    }
+                    this.actualPrice(props, currId, 'plus')
+                  }
+                } else {
+                  alert('You have made maximum choices')
+                }
+                break
+              case 'sauces':
+                if (this.customSubway.saucesId !== []) {
+                  if (this.customSubway.saucesId.includes(currId)) {
+                    this.customSubway.saucesId = this.customSubway.saucesId.filter(
+                      (el) => el != currId
+                    )
+                    for (let key in props) {
+                      if (props[key].id === currId) {
+                        props[key].selected = !props[key].selected
+                        this.customSubway.sauces = this.customSubway.sauces.filter(
+                          (el) => el != ' ' + props[key].name
+                        )
+                      }
+                    }
+                    this.actualPrice(props, currId)
+                  } else {
+                    if (this.customSubway.saucesId.length + 1 <= maxSelect) {
+                      this.customSubway.saucesId.push(currId)
+                      for (let key in props) {
+                        if (props[key].id === currId) {
+                          props[key].selected = !props[key].selected
+                          this.customSubway.sauces.push(' ' + props[key].name)
+                        }
+                      }
+                      this.actualPrice(props, currId, 'plus')
+                    } else {
+                      alert('You have made maximum choices')
+                    }
+                  }
+                } else {
+                  this.customSubway.saucesId.push(currId)
+                  for (let key in props) {
+                    if (props[key].id === currId) {
+                      props[key].selected = !props[key].selected
+                      this.customSubway.sauces.push(' ' + props[key].name)
+                    }
+                  }
+                  this.actualPrice(props, currId, 'plus')
+                }
+                break
+              case 'fillings':
+                if (this.customSubway.fillingsId.length <= maxSelect) {
+                  if (this.customSubway.fillingsId !== []) {
+                    if (this.customSubway.fillingsId.includes(currId)) {
+                      this.customSubway.fillingsId = this.customSubway.fillingsId.filter(
+                        (el) => el != currId
+                      )
+                      for (let key in props) {
+                        if (props[key].id === currId) {
+                          props[key].selected = !props[key].selected
+                          this.customSubway.fillings = this.customSubway.fillings.filter(
+                            (el) => el != ' ' + props[key].name
+                          )
+                        }
+                      }
+                      this.actualPrice(props, currId)
+                    } else {
+                      this.customSubway.fillingsId.push(currId)
+                      for (let key in props) {
+                        if (props[key].id === currId) {
+                          props[key].selected = !props[key].selected
+                          this.customSubway.fillings.push(' ' + props[key].name)
+                        }
+                      }
+                      this.actualPrice(props, currId, 'plus')
+                    }
+                  } else {
+                    this.customSubway.fillingsId.push(currId)
+                    for (let key in props) {
+                      if (props[key].id === currId) {
+                        props[key].selected = !props[key].selected
+                        this.customSubway.fillings.push(' ' + props[key].name)
+                      }
+                    }
+                    this.actualPrice(props, currId, 'plus')
+                  }
+                } else {
+                  alert('You have made maximum choices')
+                }
+                break
+            }
+          }
+        })
       }
     })
     this.dataModal.currentPage = 0
@@ -185,7 +323,7 @@ export default class Modal extends Component {
         console.log('props.vegetables', props.vegetables)
         return {
           props: props.vegetables,
-          maxSelect: Object.keys(props.vegetables),
+          maxSelect: Object.keys(props.vegetables).length,
           type: Object.keys(props).includes('vegetables') ? 'vegetables' : new Error('not type'),
         }
       case 3:
@@ -199,7 +337,7 @@ export default class Modal extends Component {
         console.log('props.fillings', props.fillings)
         return {
           props: props.fillings,
-          maxSelect: Object.keys(props.fillings),
+          maxSelect: Object.keys(props.fillings).length,
           type: Object.keys(props).includes('fillings') ? 'fillings' : new Error('not type'),
         }
       case 5:
@@ -242,21 +380,37 @@ export default class Modal extends Component {
           <div class="modal__body" id="place-for-modal-content">
             <div class="body__navbar">
               <ul class="body__navbar-section">
-                <li class="navbar__item sizes ${
+                <li class="navbar__item ${
                   this.dataModal.currentPage === 0 ? 'selected' : ''
                 }" id="navbar-item-0">Размер</li>
-                <li class="navbar__item breads"id="navbar-item-1">Хлеб</li>
-                <li class="navbar__item vegetables"id="navbar-item-2">Овощи</li>
-                <li class="navbar__item sauces"id="navbar-item-3">Соусы</li>
-                <li class="navbar__item fillings"id="navbar-item-4">Начинка</li>
-                <li class="navbar__item total"id="navbar-item-5">Готово!</li>
+                <li class="navbar__item ${
+                  this.dataModal.currentPage === 1 ? 'selected' : ''
+                }"id="navbar-item-1">Хлеб</li>
+                <li class="navbar__item ${
+                  this.dataModal.currentPage === 2 ? 'selected' : ''
+                }"id="navbar-item-2">Овощи</li>
+                <li class="navbar__item ${
+                  this.dataModal.currentPage === 3 ? 'selected' : ''
+                }"id="navbar-item-3">Соусы</li>
+                <li class="navbar__item ${
+                  this.dataModal.currentPage === 4 ? 'selected' : ''
+                }"id="navbar-item-4">Начинка</li>
+                <li class="navbar__item ${
+                  this.dataModal.currentPage === 5 ? 'selected' : ''
+                }"id="navbar-item-5">Готово!</li>
               </ul>
             </div>
-            <div class="modal__btn-list">
-              <button class="modal__btn"id="btn-back">
+            <div class="modal__btn-list ${this.dataModal.currentPage === 0 ? 'hiddenBack' : ''} ${
+      this.dataModal.currentPage === 5 ? 'hiddenNext' : ''
+    }">
+              <button class="modal__btn ${
+                this.dataModal.currentPage === 0 ? 'hidden' : ''
+              }"id="btn-back">
                 <i class="fa-solid fa-chevron-left" ></i><span>Назад</span>
               </button>
-              <button class="modal__btn"id="btn-next">
+              <button class="modal__btn ${
+                this.dataModal.currentPage === 5 ? 'hidden' : ''
+              }"id="btn-next">
                 <span>Вперед</span><i class="fa-solid fa-angle-right"></i>
               </button>
             </div>
@@ -340,13 +494,19 @@ export default class Modal extends Component {
       </div>`
     }
   }
-  listenerModalClose() {
+  listenerModalClose(props) {
     const modalClose = document.querySelector('.modal__close')
     modalClose.addEventListener('click', () => {
       this.destroy('modal-overlay')
+      for (let key in props) {
+        for (let secKey in props[key]) {
+          props[key][secKey].selected = false
+        }
+      }
     })
   }
   actualPrice(props, curContCardId, action = 'minus') {
+    console.log('actualPrice')
     if (action === 'plus') {
       for (let el in props) {
         if (curContCardId === props[el].id) {
@@ -361,7 +521,6 @@ export default class Modal extends Component {
       }
     }
   }
-
   // listenerForBtnToBasket() {
   //   const modalFooter = document.getElementById('modal-total-bottom-root')
   //   const modalBtnToBasket = modalFooter.querySelector('.btn-to-basket__btn')
