@@ -37,6 +37,9 @@ export default class Modal extends Component {
           if (key === 'price') {
             target.price += value
           }
+          if (key === 'quantity') {
+            target.quantity += value
+          }
           const data = this.currentData(props)
           this.destroy('modal-overlay')
           this.currentArrayOfData = []
@@ -44,12 +47,16 @@ export default class Modal extends Component {
           this.renderComp(this.getContent, document.getElementById(this.id)) //modalRoot - место рендеринга модального окна
           if (this.dataModal.currentPage !== 5) {
             this.currentArrayOfData = this.initData(data.props)
+          } else {
+            this.currentArrayOfData = this.initData(data.props)
+            this.listenerForBtnToBasket()
           }
 
           this.emitter.emit('onBtnNextAndBack')
           this.emitter.emit('onNavbarItem')
           this.emitter.emit('onSelectCard', data)
           this.listenerModalClose(props)
+          this.listenerFotQuantityBtn()
           console.log("it's setter of dataModal -", key, target[key])
           return true
         },
@@ -521,18 +528,45 @@ export default class Modal extends Component {
       }
     }
   }
-  // listenerForBtnToBasket() {
-  //   const modalFooter = document.getElementById('modal-total-bottom-root')
-  //   const modalBtnToBasket = modalFooter.querySelector('.btn-to-basket__btn')
-  //   modalBtnToBasket.addEventListener('click', () => {
-  //     if (this.quantityValue !== 0) {
-  //       basket.quantityValue = this.customSubway.quantity
-  //       basket.priceValue = this.customSubway.price
-  //       basket.nameValue = this.customSubway.name
-  //       basket.addItem(this.customSubway.id)
-  //     } else {
-  //       basket.removeItem('body__item-' + this.customSubway.id)
-  //     }
-  //   })
-  // }
+  listenerFotQuantityBtn() {
+    const modalFooter = document.getElementById('modal-total-bottom-root')
+    modalFooter.addEventListener('click', (e) => {
+      //Изменение кол-ва бутербродов
+      if (
+        e.target.closest('.subway__block') === modalFooter.querySelector('.fa-minus') ||
+        modalFooter.querySelector('.fa-plus') ||
+        modalFooter.querySelector('.btns-list__btn')
+      ) {
+        if (e.target === modalFooter.querySelector('.fa-minus')) {
+          if (this.dataModal.quantity === 0) {
+          } else {
+            this.dataModal.quantity = -1
+          }
+        }
+        if (e.target === modalFooter.querySelector('.fa-plus')) {
+          this.dataModal.quantity = 1
+        }
+      }
+    })
+  }
+  convertObjForBasket() {
+    return (this.customSubway = {
+      id: this.customSubway.id,
+      name: this.customSubway.name,
+      price: this.dataModal.price,
+      quantity: this.dataModal.quantity,
+    })
+  }
+  listenerForBtnToBasket() {
+    const modalFooter = document.getElementById('modal-total-bottom-root')
+    const modalBtnToBasket = modalFooter.querySelector('.btn-to-basket__btn')
+    modalBtnToBasket.addEventListener('click', () => {
+      if (this.dataModal.quantity !== 0) {
+        console.log('Sending obj to basket')
+        this.emitter.emit('sendObjToBasket', this.convertObjForBasket())
+      } else {
+        alert('Укажите кол-во товара, чтобы добавить')
+      }
+    })
+  }
 }
