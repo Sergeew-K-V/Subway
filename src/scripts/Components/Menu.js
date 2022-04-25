@@ -5,7 +5,7 @@ export default class Menu extends Component {
     super()
     this.emitter = props.emitter
     this.id = 'menu__root'
-    this.created = true
+    this.created = false
     this.arrayOfCategory = [
       { cat: 'sandwiches', name: 'Сендвичи' },
       { cat: 'pizza', name: 'Блины' },
@@ -33,9 +33,8 @@ export default class Menu extends Component {
         },
       }
     )
-
-    this.renderComp(this.getContent, document.getElementById(this.id))
-    this.emitter.emit('onCategoryChanged', this.data)
+    this.data.category = props.category
+    this.created = true
   }
 
   get getContent() {

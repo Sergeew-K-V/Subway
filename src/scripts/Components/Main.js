@@ -43,7 +43,6 @@ class Main extends Component {
     this.renderComp(this.getContent, document.getElementById(this.id))
     this.transformedArrayOfProducts = this.initContent()
 
-    this.emitter.subscribe('onProductQuantityChange', (array) => {})
     this.emitter.subscribe('onCategoryChanged', (menuData) => {
       const navbarMenu = document.querySelector('.navbar__menu')
       navbarMenu.addEventListener('click', (e) => {
