@@ -7,7 +7,7 @@ export default class ModalCard extends Component {
     this.id = props.id
     this.name = props.name
     this.image = props.image
-    this.selected = false
+    this.selected = props.selected
     this.price = props.price
     this.content = `<div class="modal__content-card ${
       this.selected === true ? 'select' : ''

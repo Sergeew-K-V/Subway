@@ -1,7 +1,5 @@
 import Component from '../Component'
 import ModalCard from './ModalCard'
-
-//
 export default class Modal extends Component {
   constructor(props, emitter) {
     super()
@@ -49,7 +47,6 @@ export default class Modal extends Component {
           if (this.dataModal.currentPage !== 5) {
             this.currentArrayOfData = this.initData(data.props)
           }
-
           this.emitter.emit('onBtnNextAndBack')
           this.emitter.emit('onNavbarItem')
           this.emitter.emit('animationModalBtn')
@@ -139,212 +136,30 @@ export default class Modal extends Component {
     this.emitter.subscribe('onSelectCard', ({ maxSelectedItem = 1, props, type }) => {
       const modalContent = document.getElementById('content-card-root')
       if (maxSelectedItem === 1) {
-        let selected = false
-        let selectedId
-        let lastClickObjId
-
-        switch (type) {
-          case 'sizes':
-            if (this.customSubway.sizeId !== '') {
-              const alreadySelected = document.getElementById(this.customSubway.sizeId)
-              alreadySelected.classList.add('select')
-              selected = true
-              selectedId = this.customSubway.sizeId
-              this.customSubway.lastSelectedObj = this.customSubway.sizeId
-            }
-            break
-          case 'breads':
-            if (this.customSubway.breadId !== '') {
-              const alreadySelected = document.getElementById(this.customSubway.breadId)
-              alreadySelected.classList.add('select')
-              selected = true
-              selectedId = this.customSubway.breadId
-              this.customSubway.lastSelectedObj = this.customSubway.breadId
-            }
-            break
-        }
         modalContent.addEventListener('click', (e) => {
           if (e.target.closest('.modal__content-card')) {
             const currId = e.target.closest('.modal__content-card').id
-            const currContentCard = document.getElementById(currId)
-            if (selected) {
-              if (
-                lastClickObjId === e.target.closest('.modal__content-card').id ||
-                lastClickObjId === this.customSubway.lastSelectedObj
-              ) {
-                currContentCard.classList.toggle('select')
-                selected = false
-                selectedId = null
-                if (type === 'sizes') {
-                  this.customSubway.size = 'Not selected'
-                  this.customSubway.sizeId = ''
-                  //this.actualPrice(props,currId)
-                }
-                if (type === 'breads') {
-                  this.customSubway.bread = 'Not selected'
-                  this.customSubway.breadId = ''
-                  //this.actualPrice(props,currId)
-                }
-                lastClickObjId = e.target.closest('.modal__content-card').id
-              } else {
-                const removeToggleNode = document.getElementById(
-                  lastClickObjId || this.customSubway.lastSelectedObj
-                )
-                removeToggleNode.classList.toggle('select')
-                //this.actualPrice(props,removeToggleNode.id, this.priceValue)
-                currContentCard.classList.toggle('select')
-                selectedId = currId
-                lastClickObjId = e.target.closest('.modal__content-card').id
-                //this.actualPrice(props,currId, 'plus')
+            this.customSubway.sizeId = currId
+            const currEl = this.currentArrayOfData.find((el) => {
+              if (el.id === currId) {
+                el.selected = !el.selected
+                return el
               }
-            } else {
-              currContentCard.classList.toggle('select')
-              selected = true
-              selectedId = currId
-              lastClickObjId = e.target.closest('.modal__content-card').id
-              //this.actualPrice(props,currId, 'plus')
+            })
+            for (let key in props) {
+              if (props[key].id === currId) {
+                props[key].selected = !props[key].selected
+              }
+              console.log('props[key]', props[key])
             }
-          }
+            console.log('props', props)
 
-          switch (type) {
-            case 'sizes':
-              if (selectedId !== null) {
-                for (let el in props) {
-                  if (selectedId === props[el].id) {
-                    this.customSubway.size = props[el].name
-                  }
-                }
-                this.customSubway.sizeId = selectedId
-              }
-              break
-            case 'breads':
-              if (selectedId !== null) {
-                for (let el in props) {
-                  if (selectedId === props[el].id) {
-                    this.customSubway.bread = props[el].name
-                  }
-                }
-                this.customSubway.breadId = selectedId
-              }
-              break
+            console.log('currEl.selected', currEl.selected)
+            this.dataModal.price = currEl.price
+            // console.log(currEl.selected, 'currEl.selected')
           }
         })
       } else {
-        let currentSelectedItem = 0
-        let selected = []
-
-        switch (type) {
-          case 'vegetables':
-            if (this.customSubway.vegetablesId.length !== 0) {
-              this.customSubway.vegetablesId.forEach((element) => {
-                const alreadySelected = document.getElementById(element)
-                alreadySelected.classList.add('select')
-                currentSelectedItem++
-              })
-              selected = [...this.customSubway.vegetablesId]
-            }
-            break
-          case 'sauces':
-            if (this.customSubway.saucesId.length !== 0) {
-              this.customSubway.saucesId.forEach((element) => {
-                const alreadySelected = document.getElementById(element)
-                alreadySelected.classList.add('select')
-                currentSelectedItem++
-              })
-              selected = [...this.customSubway.saucesId]
-            }
-            break
-          case 'fillings':
-            if (this.customSubway.fillingsId.length !== 0) {
-              this.customSubway.fillingsId.forEach((element) => {
-                const alreadySelected = document.getElementById(element)
-                alreadySelected.classList.add('select')
-                currentSelectedItem++
-              })
-              selected = [...this.customSubway.fillingsId]
-            }
-            break
-        }
-
-        modalContent.addEventListener('click', (e) => {
-          if (e.target.closest('.modal__content-card')) {
-            const currId = e.target.closest('.modal__content-card').id
-            const currContentCard = document.getElementById(currId)
-            if (selected.includes(currId) && currentSelectedItem === maxSelectedItem) {
-              selected = selected.filter((el) => el != currId)
-              --currentSelectedItem
-              //this.actualPrice(props,currId)
-              currContentCard.classList.toggle('select')
-            } else {
-              if (currentSelectedItem === maxSelectedItem) {
-                alert('You have made maximum choices')
-              } else {
-                if (selected.includes(currId)) {
-                  selected = selected.filter((el) => el != currId)
-                  --currentSelectedItem
-                  //this.actualPrice(props,currId)
-                  currContentCard.classList.toggle('select')
-                } else {
-                  currContentCard.classList.toggle('select')
-                  selected.push(currId)
-                  ++currentSelectedItem
-                  //this.actualPrice(props,currId, 'plus')
-                }
-              }
-            }
-          }
-
-          switch (type) {
-            case 'vegetables':
-              if (selected.length !== 0) {
-                this.customSubway.vegetables = []
-                for (let el in props) {
-                  if (!this.customSubway.vegetables.includes(' ' + props[el].name)) {
-                    if (selected.includes(props[el].id)) {
-                      this.customSubway.vegetables.push(' ' + props[el].name)
-                    }
-                  }
-                }
-                this.customSubway.vegetablesId = [...selected] //Or slice
-              } else {
-                this.customSubway.vegetables = []
-                alert('empty vegetables')
-              }
-              break
-            case 'sauces':
-              if (selected.length !== 0) {
-                this.customSubway.sauces = []
-                for (let el in props) {
-                  if (!this.customSubway.sauces.includes(' ' + props[el].name)) {
-                    if (selected.includes(props[el].id)) {
-                      this.customSubway.sauces.push(' ' + props[el].name)
-                    }
-                  }
-                }
-                this.customSubway.saucesId = [...selected]
-              } else {
-                this.customSubway.sauces = []
-                alert('empty sauces')
-              }
-              break
-            case 'fillings':
-              if (selected.length !== 0) {
-                this.customSubway.fillings = []
-                for (let el in props) {
-                  if (!this.customSubway.fillings.includes(' ' + props[el].name)) {
-                    if (selected.includes(props[el].id)) {
-                      this.customSubway.fillings.push(' ' + props[el].name)
-                    }
-                  }
-                }
-                this.customSubway.fillingsId = [...selected]
-              } else {
-                this.customSubway.fillings = []
-                alert('empty fillings')
-              }
-              break
-          }
-        })
       }
     })
     this.dataModal.currentPage = 0

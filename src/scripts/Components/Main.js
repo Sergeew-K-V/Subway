@@ -24,6 +24,7 @@ emitter.subscribe('btnModalOpen', () => {
       for (let key in dataForModal) {
         for (let secKey in dataForModal[key]) {
           dataForModal[key][secKey].id = 'modal-' + dataForModal[key][secKey].id
+          dataForModal[key][secKey].selected = false
         }
         idChanged = true
       }
