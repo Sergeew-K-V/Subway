@@ -57,7 +57,6 @@ export default class Modal extends Component {
           this.listenerFotQuantityBtn()
           this.listenerNavbarItem()
           this.listenerOnBtnNextAndBack()
-          console.log("it's setter of dataModal -", key, target[key])
           return true
         },
       }
@@ -356,7 +355,6 @@ export default class Modal extends Component {
     const modalBtnToBasket = modalFooter.querySelector('.btn-to-basket__btn')
     modalBtnToBasket.addEventListener('click', () => {
       if (this.dataModal.quantity !== 0) {
-        console.log('Sending obj to basket')
         this.emitter.emit('sendObjToBasket', {
           id: this.customSubway.id,
           name: this.customSubway.name,
@@ -371,35 +369,30 @@ export default class Modal extends Component {
   currentData(props) {
     switch (this.dataModal.currentPage) {
       case 0:
-        console.log('props.sizes', props.sizes)
         return {
           props: props.sizes,
           maxSelect: 1,
           type: Object.keys(props).includes('sizes') ? 'sizes' : new Error('not type'),
         }
       case 1:
-        console.log('props.breads', props.breads)
         return {
           props: props.breads,
           maxSelect: 1,
           type: Object.keys(props).includes('breads') ? 'breads' : new Error('not type'),
         }
       case 2:
-        console.log('props.vegetables', props.vegetables)
         return {
           props: props.vegetables,
           maxSelect: Object.keys(props.vegetables).length,
           type: Object.keys(props).includes('vegetables') ? 'vegetables' : new Error('not type'),
         }
       case 3:
-        console.log('props.sauces', props.sauces)
         return {
           props: props.sauces,
           maxSelect: 3,
           type: Object.keys(props).includes('sauces') ? 'sauces' : new Error('not type'),
         }
       case 4:
-        console.log('props.fillings', props.fillings)
         return {
           props: props.fillings,
           maxSelect: Object.keys(props.fillings).length,
@@ -547,7 +540,6 @@ export default class Modal extends Component {
     }
   }
   actualPrice(props, curContCardId, action = 'minus') {
-    console.log('actualPrice')
     if (action === 'plus') {
       for (let el in props) {
         if (curContCardId === props[el].id) {
