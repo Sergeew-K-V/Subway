@@ -1,39 +1,6 @@
 import Product from './Product'
-import data from '../../../data.json'
-import Modal from './Modal/Modal'
-import Basket from './Basket'
 import Component from './Component'
-import Menu from './Menu'
-import EventEmitter from '../EventEmitter'
-const emitter = new EventEmitter()
-
-emitter.subscribe('btnModalOpen', () => {
-  const btnCustom = document.getElementById('btn-custom')
-  let idChanged = false
-  btnCustom.addEventListener('click', () => {
-    /////////////// 1 ///////////////
-    const dataForModal = {
-      sizes: data.sizes,
-      breads: data.breads,
-      vegetables: data.vegetables,
-      sauces: data.sauces,
-      fillings: data.fillings,
-    }
-    //Changing ID for correct seacrh of curr Element
-    if (!idChanged) {
-      for (let key in dataForModal) {
-        for (let secKey in dataForModal[key]) {
-          dataForModal[key][secKey].id = 'modal-' + dataForModal[key][secKey].id
-          dataForModal[key][secKey].selected = false
-        }
-        idChanged = true
-      }
-    }
-    const modal = new Modal(dataForModal, emitter)
-  })
-})
-
-class Main extends Component {
+export default class Main extends Component {
   constructor(props) {
     super()
     this.id = 'root-main-right'
@@ -120,12 +87,9 @@ class Main extends Component {
   }
   initContent() {
     const transformedArrayOfProducts = this.arrayOfProduct.map((el) => {
-      const product = new Product(el, emitter)
+      const product = new Product(el, this.emitter)
       return product
     })
     return transformedArrayOfProducts
   }
 }
-const main = new Main({ data, emitter })
-const menu = new Menu({ emitter, category: main.category })
-const basket = new Basket({ emitter })
