@@ -14,7 +14,6 @@ export default class Basket extends Component {
       {
         set: (target, key, value) => {
           if (key === 'arrayOfGoods') {
-            console.log('arrayOfGoods setter')
             if (value != null && !Array.isArray(value)) {
               target.arrayOfGoods.push(value)
             }
@@ -23,19 +22,17 @@ export default class Basket extends Component {
             }
           }
           if (key === 'price') {
-            console.log('price setter')
             target.price
           }
-          target.price = this.dataBasket.arrayOfGoods.reduce((total, element) => {
-            return (total += element.price * element.quantity)
-          }, 0)
           this.destroy('basket-subRoot')
           this.renderComp(this.getContent, document.getElementById(this.id))
           this.emitter.emit('faTrashClick')
           return true
         },
         get: (target, key) => {
-          console.log('getter target[key]', target[key])
+          target.price = this.dataBasket.arrayOfGoods.reduce((total, element) => {
+            return (total += element.price * element.quantity)
+          }, 0)
           return target[key]
         },
       }
@@ -44,12 +41,10 @@ export default class Basket extends Component {
     this.emitter.emit('faTrashClick')
 
     this.emitter.subscribe('sendObjToBasket', (data) => {
-      console.log('EMITER adding item - basket')
       this.addItem(data)
     })
 
     this.emitter.subscribe('faTrashClick', () => {
-      console.log('EMITER removing item - basket')
       const basketBody = document.getElementById('place-for-body-item')
       basketBody.addEventListener('click', (e) => {
         if (e.target.closest('.fa-trash-can')) {
@@ -98,7 +93,6 @@ export default class Basket extends Component {
   </div>`)
   }
   addItem(data) {
-    console.log('adding item - basket')
     const convertedObj = {
       id: 'body__item-' + data.id,
       name: data.name,
