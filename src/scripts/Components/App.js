@@ -1,6 +1,6 @@
 import Component from './Component'
-// import data from '../../../data.json'
-import data from '../../../dataForGit.json'
+import data from '../../../data.json'
+// import data from '../../../dataForGit.json'
 import Menu from './Menu'
 import EventEmitter from '../EventEmitter'
 import Modal from './Modal/Modal'

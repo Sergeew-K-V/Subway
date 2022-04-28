@@ -6,6 +6,7 @@ export default class Basket extends Component {
     // this.arrayOfGoods = []
     this.emitter = props.emitter
     this.id = 'basket-root'
+    this.priceCheckArray = []
     this.dataBasket = new Proxy(
       {
         price: 0,
@@ -21,16 +22,17 @@ export default class Basket extends Component {
               target.arrayOfGoods = []
             }
           }
-          if (key === 'price') {
-            target.price
-          }
+          // if (key === 'price') {
+          //   target.price
+          // }
           this.destroy('basket-subRoot')
           this.renderComp(this.getContent, document.getElementById(this.id))
           this.emitter.emit('faTrashClick')
+          this.priceCheckArray = this.dataBasket.arrayOfGoods
           return true
         },
         get: (target, key) => {
-          target.price = this.dataBasket.arrayOfGoods.reduce((total, element) => {
+          target.price = this.priceCheckArray.reduce((total, element) => {
             return (total += element.price * element.quantity)
           }, 0)
           return target[key]
@@ -101,6 +103,7 @@ export default class Basket extends Component {
     }
     if (this.dataBasket.arrayOfGoods.length === 0) {
       this.dataBasket.arrayOfGoods = convertedObj
+      this.dataBasket.price = convertedObj.price
     } else {
       const finded = this.dataBasket.arrayOfGoods.find((el) => {
         if (el.id === 'body__item-' + data.id) {
@@ -117,10 +120,10 @@ export default class Basket extends Component {
   }
 
   removeItem(sendedId) {
-    console.log('removing item - basket')
     const removingItem = this.dataBasket.arrayOfGoods.find((el) => el.id === sendedId)
     const tempArray = this.dataBasket.arrayOfGoods.filter((el) => el != removingItem)
     this.dataBasket.arrayOfGoods = []
+    this.dataBasket.price -= removingItem.price
     for (let i = 0; i < tempArray.length; i++) {
       this.dataBasket.arrayOfGoods = tempArray[i]
     }
