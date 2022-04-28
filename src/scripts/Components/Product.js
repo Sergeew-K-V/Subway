@@ -39,10 +39,10 @@ export default class Product extends Component {
       <div class="subway__flex" id='content-${this.id}'>
         <div class="flex__top">
           <div class="subway__logo">
-            <img src="/src/img/icons/markets/subway_logo.png" alt="" />
+            <img src="/Subway/src/img/icons/markets/subway_logo.png" alt="" />
           </div>
           <div class="subway__img-logo">
-            <img src="/src/img/${this.image}" alt=""/>
+            <img src="/Subway/src/img${this.image}" alt=""/>
           </div>
           <div class="subway__title">${this.name}</div>
         </div>
