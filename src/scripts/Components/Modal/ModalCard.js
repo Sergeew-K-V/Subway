@@ -14,7 +14,7 @@ export default class ModalCard extends Component {
     }" id="${this.id}">
                         <div class="content-card__block">
                             <div class="content-card__img">
-                             <img src="/Subway/src/img${this.image}" alt="el-15cm" />
+                             <img src="/src/img${this.image}" alt="el-15cm" />
                             </div>
                             <div class="content-card__text">${this.name}</div>
                             <div class="content-card__price">Цена: ${this.price} руб.</div>
@@ -28,7 +28,7 @@ export default class ModalCard extends Component {
     }" id="${this.id}">
                                 <div class="content-card__block">
                                     <div class="content-card__img">
-                                        <img src="/Subway/src/img${this.image}" alt="el-15cm" />
+                                        <img src="/src/img${this.image}" alt="el-15cm" />
                                     </div>
                                     <div class="content-card__text">${this.name}</div>
                                     <div class="content-card__price">Цена: ${this.price} руб.</div>
